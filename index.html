@@ -66,7 +66,8 @@ canvas{display:block;margin:0 auto 10px auto;background:white;}
 <div class="video-layout">
 <div class="playlist" id="playlist">Loading...</div>
 <div class="player-wrapper">
-<iframe id="player" src="" frameborder="0" allowfullscreen></iframe>
+<!-- iframe default langsung tampil -->
+<iframe id="player" src="https://www.youtube.com/embed/xw1p64ZtgjI" frameborder="0" allowfullscreen></iframe>
 </div>
 </div>
 </div>
@@ -110,7 +111,7 @@ const VIDEO_API="data/video.json";
 const PDF_API="data/pdf.json";
 const WAD_API="data/wad.json";
 
-// VIDEO (YouTube)
+// VIDEO (YouTube playlist, ganti src iframe tanpa play())
 fetch(VIDEO_API).then(r=>r.json()).then(data=>{
   playlist.innerHTML="";
   data.forEach((v,i)=>{
@@ -120,9 +121,9 @@ fetch(VIDEO_API).then(r=>r.json()).then(data=>{
     item.onclick=()=>{
       document.querySelectorAll(".playlist-item").forEach(x=>x.classList.remove("active"));
       item.classList.add("active");
-      player.src=v.file+"?autoplay=1"; // YouTube autoplay
+      player.src=v.file; // langsung ganti iframe src
     }
-    if(i===0){item.classList.add("active"); player.src=v.file+"?autoplay=1";}
+    if(i===0) item.classList.add("active");
     playlist.appendChild(item);
   });
 });
@@ -137,9 +138,6 @@ fetch(PDF_API).then(r=>r.json()).then(data=>{
     list.appendChild(d);
   });
 });
-
-// WAD
-fetch(WAD_API).then(r=>r.json()).then(data=>console.log("WAD:",data));
 
 // PDF Rendering
 let renderQueue=[];
