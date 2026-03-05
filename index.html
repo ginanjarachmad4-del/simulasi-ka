@@ -42,12 +42,6 @@ canvas{max-width:100%; height:auto; margin-bottom:10px; background:white;}
   width: 100vw !important;
   height: 100vh !important;
 }
-.pdf-viewer:fullscreen,
-.pdf-viewer:-webkit-full-screen,
-.pdf-viewer:-ms-fullscreen {
-  width: 100%;
-  height: 100%;
-}
 @media(max-width:768px){
   .video-layout{flex-direction:column;}
   #pdf{flex-direction:column;}
@@ -133,7 +127,7 @@ fetch(VIDEO_API).then(r=>r.json()).then(data=>{
     item.onclick=()=>{
       document.querySelectorAll(".playlist-item").forEach(x=>x.classList.remove("active"));
       item.classList.add("active");
-      player.src=v.file; // ganti iframe src
+      player.src=v.file;
     }
     if(i===0) {
       item.classList.add("active");
@@ -155,12 +149,10 @@ fetch(PDF_API).then(r=>r.json()).then(data=>{
 });
 
 // PDF Rendering
-let renderQueue=[];
 function loadPDF(u){
   pdfjsLib.getDocument(u).promise.then(pdf=>{
     pdfDoc=pdf;
     currentPage=1;
-    renderQueue=[];
     renderPDF();
   });
 }
@@ -174,6 +166,8 @@ function renderPDF(){
       const c=document.createElement("canvas");
       c.width=vp.width;
       c.height=vp.height;
+      c.style.maxWidth="100%";
+      c.style.height="auto";
       viewer.appendChild(c);
       p.render({canvasContext:c.getContext("2d"),viewport:vp});
     });
@@ -193,13 +187,9 @@ function scrollPage(p){
 function toggleFullscreen(){
   const container=document.querySelector(".pdf-container");
   if(!document.fullscreenElement){
-    if(container.requestFullscreen) container.requestFullscreen();
-    else if(container.webkitRequestFullscreen) container.webkitRequestFullscreen();
-    else if(container.msRequestFullscreen) container.msRequestFullscreen();
+    container.requestFullscreen?.() || container.webkitRequestFullscreen?.() || container.msRequestFullscreen?.();
   } else {
-    if(document.exitFullscreen) document.exitFullscreen();
-    else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
-    else if(document.msExitFullscreen) document.msExitFullscreen();
+    document.exitFullscreen?.() || document.webkitExitFullscreen?.() || document.msExitFullscreen?.();
   }
 }
 
