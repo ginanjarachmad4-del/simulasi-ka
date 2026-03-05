@@ -7,7 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 body{font-family:Arial,sans-serif;background:#0f172a;color:#e5e7eb;margin:0;padding:10px;}
-.header-logo{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin-bottom:10px;}
+.header-logo{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:10px;margin-bottom:10px;}
 .logo{height:50px;max-width:100%;object-fit:contain;justify-self:center;}
 h1{text-align:center;margin:5px 0;font-size:1.4rem;}
 .subtitle{text-align:center;color:#94a3b8;margin:4px 0 10px 0;font-size:0.9rem;}
@@ -105,7 +105,7 @@ canvas{max-width:100%; height:auto; margin-bottom:10px; background:white;}
 <script>
 const playlist = document.getElementById("playlist");
 const player = document.getElementById("player");
-let pdfDoc=null, scale=1;
+let pdfDoc=null, userScale=1;
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 const VIDEO_API="data/video.json";
@@ -150,30 +150,29 @@ function renderPDF(){
   if(!pdfDoc) return;
   const viewer=document.getElementById("pdfViewer");
   viewer.innerHTML="";
-
   const containerWidth = document.querySelector(".pdf-container").clientWidth;
-
   for(let i=1;i<=pdfDoc.numPages;i++){
     pdfDoc.getPage(i).then(page=>{
       const viewport = page.getViewport({scale:1});
       const scaleToFit = containerWidth / viewport.width;
-      const finalScale = scale * scaleToFit;
-
+      const finalScale = userScale * scaleToFit;
       const vp = page.getViewport({scale:finalScale});
       const canvas = document.createElement("canvas");
       canvas.width = vp.width;
       canvas.height = vp.height;
-      canvas.style.maxWidth = "100%";
-      canvas.style.height = "auto";
+      canvas.style.maxWidth="100%";
+      canvas.style.height="auto";
       viewer.appendChild(canvas);
       page.render({canvasContext:canvas.getContext("2d"),viewport:vp});
     });
   }
 }
 
-function zoomIn(){ scale += 0.2; renderPDF(); }
-function zoomOut(){ scale = Math.max(0.2,scale-0.2); renderPDF(); }
+// Zoom
+function zoomIn(){ userScale += 0.2; renderPDF(); }
+function zoomOut(){ userScale = Math.max(0.2,userScale-0.2); renderPDF(); }
 
+// Fullscreen
 function toggleFullscreen(){
   const container=document.querySelector(".pdf-container");
   if(!document.fullscreenElement){
@@ -182,6 +181,13 @@ function toggleFullscreen(){
     document.exitFullscreen?.() || document.webkitExitFullscreen?.() || document.msExitFullscreen?.();
   }
 }
+
+// ResizeObserver untuk mobile / fullscreen / rotate
+const pdfContainer = document.querySelector(".pdf-container");
+const ro = new ResizeObserver(() => {
+  renderPDF();
+});
+ro.observe(pdfContainer);
 
 // TAB
 document.querySelectorAll(".tab").forEach(tab=>{
