@@ -83,10 +83,6 @@ canvas{max-width:100%; height:auto; margin-bottom:10px; background:white;}
 <div class="pdf-list" id="pdfList">Loading PDF...</div>
 <div class="pdf-container">
 <div class="toolbar">
-<button onclick="prevPage()">⬅</button>
-<button onclick="nextPage()">➡</button>
-<input id="pageInput" type="number" min="1">
-<button onclick="goPage()">Go</button>
 <button onclick="zoomOut()">➖</button>
 <button onclick="zoomIn()">➕</button>
 <button onclick="toggleFullscreen()">⛶</button>
@@ -110,14 +106,13 @@ canvas{max-width:100%; height:auto; margin-bottom:10px; background:white;}
 <script>
 const playlist = document.getElementById("playlist");
 const player = document.getElementById("player");
-let pdfDoc=null, scale=1.3, currentPage=1;
+let pdfDoc=null, scale=1.3;
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 const VIDEO_API="data/video.json";
 const PDF_API="data/pdf.json";
-const WAD_API="data/wad.json";
 
-// VIDEO playlist
+// VIDEO
 fetch(VIDEO_API).then(r=>r.json()).then(data=>{
   playlist.innerHTML="";
   data.forEach((v,i)=>{
@@ -129,10 +124,7 @@ fetch(VIDEO_API).then(r=>r.json()).then(data=>{
       item.classList.add("active");
       player.src=v.file;
     }
-    if(i===0) {
-      item.classList.add("active");
-      player.src=v.file;
-    }
+    if(i===0){item.classList.add("active"); player.src=v.file;}
     playlist.appendChild(item);
   });
 });
@@ -148,14 +140,13 @@ fetch(PDF_API).then(r=>r.json()).then(data=>{
   });
 });
 
-// PDF Rendering
-function loadPDF(u){
-  pdfjsLib.getDocument(u).promise.then(pdf=>{
+function loadPDF(url){
+  pdfjsLib.getDocument(url).promise.then(pdf=>{
     pdfDoc=pdf;
-    currentPage=1;
     renderPDF();
   });
 }
+
 function renderPDF(){
   if(!pdfDoc) return;
   const viewer=document.getElementById("pdfViewer");
@@ -174,16 +165,9 @@ function renderPDF(){
   }
 }
 
-function zoomIn(){scale+=0.2;renderPDF();}
-function zoomOut(){scale=Math.max(0.6,scale-0.2);renderPDF();}
-function prevPage(){scrollPage(--currentPage);}
-function nextPage(){scrollPage(++currentPage);}
-function goPage(){scrollPage(+pageInput.value);}
-function scrollPage(p){
-  if(!pdfDoc) return;
-  currentPage=Math.min(Math.max(1,p),pdfDoc.numPages);
-  pdfViewer.children[currentPage-1]?.scrollIntoView();
-}
+function zoomIn(){ scale+=0.2; renderPDF(); }
+function zoomOut(){ scale=Math.max(0.6,scale-0.2); renderPDF(); }
+
 function toggleFullscreen(){
   const container=document.querySelector(".pdf-container");
   if(!document.fullscreenElement){
