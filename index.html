@@ -31,7 +31,7 @@
   width:100%;
   height:100%;
   background:black;
-  opacity:0.25; /* gelapkan background */
+  opacity:0.25;
   top:0; left:0;
   z-index:1;
 }
@@ -122,7 +122,7 @@ canvas{max-width:100%; height:auto; margin-bottom:10px; background:white;}
 <!-- LANDING PAGE -->
 <div id="landing">
   <img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/logo-danantara.png" class="landing-logo left">
-  <img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/logo%20KAI%20orange%20putih%20(1).png" class="landing-logo right">
+  <img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/logo-KAI-orange-putih-1.png" class="landing-logo right">
   <div class="overlay">
     <h1>SELAMAT DATANG DI LABORATORIUM PUSDALOPKA 2 BANDUNG</h1>
     <button id="enterBtn">Masuk</button>
@@ -132,9 +132,9 @@ canvas{max-width:100%; height:auto; margin-bottom:10px; background:white;}
 <header>
 <div class="header-logo">
 <img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/logo-danantara.png" class="logo">
-<img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/Logo%20Tagline%20Semakin%20Melayani-White.png" class="logo">
-<img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/Logo%20CITAR%202025-03%20putih.png" class="logo">
-<img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/logo%20KAI%20orange%20putih%20(1).png" class="logo">
+<img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/Logo-Tagline-Semakin-Melayani-White.png" class="logo">
+<img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/Logo-CITAR-2025-03-putih.png" class="logo">
+<img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/logo-KAI-orange-putih-1.png" class="logo">
 </div>
 <h1>🚆 Pusat Media Operasional KA</h1>
 <p class="subtitle">Video • Peraturan • Informasi Penting</p>
@@ -187,10 +187,8 @@ const player = document.getElementById("player");
 let pdfDoc=null, userScale=1;
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-const VIDEO_API="https://raw.githubusercontent.com/ginanjarachmad4-del/youtube-json/main/videos.json?v="+Date.now();
-const PDF_API="data/pdf.json";
-
 // VIDEO
+const VIDEO_API="https://raw.githubusercontent.com/ginanjarachmad4-del/youtube-json/main/videos.json?v="+Date.now();
 fetch(VIDEO_API).then(r=>r.json()).then(data=>{
   playlist.innerHTML="";
   data.forEach((v,i)=>{
@@ -208,6 +206,7 @@ fetch(VIDEO_API).then(r=>r.json()).then(data=>{
 });
 
 // PDF
+const PDF_API="data/pdf.json";
 fetch(PDF_API).then(r=>r.json()).then(data=>{
   const list=document.getElementById("pdfList"); list.innerHTML="";
   data.forEach(p=>{
