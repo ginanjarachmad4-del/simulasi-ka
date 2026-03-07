@@ -6,6 +6,52 @@
 <title>Pusat Media Operasional KA</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
+/* LANDING PAGE */
+#landing {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: url('https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/background-lab.jpg') no-repeat center center/cover;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 0.8s ease; /* fade out */
+}
+
+#landing.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.overlay {
+  text-align: center;
+  color: white;
+}
+
+.overlay h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+}
+
+#enterBtn {
+  padding: 10px 30px;
+  font-size: 1.2em;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #2563eb;
+  color: white;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#enterBtn:hover {
+  background-color: #1e40af;
+  transform: scale(1.05);
+}
+
+/* BODY / HEADER / TAB CSS LAMA */
 body{font-family:Arial,sans-serif;background:#0f172a;color:#e5e7eb;margin:0;padding:10px;}
 .header-logo{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:10px;margin-bottom:10px;}
 .logo{height:50px;max-width:100%;object-fit:contain;justify-self:center;}
@@ -49,6 +95,14 @@ canvas{max-width:100%; height:auto; margin-bottom:10px; background:white;}
 </style>
 </head>
 <body>
+
+<!-- Landing Page -->
+<div id="landing">
+  <div class="overlay">
+    <h1>SELAMAT DATANG DI LABORATORIUM PUSDALOPKA 2 BANDUNG</h1>
+    <button id="enterBtn">Masuk</button>
+  </div>
+</div>
 
 <header>
 <div class="header-logo">
@@ -198,9 +252,17 @@ document.querySelectorAll(".tab").forEach(tab=>{
     document.getElementById(tab.dataset.tab).classList.add("active");
   });
 });
+
+// LANDING PAGE FADE OUT
+const enterBtn = document.getElementById('enterBtn');
+const landing = document.getElementById('landing');
+enterBtn.addEventListener('click', () => {
+  landing.classList.add('hidden');
+  setTimeout(() => {
+    landing.style.display = 'none';
+  }, 800); // durasi sama dengan CSS transition
+});
 </script>
 
 </body>
 </html>
-
-
