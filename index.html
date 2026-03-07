@@ -108,7 +108,7 @@ const player = document.getElementById("player");
 let pdfDoc=null, userScale=1;
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-const VIDEO_API="https://raw.githubusercontent.com/ginanjarachmad4-del/youtube-json/main/videos.json";
+const VIDEO_API="https://raw.githubusercontent.com/ginanjarachmad4-del/youtube-json/main/videos.json?v="+Date.now();
 const PDF_API="data/pdf.json";
 
 // VIDEO
@@ -202,4 +202,5 @@ document.querySelectorAll(".tab").forEach(tab=>{
 
 </body>
 </html>
+
 
