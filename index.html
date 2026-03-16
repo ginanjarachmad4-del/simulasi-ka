@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -5,78 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pusat Media Operasional KA</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
 <style>
-
-/* LANDING PAGE */
-
-#landing{
-position:fixed;
-width:100%;
-height:100%;
-background:url('https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/wp10514716-kereta-api-indonesia-wallpapers.jpg') no-repeat center center/cover;
-z-index:9999;
-display:flex;
-justify-content:center;
-align-items:center;
-transition:opacity .8s ease;
-}
-
-#landing.hidden{
-opacity:0;
-pointer-events:none;
-}
-
-#landing::before{
-content:"";
-position:absolute;
-width:100%;
-height:100%;
-background:black;
-opacity:.25;
-top:0;
-left:0;
-z-index:1;
-}
-
-.overlay{
-z-index:2;
-position:relative;
-width:100%;
-text-align:center;
-color:white;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-height:100%;
-}
-
-.overlay h1{
-font-size:2.5em;
-margin-bottom:20px;
-}
-
-#enterBtn{
-padding:10px 30px;
-font-size:1.2em;
-cursor:pointer;
-border:none;
-border-radius:6px;
-background:#2563eb;
-color:white;
-}
-
-.landing-logo{
-position:absolute;
-top:20px;
-height:70px;
-z-index:2;
-}
-
-.landing-logo.left{left:20px;}
-.landing-logo.right{right:20px;}
 
 /* BODY */
 
@@ -87,6 +17,8 @@ color:#e5e7eb;
 margin:0;
 padding:10px;
 }
+
+/* HEADER */
 
 .header-logo{
 display:grid;
@@ -200,9 +132,8 @@ border:none;
 background:#020617;
 border:1px solid #334155;
 border-radius:12px;
-max-height:220px;
+max-height:300px;
 overflow-y:auto;
-margin-bottom:10px;
 }
 
 .pdf-item{
@@ -215,16 +146,7 @@ cursor:pointer;
 background:#1e293b;
 }
 
-/* FOOTER */
-
-.footer{
-margin-top:20px;
-text-align:center;
-font-size:12px;
-color:#94a3b8;
-}
-
-/* PDF POPUP VIEWER */
+/* PDF MODAL */
 
 #pdfModal{
 position:fixed;
@@ -234,7 +156,7 @@ width:100%;
 height:100%;
 background:#000;
 display:none;
-z-index:99999;
+z-index:9999;
 }
 
 .pdf-modal-content{
@@ -245,17 +167,14 @@ width:100%;
 height:100%;
 display:flex;
 flex-direction:column;
-background:#111;
 }
 
 .pdf-topbar{
 display:flex;
-align-items:center;
 gap:10px;
 padding:8px;
 background:#020617;
 border-bottom:1px solid #334155;
-color:white;
 }
 
 .pdf-topbar button{
@@ -274,8 +193,15 @@ background:#ef4444;
 
 #pdfFrame{
 flex:1;
-width:100%;
 border:none;
+width:100%;
+}
+
+.footer{
+margin-top:20px;
+text-align:center;
+font-size:12px;
+color:#94a3b8;
 }
 
 </style>
@@ -283,29 +209,11 @@ border:none;
 
 <body>
 
-<!-- LANDING -->
-
-<div id="landing">
-
-<img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/logo-danantara.png" class="landing-logo left">
-<img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/Logo%20KAI.png" class="landing-logo right">
-
-<div class="overlay">
-<h1>SELAMAT DATANG DI LABORATORIUM PUSDALOPKA 2 BANDUNG</h1>
-<button id="enterBtn">Masuk</button>
-</div>
-
-</div>
-
 <header>
 
 <div class="header-logo">
-
 <img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/logo-danantara.png" class="logo">
-<img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/Logo-Tagline-Semakin-Melayani-White.png" class="logo">
-<img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/Logo-CITAR-2025-03-putih.png" class="logo">
 <img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/logo-KAI-orange-putih-1.png" class="logo">
-
 </div>
 
 <h1>🚆 Pusat Media Operasional KA</h1>
@@ -317,7 +225,6 @@ border:none;
 
 <div class="tab active" data-tab="video">🎬 VIDEO</div>
 <div class="tab" data-tab="pdf">📄 PERATURAN DINAS</div>
-<div class="tab" data-tab="wad">📌 WAD PENTING</div>
 
 </div>
 
@@ -345,16 +252,8 @@ border:none;
 
 </div>
 
-<!-- WAD -->
-
-<div class="tab-content" id="wad">
-<div style="text-align:center;padding:50px;color:#94a3b8">
-🚧 Konten WAD Penting
-</div>
-</div>
-
 <footer class="footer">
-© 2026 • Achmad Teguh Ginanjar | 61762
+© 2026 • Achmad Teguh Ginanjar
 </footer>
 
 <!-- PDF POPUP -->
@@ -365,14 +264,9 @@ border:none;
 
 <div class="pdf-topbar">
 
-<button onclick="prevPage()">◀</button>
-<span id="pageInfo">Page 1</span>
-<button onclick="nextPage()">▶</button>
-
 <button onclick="zoomOutPdf()">➖</button>
 <button onclick="zoomInPdf()">➕</button>
-
-<button onclick="downloadPdf()">⬇</button>
+<button onclick="downloadPdf()">⬇ Download</button>
 
 <button id="closePdf">✕</button>
 
@@ -455,68 +349,57 @@ list.appendChild(d);
 /* PDF VIEWER */
 
 let currentPdf="";
-let currentPage=1;
 let pdfZoom=1;
 
 function openPDF(url){
 
 currentPdf=url;
-currentPage=1;
-pdfZoom=1;
 
-const frame=document.getElementById("pdfFrame");
-
-frame.src=url+"#page=1&zoom=page-width";
+document.getElementById("pdfFrame").src=
+"https://docs.google.com/gview?url="+url+"&embedded=true";
 
 document.getElementById("pdfModal").style.display="block";
 
-updatePageInfo();
-
-}
-
-function updatePageInfo(){
-document.getElementById("pageInfo").innerText="Page "+currentPage;
-}
-
-function nextPage(){
-currentPage++;
-updateFrame();
-}
-
-function prevPage(){
-if(currentPage>1){
-currentPage--;
-updateFrame();
-}
 }
 
 function zoomInPdf(){
-pdfZoom+=0.2;
-updateFrame();
+
+pdfZoom+=0.1;
+
+document.getElementById("pdfFrame").style.transform="scale("+pdfZoom+")";
+
 }
 
 function zoomOutPdf(){
-pdfZoom=Math.max(0.5,pdfZoom-0.2);
-updateFrame();
-}
 
-function updateFrame(){
+pdfZoom=Math.max(0.5,pdfZoom-0.1);
 
-const frame=document.getElementById("pdfFrame");
-
-frame.src=currentPdf+"#page="+currentPage+"&zoom="+(pdfZoom*100);
-
-updatePageInfo();
+document.getElementById("pdfFrame").style.transform="scale("+pdfZoom+")";
 
 }
 
 function downloadPdf(){
-window.open(currentPdf);
+
+const link=document.createElement("a");
+
+link.href=currentPdf;
+
+link.download="file.pdf";
+
+document.body.appendChild(link);
+
+link.click();
+
+document.body.removeChild(link);
+
 }
 
 document.getElementById("closePdf").onclick=()=>{
+
 document.getElementById("pdfModal").style.display="none";
+
 document.getElementById("pdfFrame").src="";
+
 };
 
 /* TABS */
@@ -537,21 +420,8 @@ document.getElementById(tab.dataset.tab).classList.add("active");
 
 });
 
-/* LANDING */
-
-document.getElementById("enterBtn").onclick=()=>{
-
-const landing=document.getElementById("landing");
-
-landing.classList.add("hidden");
-
-setTimeout(()=>{
-landing.style.display="none";
-},800);
-
-};
-
 </script>
 
 </body>
 </html>
+```
