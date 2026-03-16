@@ -201,12 +201,93 @@ text-align:center;
 font-size:12px;
 color:#94a3b8;
 }
+/* LANDING LOGIN */
 
+#landing{
+position:fixed;
+width:100%;
+height:100%;
+background:url('https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/wp10514716-kereta-api-indonesia-wallpapers.jpg') center/cover no-repeat;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:99999;
+transition:opacity .7s;
+}
+
+#landing.hidden{
+opacity:0;
+pointer-events:none;
+}
+
+#landing::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:black;
+opacity:.35;
+}
+
+.overlay{
+position:relative;
+z-index:2;
+text-align:center;
+color:white;
+}
+
+.overlay h1{
+font-size:2.2em;
+margin-bottom:20px;
+}
+
+#enterBtn{
+padding:12px 30px;
+border:none;
+border-radius:6px;
+background:#2563eb;
+color:white;
+font-size:1.2em;
+cursor:pointer;
+}
+
+.landing-logo{
+position:absolute;
+top:20px;
+height:70px;
+z-index:3;
+}
+
+.landing-logo.left{left:20px;}
+.landing-logo.right{right:20px;}
+  body{
+font-family:Arial;
+background:#0f172a;
+color:#e5e7eb;
+margin:0;
+padding:10px;
+overflow-x:hidden;
+}
 </style>
 </head>
 
 <body>
+<!-- LANDING LOGIN -->
 
+<div id="landing">
+
+<img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/logo-danantara.png" class="landing-logo left">
+<img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/Logo%20KAI.png" class="landing-logo right">
+
+<div class="overlay">
+
+<h1>SELAMAT DATANG DI LABORATORIUM PUSDALOPKA 2 BANDUNG</h1>
+
+<button id="enterBtn">Masuk</button>
+
+</div>
+
+</div>
 <header>
 
 <div class="header-logo">
@@ -262,7 +343,7 @@ color:#94a3b8;
 
 <div class="pdf-topbar">
 
-<button onclick="closePDF()">✕ Tutup</button>
+<button id="closePdf" onclick="closePDF()">✕ Tutup</button>
 <button onclick="downloadPdf()">⬇ Download</button>
 
 </div>
@@ -388,9 +469,21 @@ document.getElementById(tab.dataset.tab).classList.add("active");
 };
 
 });
+  /* LANDING LOGIN */
+
+document.getElementById("enterBtn").onclick=()=>{
+
+const landing=document.getElementById("landing");
+
+landing.classList.add("hidden");
+
+setTimeout(()=>{
+landing.style.display="none";
+},700);
+
+};
 
 </script>
 
 </body>
 </html>
-```
