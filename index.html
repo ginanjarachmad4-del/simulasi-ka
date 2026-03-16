@@ -194,7 +194,7 @@ height:100%;
 border:none;
 }
 
-/* PDF */
+/* PDF LIST */
 
 .pdf-list{
 background:#020617;
@@ -215,53 +215,6 @@ cursor:pointer;
 background:#1e293b;
 }
 
-.pdf-container{
-display:flex;
-flex-direction:column;
-background:#020617;
-border:1px solid #334155;
-border-radius:12px;
-overflow:hidden;
-}
-
-.toolbar{
-display:flex;
-gap:6px;
-padding:8px;
-border-bottom:1px solid #334155;
-}
-
-.toolbar button{
-background:#1e293b;
-color:#e5e7eb;
-border:1px solid #334155;
-padding:6px 10px;
-border-radius:6px;
-cursor:pointer;
-}
-
-.pdf-viewer{
-overflow-y:auto;
-padding:10px;
-display:flex;
-flex-direction:column;
-align-items:center;
-touch-action:pan-x pan-y;
-}
-
-canvas{
-max-width:100%;
-margin-bottom:10px;
-background:white;
-}
-
-/* FULLSCREEN */
-
-.pdf-container:fullscreen{
-width:100vw;
-height:100vh;
-}
-
 /* FOOTER */
 
 .footer{
@@ -271,7 +224,7 @@ font-size:12px;
 color:#94a3b8;
 }
 
-/* POPUP PDF */
+/* PDF POPUP VIEWER */
 
 #pdfModal{
 position:fixed;
@@ -279,40 +232,50 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,.85);
+background:#000;
 display:none;
 z-index:99999;
 }
 
 .pdf-modal-content{
 position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:92%;
-height:92%;
-background:#111;
-border-radius:10px;
-overflow:hidden;
-}
-
-#pdfFrame{
+top:0;
+left:0;
 width:100%;
 height:100%;
-border:none;
+display:flex;
+flex-direction:column;
+background:#111;
 }
 
-#closePdf{
-position:absolute;
-top:10px;
-right:10px;
-z-index:10;
-background:#ef4444;
+.pdf-topbar{
+display:flex;
+align-items:center;
+gap:10px;
+padding:8px;
+background:#020617;
+border-bottom:1px solid #334155;
 color:white;
-border:none;
+}
+
+.pdf-topbar button{
+background:#1e293b;
+border:1px solid #334155;
+color:white;
 padding:6px 10px;
 border-radius:6px;
 cursor:pointer;
+}
+
+#closePdf{
+margin-left:auto;
+background:#ef4444;
+}
+
+#pdfFrame{
+flex:1;
+width:100%;
+border:none;
 }
 
 </style>
@@ -380,20 +343,6 @@ cursor:pointer;
 
 <div class="pdf-list" id="pdfList">Loading PDF...</div>
 
-<div class="pdf-container">
-
-<div class="toolbar">
-<button onclick="zoomOut()">➖</button>
-<button onclick="zoomIn()">➕</button>
-<button onclick="toggleFullscreen()">⛶</button>
-</div>
-
-<div class="pdf-viewer" id="pdfViewer">
-<p style="color:#94a3b8">Pilih PDF</p>
-</div>
-
-</div>
-
 </div>
 
 <!-- WAD -->
@@ -408,26 +357,39 @@ cursor:pointer;
 © 2026 • Achmad Teguh Ginanjar | 61762
 </footer>
 
-<!-- POPUP PDF -->
+<!-- PDF POPUP -->
 
 <div id="pdfModal">
+
 <div class="pdf-modal-content">
+
+<div class="pdf-topbar">
+
+<button onclick="prevPage()">◀</button>
+<span id="pageInfo">Page 1</span>
+<button onclick="nextPage()">▶</button>
+
+<button onclick="zoomOutPdf()">➖</button>
+<button onclick="zoomInPdf()">➕</button>
+
+<button onclick="downloadPdf()">⬇</button>
+
 <button id="closePdf">✕</button>
-<iframe id="pdfFrame"></iframe>
+
 </div>
+
+<iframe id="pdfFrame"></iframe>
+
+</div>
+
 </div>
 
 <script>
 
+/* VIDEO */
+
 const playlist=document.getElementById("playlist");
 const player=document.getElementById("player");
-
-let pdfDoc=null;
-let userScale=1;
-
-pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-/* VIDEO */
 
 const VIDEO_API="https://raw.githubusercontent.com/ginanjarachmad4-del/youtube-json/main/videos.json?v="+Date.now();
 
@@ -482,8 +444,6 @@ const d=document.createElement("div");
 d.className="pdf-item";
 d.textContent="📄 "+p.nama;
 
-/* BUKA POPUP PDF */
-
 d.onclick=()=>openPDF(p.file);
 
 list.appendChild(d);
@@ -492,23 +452,71 @@ list.appendChild(d);
 
 });
 
-/* POPUP PDF */
+/* PDF VIEWER */
+
+let currentPdf="";
+let currentPage=1;
+let pdfZoom=1;
 
 function openPDF(url){
 
-const modal=document.getElementById("pdfModal");
+currentPdf=url;
+currentPage=1;
+pdfZoom=1;
+
 const frame=document.getElementById("pdfFrame");
 
-frame.src=url;
-modal.style.display="block";
+frame.src=url+"#page=1&zoom=page-width";
+
+document.getElementById("pdfModal").style.display="block";
+
+updatePageInfo();
 
 }
 
-document.getElementById("closePdf").onclick=()=>{
+function updatePageInfo(){
+document.getElementById("pageInfo").innerText="Page "+currentPage;
+}
 
+function nextPage(){
+currentPage++;
+updateFrame();
+}
+
+function prevPage(){
+if(currentPage>1){
+currentPage--;
+updateFrame();
+}
+}
+
+function zoomInPdf(){
+pdfZoom+=0.2;
+updateFrame();
+}
+
+function zoomOutPdf(){
+pdfZoom=Math.max(0.5,pdfZoom-0.2);
+updateFrame();
+}
+
+function updateFrame(){
+
+const frame=document.getElementById("pdfFrame");
+
+frame.src=currentPdf+"#page="+currentPage+"&zoom="+(pdfZoom*100);
+
+updatePageInfo();
+
+}
+
+function downloadPdf(){
+window.open(currentPdf);
+}
+
+document.getElementById("closePdf").onclick=()=>{
 document.getElementById("pdfModal").style.display="none";
 document.getElementById("pdfFrame").src="";
-
 };
 
 /* TABS */
