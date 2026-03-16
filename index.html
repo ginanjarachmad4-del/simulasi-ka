@@ -8,8 +8,6 @@
 
 <style>
 
-/* BODY */
-
 body{
 font-family:Arial;
 background:#0f172a;
@@ -256,7 +254,7 @@ color:#94a3b8;
 © 2026 • Achmad Teguh Ginanjar
 </footer>
 
-<!-- PDF POPUP -->
+<!-- PDF VIEWER -->
 
 <div id="pdfModal">
 
@@ -264,11 +262,8 @@ color:#94a3b8;
 
 <div class="pdf-topbar">
 
-<button onclick="zoomOutPdf()">➖</button>
-<button onclick="zoomInPdf()">➕</button>
+<button onclick="closePDF()">✕ Tutup</button>
 <button onclick="downloadPdf()">⬇ Download</button>
-
-<button id="closePdf">✕</button>
 
 </div>
 
@@ -349,58 +344,32 @@ list.appendChild(d);
 /* PDF VIEWER */
 
 let currentPdf="";
-let pdfZoom=1;
 
 function openPDF(url){
 
 currentPdf=url;
 
-document.getElementById("pdfFrame").src=
-"https://docs.google.com/gview?url="+url+"&embedded=true";
+const viewer="https://mozilla.github.io/pdf.js/web/viewer.html?file="+encodeURIComponent(url);
+
+document.getElementById("pdfFrame").src=viewer;
 
 document.getElementById("pdfModal").style.display="block";
 
 }
 
-function zoomInPdf(){
-
-pdfZoom+=0.1;
-
-document.getElementById("pdfFrame").style.transform="scale("+pdfZoom+")";
-
-}
-
-function zoomOutPdf(){
-
-pdfZoom=Math.max(0.5,pdfZoom-0.1);
-
-document.getElementById("pdfFrame").style.transform="scale("+pdfZoom+")";
-
-}
-
-function downloadPdf(){
-
-const link=document.createElement("a");
-
-link.href=currentPdf;
-
-link.download="file.pdf";
-
-document.body.appendChild(link);
-
-link.click();
-
-document.body.removeChild(link);
-
-}
-
-document.getElementById("closePdf").onclick=()=>{
+function closePDF(){
 
 document.getElementById("pdfModal").style.display="none";
 
 document.getElementById("pdfFrame").src="";
 
-};
+}
+
+function downloadPdf(){
+
+window.open(currentPdf);
+
+}
 
 /* TABS */
 
