@@ -271,6 +271,50 @@ font-size:12px;
 color:#94a3b8;
 }
 
+/* POPUP PDF */
+
+#pdfModal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.85);
+display:none;
+z-index:99999;
+}
+
+.pdf-modal-content{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:92%;
+height:92%;
+background:#111;
+border-radius:10px;
+overflow:hidden;
+}
+
+#pdfFrame{
+width:100%;
+height:100%;
+border:none;
+}
+
+#closePdf{
+position:absolute;
+top:10px;
+right:10px;
+z-index:10;
+background:#ef4444;
+color:white;
+border:none;
+padding:6px 10px;
+border-radius:6px;
+cursor:pointer;
+}
+
 </style>
 </head>
 
@@ -364,6 +408,15 @@ color:#94a3b8;
 © 2026 • Achmad Teguh Ginanjar | 61762
 </footer>
 
+<!-- POPUP PDF -->
+
+<div id="pdfModal">
+<div class="pdf-modal-content">
+<button id="closePdf">✕</button>
+<iframe id="pdfFrame"></iframe>
+</div>
+</div>
+
 <script>
 
 const playlist=document.getElementById("playlist");
@@ -429,7 +482,9 @@ const d=document.createElement("div");
 d.className="pdf-item";
 d.textContent="📄 "+p.nama;
 
-d.onclick=()=>loadPDF(p.file);
+/* BUKA POPUP PDF */
+
+d.onclick=()=>openPDF(p.file);
 
 list.appendChild(d);
 
@@ -437,111 +492,24 @@ list.appendChild(d);
 
 });
 
-/* LOAD PDF */
+/* POPUP PDF */
 
-function loadPDF(url){
+function openPDF(url){
 
-const viewer=document.getElementById("pdfViewer");
+const modal=document.getElementById("pdfModal");
+const frame=document.getElementById("pdfFrame");
 
-viewer.innerHTML="Loading PDF...";
-
-pdfjsLib.getDocument(url).promise.then(pdf=>{
-
-pdfDoc=pdf;
-
-viewer.innerHTML="";
-
-for(let i=1;i<=pdf.numPages;i++){
-
-const canvas=document.createElement("canvas");
-
-canvas.dataset.page=i;
-
-viewer.appendChild(canvas);
-
-renderPage(i,canvas);
+frame.src=url;
+modal.style.display="block";
 
 }
 
-});
+document.getElementById("closePdf").onclick=()=>{
 
-}
+document.getElementById("pdfModal").style.display="none";
+document.getElementById("pdfFrame").src="";
 
-/* RENDER PAGE */
-
-function renderPage(num,canvas){
-
-pdfDoc.getPage(num).then(page=>{
-
-const containerWidth=document.querySelector(".pdf-container").clientWidth;
-
-const viewport=page.getViewport({scale:1});
-
-const scale=(containerWidth/viewport.width)*userScale;
-
-const vp=page.getViewport({scale:scale});
-
-canvas.width=vp.width;
-canvas.height=vp.height;
-
-page.render({
-
-canvasContext:canvas.getContext("2d"),
-viewport:vp
-
-});
-
-});
-
-}
-
-/* ZOOM */
-
-function zoomIn(){
-
-userScale+=0.2;
-rerender();
-
-}
-
-function zoomOut(){
-
-userScale=Math.max(0.4,userScale-0.2);
-rerender();
-
-}
-
-function rerender(){
-
-if(!pdfDoc)return;
-
-const canvases=document.querySelectorAll("#pdfViewer canvas");
-
-canvases.forEach(c=>{
-
-renderPage(parseInt(c.dataset.page),c);
-
-});
-
-}
-
-/* FULLSCREEN */
-
-function toggleFullscreen(){
-
-const el=document.querySelector(".pdf-container");
-
-if(!document.fullscreenElement){
-
-el.requestFullscreen();
-
-}else{
-
-document.exitFullscreen();
-
-}
-
-}
+};
 
 /* TABS */
 
@@ -570,9 +538,7 @@ const landing=document.getElementById("landing");
 landing.classList.add("hidden");
 
 setTimeout(()=>{
-
 landing.style.display="none";
-
 },800);
 
 };
