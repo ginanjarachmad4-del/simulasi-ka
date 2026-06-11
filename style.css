@@ -41,17 +41,18 @@ body{
 ===================================================== */
 .header-logo{
   display:grid;
-  grid-template-columns:auto 1fr auto; /* kiri - tengah - kanan */
+  grid-template-columns:auto 1fr auto;
   align-items:center;
   gap:12px;
   margin-bottom:10px;
 }
 
-.logo{
-  height:18px;        /* kecil & profesional */
-  width:auto;
+.header-logo .logo{
+  height:18px;
+  max-height:18px;
+  width:auto !important;
+  max-width:120px;      /* ⬅️ PENTING */
   object-fit:contain;
-  display:block;
 }
 
 /* =====================================================
