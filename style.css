@@ -1,259 +1,298 @@
+/* =========================
+   GLOBAL
+========================= */
 body{
-font-family:Arial;
-background:#0f172a;
-color:#e5e7eb;
-margin:0;
-padding:10px;
-overflow-x:hidden;
+  font-family: Arial, sans-serif;
+  background:#0f172a;
+  color:#e5e7eb;
+  margin:0;
+  padding:10px;
+  overflow-x:hidden;
 }
 
-/* HEADER */
-
+/* =========================
+   HEADER
+========================= */
 .header-logo{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(80px,1fr));
-gap:10px;
-margin-bottom:10px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(80px,1fr));
+  gap:10px;
+  margin-bottom:10px;
 }
 
 .logo{
-height:50px;
-object-fit:contain;
-justify-self:center;
+  height:50px;
+  object-fit:contain;
+  justify-self:center;
 }
 
-h1{
-text-align:center;
-margin:5px 0;
-font-size:1.4rem;
+/* H1 GLOBAL (NON ROCC) */
+h1:not(.rocc-title){
+  text-align:center;
+  margin:5px 0;
+  font-size:1.4rem;
 }
 
+/* SUBTITLE GLOBAL */
 .subtitle{
-text-align:center;
-color:#94a3b8;
-margin:4px 0 10px 0;
-font-size:.9rem;
+  text-align:center;
+  margin-top:6px;
+  font-size:0.85rem;
+  color:#9ca3af;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
 }
 
-/* TABS */
+/* =========================
+   ROCC HEADER
+========================= */
+.rocc-title{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  text-align:center;
+  font-family:'Orbitron', sans-serif;
+  font-size:1.8rem;
+  letter-spacing:2px;
+  color:#e5e7eb;
+}
 
+.realtime-badge{
+  font-size:0.75rem;
+  padding:6px 12px;
+  border-radius:999px;
+  background:rgba(34,197,94,0.15);
+  color:#22c55e;
+  border:1px solid rgba(34,197,94,0.4);
+  font-weight:600;
+  animation:pulse 1.6s infinite;
+}
+
+@keyframes pulse{
+  0%{ box-shadow:0 0 0 0 rgba(34,197,94,.6); }
+  70%{ box-shadow:0 0 0 10px rgba(34,197,94,0); }
+  100%{ box-shadow:0 0 0 0 rgba(34,197,94,0); }
+}
+
+#clock{
+  font-family:'Orbitron', monospace;
+  color:#38bdf8;
+}
+
+/* =========================
+   TABS
+========================= */
 .tabs{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:10px;
-margin-top:10px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:10px;
 }
 
 .tab{
-padding:8px 14px;
-border-radius:999px;
-background:#020617;
-border:1px solid #334155;
-cursor:pointer;
-font-size:.9rem;
+  padding:8px 14px;
+  border-radius:999px;
+  background:#020617;
+  border:1px solid #334155;
+  cursor:pointer;
+  font-size:.9rem;
 }
 
 .tab.active{
-background:#2563eb;
+  background:#2563eb;
 }
 
 .tab-content{
-display:none;
-margin-top:15px;
+  display:none;
+  margin-top:15px;
 }
 
 .tab-content.active{
-display:block;
+  display:block;
 }
 
-/* VIDEO */
-
+/* =========================
+   VIDEO
+========================= */
 .video-layout{
-display:flex;
-flex-direction:column;
-gap:15px;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
 }
 
 .playlist{
-background:#020617;
-border:1px solid #334155;
-border-radius:12px;
-max-height:300px;
-overflow-y:auto;
+  background:#020617;
+  border:1px solid #334155;
+  border-radius:12px;
+  max-height:300px;
+  overflow-y:auto;
 }
 
 .playlist-item{
-padding:10px;
-border-bottom:1px solid #334155;
-cursor:pointer;
+  padding:10px;
+  border-bottom:1px solid #334155;
+  cursor:pointer;
 }
 
 .playlist-item:hover{
-background:#1e293b;
+  background:#1e293b;
 }
 
 .playlist-item.active{
-background:#2563eb;
+  background:#2563eb;
 }
 
 .player-wrapper{
-position:relative;
-width:100%;
-padding-top:56.25%;
-background:black;
-border-radius:12px;
-overflow:hidden;
+  position:relative;
+  width:100%;
+  padding-top:56.25%;
+  background:black;
+  border-radius:12px;
+  overflow:hidden;
 }
 
 .player-wrapper iframe{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-border:none;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  border:none;
 }
 
-/* PDF LIST */
-
+/* =========================
+   PDF
+========================= */
 .pdf-list{
-background:#020617;
-border:1px solid #334155;
-border-radius:12px;
-max-height:300px;
-overflow-y:auto;
+  background:#020617;
+  border:1px solid #334155;
+  border-radius:12px;
+  max-height:300px;
+  overflow-y:auto;
 }
 
 .pdf-item{
-padding:10px;
-border-bottom:1px solid #334155;
-cursor:pointer;
+  padding:10px;
+  border-bottom:1px solid #334155;
+  cursor:pointer;
 }
 
 .pdf-item:hover{
-background:#1e293b;
+  background:#1e293b;
 }
 
 /* PDF MODAL */
-
 #pdfModal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#000;
-display:none;
-z-index:9999;
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:none;
+  z-index:9999;
 }
 
 .pdf-modal-content{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-display:flex;
-flex-direction:column;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
 }
 
 .pdf-topbar{
-display:flex;
-gap:10px;
-padding:8px;
-background:#020617;
-border-bottom:1px solid #334155;
+  display:flex;
+  gap:10px;
+  padding:8px;
+  background:#020617;
+  border-bottom:1px solid #334155;
 }
 
 .pdf-topbar button{
-background:#1e293b;
-border:1px solid #334155;
-color:white;
-padding:6px 10px;
-border-radius:6px;
-cursor:pointer;
+  background:#1e293b;
+  border:1px solid #334155;
+  color:white;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
 }
 
 #closePdf{
-margin-left:auto;
-background:#ef4444;
+  margin-left:auto;
+  background:#ef4444;
 }
 
 #pdfFrame{
-flex:1;
-border:none;
-width:100%;
+  flex:1;
+  border:none;
+  width:100%;
 }
 
+/* =========================
+   FOOTER
+========================= */
 .footer{
-margin-top:20px;
-text-align:center;
-font-size:12px;
-color:#94a3b8;
+  margin-top:20px;
+  text-align:center;
+  font-size:12px;
+  color:#94a3b8;
 }
 
-/* LANDING LOGIN */
-
+/* =========================
+   LANDING LOGIN
+========================= */
 #landing{
-position:fixed;
-width:100%;
-height:100%;
-background:url('https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/wp10514716-kereta-api-indonesia-wallpapers.jpg') center/cover no-repeat;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:99999;
-transition:opacity .7s;
+  position:fixed;
+  inset:0;
+  background:url('https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/wp10514716-kereta-api-indonesia-wallpapers.jpg') center/cover no-repeat;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:99999;
+  transition:opacity .7s;
 }
 
 #landing.hidden{
-opacity:0;
-pointer-events:none;
+  opacity:0;
+  pointer-events:none;
 }
 
 #landing::before{
-content:"";
-position:absolute;
-width:100%;
-height:100%;
-background:black;
-opacity:.35;
+  content:"";
+  position:absolute;
+  inset:0;
+  background:black;
+  opacity:.35;
 }
 
 .overlay{
-position:relative;
-z-index:2;
-text-align:center;
-color:white;
+  position:relative;
+  z-index:2;
+  text-align:center;
+  color:white;
 }
 
 .overlay h1{
-font-size:2.2em;
-margin-bottom:20px;
+  font-size:2.2em;
+  margin-bottom:20px;
 }
 
 #enterBtn{
-padding:12px 30px;
-border:none;
-border-radius:6px;
-background:#2563eb;
-color:white;
-font-size:1.2em;
-cursor:pointer;
+  padding:12px 30px;
+  border:none;
+  border-radius:6px;
+  background:#2563eb;
+  color:white;
+  font-size:1.2em;
+  cursor:pointer;
 }
 
 .landing-logo{
-position:absolute;
-top:20px;
-height:70px;
-z-index:3;
+  position:absolute;
+  top:20px;
+  height:70px;
+  z-index:3;
 }
 
-.landing-logo.left{
-left:20px;
-}
-
-.landing-logo.right{
-right:20px;
-}
+.landing-logo.left{ left:20px; }
+.landing-logo.right{ right:20px; }
