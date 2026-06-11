@@ -1,6 +1,6 @@
-/* =========================
+/* =====================================================
    GLOBAL
-========================= */
+===================================================== */
 body{
   font-family: Arial, sans-serif;
   background:#0f172a;
@@ -10,9 +10,9 @@ body{
   overflow-x:hidden;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* =====================================================
+   HEADER LOGO
+===================================================== */
 .header-logo{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(80px,1fr));
@@ -26,83 +26,100 @@ body{
   justify-self:center;
 }
 
-/* H1 GLOBAL (NON ROCC) */
-h1:not(.rocc-title){
-  text-align:center;
-  margin:5px 0;
-  font-size:1.4rem;
-}
-
-/* SUBTITLE GLOBAL */
-.subtitle{
-  text-align:center;
-  margin-top:6px;
-  font-size:0.85rem;
-  color:#9ca3af;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-}
-
-/* =========================
+/* =====================================================
    ROCC HEADER
-========================= */
+===================================================== */
+.rocc-header{
+  text-align:center;
+  padding:18px 10px;
+  background:linear-gradient(180deg,#0a0f1c,#060a14);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
 .rocc-title{
   display:flex;
-  justify-content:center;
+  flex-direction:column;
   align-items:center;
-  gap:14px;
-  flex-wrap:wrap;
-  text-align:center;
-  font-family:'Orbitron', sans-serif;
-  font-size:1.8rem;
-  letter-spacing:2px;
+  gap:6px;
+}
+
+/* LINE 1 */
+.rocc-title .line-1{
+  font-family:'Orbitron',sans-serif;
+  font-size:20px;
+  letter-spacing:3px;
   color:#e5e7eb;
 }
 
-.realtime-badge{
-  font-size:0.75rem;
-  padding:6px 12px;
-  border-radius:999px;
-  background:rgba(34,197,94,0.15);
+/* LINE 2 */
+.rocc-title .line-2{
+  font-size:14px;
+  color:#9ca3af;
+  letter-spacing:1px;
+}
+
+/* LINE 3 */
+.rocc-title .line-3{
+  margin-top:6px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:'Orbitron',monospace;
+  font-size:14px;
   color:#22c55e;
-  border:1px solid rgba(34,197,94,0.4);
-  font-weight:600;
-  animation:pulse 1.6s infinite;
 }
 
-@keyframes pulse{
-  0%{ box-shadow:0 0 0 0 rgba(34,197,94,.6); }
-  70%{ box-shadow:0 0 0 10px rgba(34,197,94,0); }
-  100%{ box-shadow:0 0 0 0 rgba(34,197,94,0); }
+.status{
+  text-transform:uppercase;
 }
 
+/* BLINKING DOT */
+.dot{
+  width:6px;
+  height:6px;
+  background:#22c55e;
+  border-radius:50%;
+  animation:blink 1.2s infinite;
+}
+
+@keyframes blink{
+  0%,50%,100%{opacity:1}
+  25%,75%{opacity:.3}
+}
+
+/* CLOCK */
 #clock{
-  font-family:'Orbitron', monospace;
   color:#38bdf8;
 }
 
-/* =========================
+/* =====================================================
    TABS
-========================= */
+===================================================== */
 .tabs{
   display:flex;
   justify-content:center;
   flex-wrap:wrap;
   gap:10px;
-  margin-top:10px;
+  margin-top:14px;
 }
 
 .tab{
-  padding:8px 14px;
+  padding:8px 16px;
   border-radius:999px;
   background:#020617;
   border:1px solid #334155;
   cursor:pointer;
   font-size:.9rem;
+  transition:.2s;
+}
+
+.tab:hover{
+  background:#1e293b;
 }
 
 .tab.active{
   background:#2563eb;
+  border-color:#2563eb;
 }
 
 .tab-content{
@@ -114,9 +131,9 @@ h1:not(.rocc-title){
   display:block;
 }
 
-/* =========================
+/* =====================================================
    VIDEO
-========================= */
+===================================================== */
 .video-layout{
   display:flex;
   flex-direction:column;
@@ -156,16 +173,15 @@ h1:not(.rocc-title){
 
 .player-wrapper iframe{
   position:absolute;
-  top:0;
-  left:0;
+  inset:0;
   width:100%;
   height:100%;
   border:none;
 }
 
-/* =========================
+/* =====================================================
    PDF
-========================= */
+===================================================== */
 .pdf-list{
   background:#020617;
   border:1px solid #334155;
@@ -184,7 +200,9 @@ h1:not(.rocc-title){
   background:#1e293b;
 }
 
-/* PDF MODAL */
+/* =====================================================
+   PDF MODAL
+===================================================== */
 #pdfModal{
   position:fixed;
   inset:0;
@@ -224,13 +242,13 @@ h1:not(.rocc-title){
 
 #pdfFrame{
   flex:1;
-  border:none;
   width:100%;
+  border:none;
 }
 
-/* =========================
+/* =====================================================
    FOOTER
-========================= */
+===================================================== */
 .footer{
   margin-top:20px;
   text-align:center;
@@ -238,13 +256,14 @@ h1:not(.rocc-title){
   color:#94a3b8;
 }
 
-/* =========================
+/* =====================================================
    LANDING LOGIN
-========================= */
+===================================================== */
 #landing{
   position:fixed;
   inset:0;
-  background:url('https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/wp10514716-kereta-api-indonesia-wallpapers.jpg') center/cover no-repeat;
+  background:url('https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/wp10514716-kereta-api-indonesia-wallpapers.jpg')
+    center/cover no-repeat;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -287,6 +306,7 @@ h1:not(.rocc-title){
   cursor:pointer;
 }
 
+/* LANDING LOGO */
 .landing-logo{
   position:absolute;
   top:20px;
