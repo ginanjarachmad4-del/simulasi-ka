@@ -1,12 +1,13 @@
 :root{
   /* BACKGROUND */
-  --bg-main: #1f2937;        /* abu gelap */
-  --bg-panel: #111827;       /* abu kebiruan */
-  --bg-soft: #020617;
+  --bg-main: #f3f4f6;
+  --bg-panel: #e5e7eb;
+  --bg-soft: #d1d5db;
 
   /* TEXT */
-  --text-main: #e5e7eb;
-  --text-muted: #9ca3af;
+  --text-main: #111827;   /* teks jadi gelap */
+  --text-muted: #374151;
+
 
   /* PRIMARY (BIRU) */
   --primary: #2563eb;
@@ -17,7 +18,7 @@
   --accent-soft: #fb923c;
 
   /* BORDER */
-  --border: #334155;
+  --border: #cbd5e1;
 
   /* STATUS */
   --success: #22c55e;
