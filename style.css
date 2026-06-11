@@ -28,7 +28,7 @@
    GLOBAL
 ===================================================== */
 body{
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background:var(--bg-main);
   color:var(--text-main);
   margin:0;
