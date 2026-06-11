@@ -47,14 +47,16 @@ body{
   margin-bottom:10px;
 }
 
-.header-logo .logo{
-  height:18px;
-  max-height:18px;
-  width:auto !important;
-  max-width:120px;      /* ⬅️ PENTING */
-  object-fit:contain;
+.header-spacer{
+  width:100%;
 }
 
+.logo{
+  height:22px;
+  width:auto;
+  max-width:120px;
+  object-fit:contain;
+}
 /* =====================================================
    ROCC HEADER
 ===================================================== */
