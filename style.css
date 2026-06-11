@@ -93,13 +93,13 @@ body{
   font-size:30px;
   font-weight:800;   
   letter-spacing:3px;
-  color:var(--text-main);
+  color:#ffffff;
 }
 
 .rocc-title .line-2{
   font-size:22px;
   font-weight:700;   
-  color:var(--text-muted);
+ color:#e2e8f0;
 }
 
 .rocc-title .line-3{
