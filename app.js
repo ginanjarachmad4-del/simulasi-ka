@@ -150,25 +150,31 @@ setInterval(updateClock, 1000);
 updateClock();
 
 /* ================================
-   ROCC – REALTIME JAM FILTER
+   ROCC – REALTIME FIXED VERSION
 ================================ */
 
 const DATA_URL = "https://script.google.com/macros/s/AKfycbx-j09qBiFmt5kSA_PKQVX9b6jDj1ucM5m6idDzCf89O_fXQmVmIKPLbSsDmUnt9OHFVw/exec";
+
 const container = document.getElementById("dashboard");
 
-/* Ambil jam realtime */
+/* ================================
+   JAM REALTIME
+================================ */
 function getCurrentHour() {
-  return new Date().getHours().toString().padStart(2, "0");
+  return new Date().getHours();
 }
 
-/* Render posisi KA */
-function renderKA(data) {
+/* ================================
+   RENDER TABLE
+================================ */
+function renderKA(rows) {
   container.innerHTML = "";
 
-  if (data.length === 0) {
-    container.innerHTML = `<div style="opacity:.6;text-align:center;padding:20px">
-      Tidak ada KA pada jam ini
-    </div>`;
+  if (!rows || rows.length === 0) {
+    container.innerHTML = `
+      <div style="opacity:.6;text-align:center;padding:20px">
+        Tidak ada KA pada jam ini
+      </div>`;
     return;
   }
 
@@ -180,7 +186,8 @@ function renderKA(data) {
       <tr>
         <th>KA</th>
         <th>Relasi</th>
-        <th>Jam</th>
+        <th>Stasiun Awal</th>
+        <th>Jam Ber</th>
         <th>Status</th>
       </tr>
     </thead>
@@ -189,15 +196,16 @@ function renderKA(data) {
 
   const tbody = table.querySelector("tbody");
 
-  data.forEach(row => {
+  rows.forEach(r => {
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
-      <td>${row.ka}</td>
-      <td>${row.relasi}</td>
-      <td>${row.jam}:00</td>
-      <td class="${row.status === 'Tepat' ? 'status-ok' : 'status-delay'}">
-        ${row.status}
+      <td>${r.namaKA || "-"}</td>
+      <td>${r.relasi || "-"}</td>
+      <td>${r.stasiunAwal || "-"}</td>
+      <td>${r.jamBer || "-"}</td>
+      <td class="${r.status === 'TERLAMBAT' ? 'status-delay' : 'status-ok'}">
+        ${r.status || "-"}
       </td>
     `;
 
@@ -207,27 +215,39 @@ function renderKA(data) {
   container.appendChild(table);
 }
 
-/* Fetch + filter jam */
+/* ================================
+   LOAD DATA
+================================ */
 async function loadRealtimeKA() {
   try {
     const res = await fetch(DATA_URL);
-    const data = await res.json();
+    const result = await res.json();
+
+    const data = result.data || [];
 
     const currentHour = getCurrentHour();
 
     const filtered = data.filter(row => {
-      return row.jam.toString().padStart(2, "0") === currentHour;
+      if (!row.jamBer) return false;
+
+      const jam = parseInt(row.jamBer.toString().split(":")[0]);
+
+      return jam === currentHour;
     });
 
     renderKA(filtered);
+
   } catch (err) {
-    container.innerHTML = `<div style="color:red;text-align:center">
-      Gagal load data
-    </div>`;
     console.error(err);
+    container.innerHTML = `
+      <div style="color:red;text-align:center">
+        Gagal load data API
+      </div>`;
   }
 }
 
-/* Auto refresh */
+/* ================================
+   AUTO REFRESH
+================================ */
 loadRealtimeKA();
-setInterval(loadRealtimeKA, 60000); // update tiap 1 menit
+setInterval(loadRealtimeKA, 60000);
