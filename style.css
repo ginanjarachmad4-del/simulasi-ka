@@ -41,15 +41,17 @@ body{
 ===================================================== */
 .header-logo{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(80px,1fr));
-  gap:10px;
+  grid-template-columns:auto 1fr auto; /* kiri - tengah - kanan */
+  align-items:center;
+  gap:12px;
   margin-bottom:10px;
 }
 
 .logo{
-  height:15px;
+  height:18px;        /* kecil & profesional */
+  width:auto;
   object-fit:contain;
-  justify-self:center;
+  display:block;
 }
 
 /* =====================================================
