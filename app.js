@@ -148,3 +148,86 @@ function updateClock(){
 
 setInterval(updateClock, 1000);
 updateClock();
+
+/* ================================
+   ROCC – REALTIME JAM FILTER
+================================ */
+
+const DATA_URL = "PASTE_URL_APPS_SCRIPT_JSON_DISINI";
+const container = document.getElementById("dashboard");
+
+/* Ambil jam realtime */
+function getCurrentHour() {
+  return new Date().getHours().toString().padStart(2, "0");
+}
+
+/* Render posisi KA */
+function renderKA(data) {
+  container.innerHTML = "";
+
+  if (data.length === 0) {
+    container.innerHTML = `<div style="opacity:.6;text-align:center;padding:20px">
+      Tidak ada KA pada jam ini
+    </div>`;
+    return;
+  }
+
+  const table = document.createElement("table");
+  table.className = "rocc-table";
+
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>KA</th>
+        <th>Relasi</th>
+        <th>Jam</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `;
+
+  const tbody = table.querySelector("tbody");
+
+  data.forEach(row => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${row.ka}</td>
+      <td>${row.relasi}</td>
+      <td>${row.jam}:00</td>
+      <td class="${row.status === 'Tepat' ? 'status-ok' : 'status-delay'}">
+        ${row.status}
+      </td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+
+  container.appendChild(table);
+}
+
+/* Fetch + filter jam */
+async function loadRealtimeKA() {
+  try {
+    const res = await fetch(DATA_URL);
+    const data = await res.json();
+
+    const currentHour = getCurrentHour();
+
+    const filtered = data.filter(row => {
+      return row.jam.toString().padStart(2, "0") === currentHour;
+    });
+
+    renderKA(filtered);
+  } catch (err) {
+    container.innerHTML = `<div style="color:red;text-align:center">
+      Gagal load data
+    </div>`;
+    console.error(err);
+  }
+}
+
+/* Auto refresh */
+loadRealtimeKA();
+setInterval(loadRealtimeKA, 60000); // update tiap 1 menit
