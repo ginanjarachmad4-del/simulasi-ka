@@ -71,13 +71,13 @@ body{
 
 .rocc-title .line-1{
  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size:20px;
+  font-size:30px;
   letter-spacing:3px;
   color:var(--text-main);
 }
 
 .rocc-title .line-2{
-  font-size:14px;
+  font-size:22px;
   color:var(--text-muted);
 }
 
@@ -87,7 +87,7 @@ body{
   align-items:center;
   gap:10px;
   font-family:'Orbitron',monospace;
-  font-size:14px;
+  font-size:22px;
   color:var(--accent);
 }
 
