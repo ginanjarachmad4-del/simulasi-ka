@@ -1,10 +1,35 @@
+:root{
+  /* BACKGROUND */
+  --bg-main: #1f2937;        /* abu gelap */
+  --bg-panel: #111827;       /* abu kebiruan */
+  --bg-soft: #020617;
+
+  /* TEXT */
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
+
+  /* PRIMARY (BIRU) */
+  --primary: #2563eb;
+  --primary-soft: #1e40af;
+
+  /* ACCENT (ORANGE) */
+  --accent: #f97316;
+  --accent-soft: #fb923c;
+
+  /* BORDER */
+  --border: #334155;
+
+  /* STATUS */
+  --success: #22c55e;
+}
+
 /* =====================================================
    GLOBAL
 ===================================================== */
 body{
   font-family: Arial, sans-serif;
-  background:#0f172a;
-  color:#e5e7eb;
+  background:var(--bg-main);
+  color:var(--text-main);
   margin:0;
   padding:10px;
   overflow-x:hidden;
@@ -32,18 +57,10 @@ body{
 .rocc-header{
   text-align:center;
   padding:18px 10px;
-  background:linear-gradient(180deg,#0a0f1c,#060a14);
-  border-bottom:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg,#1f2937,#111827);
+  border-bottom:1px solid var(--border);
 }
 
-.rocc-title{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:6px;
-}
-
-/* LINE 1 */
 .rocc-title .line-1{
   font-family:'Orbitron',sans-serif;
   font-size:20px;
@@ -51,14 +68,11 @@ body{
   color:#e5e7eb;
 }
 
-/* LINE 2 */
 .rocc-title .line-2{
   font-size:14px;
-  color:#9ca3af;
-  letter-spacing:1px;
+  color:var(--text-muted);
 }
 
-/* LINE 3 */
 .rocc-title .line-3{
   margin-top:6px;
   display:flex;
@@ -66,48 +80,29 @@ body{
   gap:10px;
   font-family:'Orbitron',monospace;
   font-size:14px;
-  color:#22c55e;
+  color:var(--accent);
 }
 
-.status{
-  text-transform:uppercase;
-}
-
-/* BLINKING DOT */
 .dot{
   width:6px;
   height:6px;
-  background:#22c55e;
+  background:var(--accent);
   border-radius:50%;
   animation:blink 1.2s infinite;
 }
 
-@keyframes blink{
-  0%,50%,100%{opacity:1}
-  25%,75%{opacity:.3}
-}
-
-/* CLOCK */
 #clock{
-  color:#38bdf8;
+  color:var(--primary);
 }
 
 /* =====================================================
    TABS
 ===================================================== */
-.tabs{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:14px;
-}
-
 .tab{
   padding:8px 16px;
   border-radius:999px;
-  background:#020617;
-  border:1px solid #334155;
+  background:var(--bg-soft);
+  border:1px solid var(--border);
   cursor:pointer;
   font-size:.9rem;
   transition:.2s;
@@ -118,10 +113,10 @@ body{
 }
 
 .tab.active{
-  background:#2563eb;
-  border-color:#2563eb;
+  background:var(--primary);
+  border-color:var(--primary);
+  color:white;
 }
-
 .tab-content{
   display:none;
   margin-top:15px;
@@ -228,18 +223,14 @@ body{
 
 .pdf-topbar button{
   background:#1e293b;
-  border:1px solid #334155;
+  border:1px solid var(--border);
   color:white;
-  padding:6px 10px;
-  border-radius:6px;
-  cursor:pointer;
 }
 
 #closePdf{
-  margin-left:auto;
-  background:#ef4444;
+  background:var(--accent);
+  color:black;
 }
-
 #pdfFrame{
   flex:1;
   width:100%;
@@ -300,7 +291,7 @@ body{
   padding:12px 30px;
   border:none;
   border-radius:6px;
-  background:#2563eb;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
   color:white;
   font-size:1.2em;
   cursor:pointer;
