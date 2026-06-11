@@ -68,9 +68,61 @@
 
 <!-- DASHBOARD -->
 <div class="tab-content active" id="dashboard">
-  <div style="text-align:center; opacity:.6; padding:30px;">
-    Dashboard ROCC – Coming Soon
+
+  <!-- KPI BAR -->
+  <div class="kpi-grid">
+    <div class="kpi-card success">
+      <div class="kpi-title">KA JALAN</div>
+      <div class="kpi-value" id="kaJalan">0</div>
+    </div>
+
+    <div class="kpi-card danger">
+      <div class="kpi-title">KA BATAL</div>
+      <div class="kpi-value" id="kaBatal">0</div>
+    </div>
+
+    <div class="kpi-card warning">
+      <div class="kpi-title">WKP AKTIF</div>
+      <div class="kpi-value" id="wkpAktif">0</div>
+    </div>
   </div>
+
+  <!-- OTP PANEL -->
+  <div class="panel">
+    <div class="panel-header">
+      <span>ON TIME PERFORMANCE (OTP)</span>
+      <strong id="otpToday">0%</strong>
+    </div>
+    <div class="panel-body">
+      <canvas id="otpChart" height="90"></canvas>
+    </div>
+  </div>
+
+  <!-- POSISI KA REALTIME -->
+  <div class="panel">
+    <div class="panel-header">
+      <span>POSISI KA REALTIME</span>
+      <span class="badge">AUTO SYNC JAM SISTEM</span>
+    </div>
+
+    <div class="panel-body table-responsive">
+      <table class="rocc-table">
+        <thead>
+          <tr>
+            <th>KA</th>
+            <th>Relasi</th>
+            <th>Posisi</th>
+            <th>Jam</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="posisiKaTable">
+          <!-- DIISI OTOMATIS DARI SPREADSHEET -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
 
 <!-- OPERASI KA -->
