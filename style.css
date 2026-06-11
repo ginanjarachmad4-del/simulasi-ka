@@ -61,10 +61,24 @@ body{
    ROCC HEADER
 ===================================================== */
 .rocc-header{
+  position:relative;
   text-align:center;
-  padding:18px 10px;
-  background:linear-gradient(180deg,var(--bg-main),var(--bg-panel));
-  border-bottom:1px solid var(--border);
+  padding:24px 16px;
+
+  /* background gambar */
+  background:
+    linear-gradient(
+      rgba(2,6,23,0.75),
+      rgba(2,6,23,0.85)
+    ),
+   url('https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/control%20center%20futuristic.jpg')
+    center / cover no-repeat;
+
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.6);
+  margin-bottom:16px;
 }
 
 .rocc-title{
