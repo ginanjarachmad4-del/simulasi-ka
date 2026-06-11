@@ -364,3 +364,115 @@ body{
 
 .landing-logo.left{ left:20px; }
 .landing-logo.right{ right:20px; }
+
+/* ============================================================
+   CSS DASHBOARD – R O C C
+   Railway Operation Control Center
+   Pusdalopka 2 Bandung
+   ============================================================ */
+
+/* ===================== KPI GRID ===================== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.kpi-card {
+  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+.kpi-card.success { border-left: 5px solid #22c55e; }
+.kpi-card.danger  { border-left: 5px solid #ef4444; }
+.kpi-card.warning { border-left: 5px solid #facc15; }
+
+.kpi-title {
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  opacity: .75;
+  text-transform: uppercase;
+}
+
+.kpi-value {
+  font-size: 44px;
+  font-weight: 800;
+  margin-top: 6px;
+}
+
+/* ===================== PANEL ===================== */
+.panel {
+  background: rgba(255,255,255,.045);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  opacity: .9;
+  margin-bottom: 12px;
+}
+
+/* ===================== TABLE ===================== */
+.rocc-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.rocc-table th {
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: .6;
+}
+
+.rocc-table th,
+.rocc-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.rocc-table tr:hover {
+  background: rgba(255,255,255,.05);
+}
+
+/* ===================== STATUS ===================== */
+.badge {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-ok    { color: #22c55e; font-weight: 700; }
+.status-late  { color: #facc15; font-weight: 700; }
+.status-delay { color: #ef4444; font-weight: 700; }
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 900px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kpi-value {
+    font-size: 36px;
+  }
+
+  .panel {
+    padding: 14px;
+  }
+}
