@@ -153,7 +153,7 @@ updateClock();
    ROCC – REALTIME JAM FILTER
 ================================ */
 
-const DATA_URL = "https://script.google.com/macros/s/AKfycbwcx3SmJCY48YFQWtHiRDoOEEiJvODjtDpIebt9ZIOlnVC3o8KXRWSJFdapbzNNxqz9/exec";
+const DATA_URL = "https://script.google.com/macros/s/AKfycbx-j09qBiFmt5kSA_PKQVX9b6jDj1ucM5m6idDzCf89O_fXQmVmIKPLbSsDmUnt9OHFVw/exec";
 const container = document.getElementById("dashboard");
 
 /* Ambil jam realtime */
