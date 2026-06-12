@@ -150,4 +150,26 @@ setInterval(updateClock, 1000);
 updateClock();
 
 
+/* ================================
+   KPI – JUMLAH KA DATANG
+================================ */
+
+const DATA_URL = "https://script.google.com/macros/s/AKfycbxYtHtCr3sPKBRwSP72zK38qdndh14A7tPw8YEQRnjmXx58ZKdMkaZ598FHPZIjQ4sbJQ/exec";
+
+async function loadKelkaDatang() {
+  try {
+    const res = await fetch(DATA_URL);
+    const json = await res.json();
+
+    document.getElementById("kelkaDatang").innerText = json.jumlahKaDatang ?? 0;
+
+  } catch (err) {
+    console.error("Gagal fetch KPI KA datang", err);
+    document.getElementById("kelkaDatang").innerText = "-";
+  }
+}
+
+loadKelkaDatang();
+setInterval(loadKelkaDatang, 60000);
+
 
