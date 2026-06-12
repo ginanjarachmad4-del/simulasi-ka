@@ -154,14 +154,16 @@ updateClock();
    KPI – JUMLAH KA DATANG
 ================================ */
 
-const DATA_URL = "https://script.google.com/macros/s/AKfycbwKMRADQKxmWFzqUlqkt0mYlQiwnMf0MPlgujLpBRnaduuBPSoZf0kG_wrJdN0XUYXiVQ/exec";
+const DATA_URL =
+"https://script.google.com/macros/s/AKfycbyN-IIdNIOkSs4UNTgg0d8h7Wulffs1UGYGNvlBfE1BcjOifvW6KefjC6-SMkHNd1Z67g/exec";
 
 async function loadKelkaDatang() {
   try {
-    const res = await fetch(DATA_URL);
+    const res = await fetch(DATA_URL + "?type=datang");
     const json = await res.json();
 
-    document.getElementById("kelkaDatang").innerText = json.jumlahKaDatang ?? 0;
+    document.getElementById("kelkaDatang").innerText =
+      json.jumlah ?? 0;
 
   } catch (err) {
     console.error("Gagal fetch KPI KA datang", err);
@@ -173,3 +175,22 @@ loadKelkaDatang();
 setInterval(loadKelkaDatang, 60000);
 
 
+/* ================================
+   KPI – JUMLAH KA BERANGKAT
+================================ */
+async function loadKelkaBerangkat() {
+  try {
+    const res = await fetch(DATA_URL + "?type=berangkat");
+    const json = await res.json();
+
+    document.getElementById("kelkaBerangkat").innerText =
+      json.jumlah ?? 0;
+
+  } catch (err) {
+    console.error("Gagal fetch KPI KA berangkat", err);
+    document.getElementById("kelkaBerangkat").innerText = "-";
+  }
+}
+
+loadKelkaBerangkat();
+setInterval(loadKelkaBerangkat, 60000);
