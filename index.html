@@ -66,43 +66,49 @@
 
 </div>
 
-<!-- DASHBOARD -->
+<!-- =========================
+     DASHBOARD ROCC
+========================= -->
 <div class="tab-content active" id="dashboard">
 
-  <!-- KPI BAR -->
+  <!-- KPI KELKA -->
   <div class="kpi-grid">
     <div class="kpi-card success">
-      <div class="kpi-title">KA JALAN</div>
-      <div class="kpi-value" id="kaJalan">0</div>
+      <div class="kpi-title">KELKA DATANG</div>
+      <div class="kpi-value" id="kelkaDatang">0</div>
     </div>
 
-    <div class="kpi-card danger">
-      <div class="kpi-title">KA BATAL</div>
-      <div class="kpi-value" id="kaBatal">0</div>
+    <div class="kpi-card info">
+      <div class="kpi-title">KELKA BERANGKAT</div>
+      <div class="kpi-value" id="kelkaBerangkat">0</div>
     </div>
 
     <div class="kpi-card warning">
-      <div class="kpi-title">WKP AKTIF</div>
-      <div class="kpi-value" id="wkpAktif">0</div>
+      <div class="kpi-title">SARANA SIAP OPERASI</div>
+      <div class="kpi-value" id="saranaSiap">0</div>
     </div>
   </div>
 
-  <!-- OTP PANEL -->
+  <!-- PANEL OTP & KINOP -->
   <div class="panel">
     <div class="panel-header">
-      <span>ON TIME PERFORMANCE (OTP)</span>
-      <strong id="otpToday">0%</strong>
+      <span>OTP & KINOP PERFORMANCE</span>
+      <strong>
+        OTP <span id="otpToday">0%</span> •
+        KINOP <span id="kinopToday">0%</span>
+      </strong>
     </div>
+
     <div class="panel-body">
-      <canvas id="otpChart" height="90"></canvas>
+      <canvas id="otpKinopChart" height="100"></canvas>
     </div>
   </div>
 
-  <!-- POSISI KA REALTIME -->
+  <!-- KELKA DATANG -->
   <div class="panel">
     <div class="panel-header">
-      <span>POSISI KA REALTIME</span>
-      <span class="badge">AUTO SYNC JAM SISTEM</span>
+      <span>KELKA DATANG</span>
+      <span class="badge">REALTIME</span>
     </div>
 
     <div class="panel-body table-responsive">
@@ -111,20 +117,91 @@
           <tr>
             <th>KA</th>
             <th>Relasi</th>
-            <th>Posisi</th>
-            <th>Jam</th>
+            <th>Stasiun Tujuan</th>
+            <th>Jam Datang</th>
             <th>Status</th>
           </tr>
         </thead>
-        <tbody id="posisiKaTable">
-          <!-- DIISI OTOMATIS DARI SPREADSHEET -->
+        <tbody id="kelkaDatangTable">
+          <!-- AUTO FROM SPREADSHEET -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- KELKA BERANGKAT -->
+  <div class="panel">
+    <div class="panel-header">
+      <span>KELKA BERANGKAT</span>
+      <span class="badge">REALTIME</span>
+    </div>
+
+    <div class="panel-body table-responsive">
+      <table class="rocc-table">
+        <thead>
+          <tr>
+            <th>KA</th>
+            <th>Relasi</th>
+            <th>Stasiun Awal</th>
+            <th>Jam Berangkat</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="kelkaBerangkatTable">
+          <!-- AUTO FROM SPREADSHEET -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- DATA STAMFORMASI -->
+  <div class="panel">
+    <div class="panel-header">
+      <span>DATA STAMFORMASI KA</span>
+    </div>
+
+    <div class="panel-body table-responsive">
+      <table class="rocc-table">
+        <thead>
+          <tr>
+            <th>KA</th>
+            <th>Relasi</th>
+            <th>Stamformasi</th>
+            <th>Jumlah Kereta</th>
+            <th>Keterangan</th>
+          </tr>
+        </thead>
+        <tbody id="stamformasiTable">
+          <!-- AUTO FROM SPREADSHEET -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- KETERSEDIAAN SARANA -->
+  <div class="panel">
+    <div class="panel-header">
+      <span>KETERSEDIAAN SARANA</span>
+    </div>
+
+    <div class="panel-body table-responsive">
+      <table class="rocc-table">
+        <thead>
+          <tr>
+            <th>Jenis Sarana</th>
+            <th>Siap Operasi</th>
+            <th>Tidak Siap</th>
+            <th>Keterangan</th>
+          </tr>
+        </thead>
+        <tbody id="saranaTable">
+          <!-- AUTO FROM SPREADSHEET -->
         </tbody>
       </table>
     </div>
   </div>
 
 </div>
-
 <!-- OPERASI KA -->
 <div class="tab-content" id="operasi">
   <div style="text-align:center; opacity:.6; padding:30px;">
