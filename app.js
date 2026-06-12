@@ -173,7 +173,63 @@ async function loadKelkaDatang() {
 
 loadKelkaDatang();
 setInterval(loadKelkaDatang, 60000);
+/* ================================
+   TABLE – KELKA DATANG REALTIME
+================================ */
 
+async function loadKelkaDatangTable() {
+  const tbody = document.getElementById("kelkaDatangTable");
+
+  try {
+    const res = await fetch(DATA_URL + "?type=datang");
+    const json = await res.json();
+
+    tbody.innerHTML = "";
+
+    if (!json.data || json.data.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" style="text-align:center;opacity:.6">
+            Tidak ada data KA datang
+          </td>
+        </tr>`;
+      return;
+    }
+
+    json.data.forEach(row => {
+      if (!row.datang) return; // safety
+
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>${row.nomorKA ?? "-"}</td>
+        <td>${row.jenisKA ?? "-"}</td>
+        <td>${row.namaKA ?? "-"}</td>
+        <td>${row.lintas ?? "-"}</td>
+        <td>${row.jamDat ?? "-"}</td>
+        <td>
+          <span class="badge ${row.kelambatan > 10 ? "danger" : "warning"}">
+            ${row.kelambatan} menit
+          </span>
+        </td>
+      `;
+
+      tbody.appendChild(tr);
+    });
+
+  } catch (err) {
+    console.error("Gagal load tabel KELKA datang", err);
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align:center;color:red">
+          Gagal memuat data
+        </td>
+      </tr>`;
+  }
+}
+
+loadKelkaDatangTable();
+setInterval(loadKelkaDatangTable, 60000);
 
 /* ================================
    KPI – JUMLAH KA BERANGKAT
