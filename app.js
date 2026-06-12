@@ -149,19 +149,5 @@ function updateClock(){
 setInterval(updateClock, 1000);
 updateClock();
 
-/* ================================
-   ROCC – REALTIME FIXED VERSION
-================================ */
-
-const DATA_URL = "https://script.google.com/macros/s/AKfycbx-j09qBiFmt5kSA_PKQVX9b6jDj1ucM5m6idDzCf89O_fXQmVmIKPLbSsDmUnt9OHFVw/exec";
-
-const container = document.getElementById("dashboard");
-
-/* ================================
-   JAM REALTIME
-================================ */
-function getCurrentHour() {
-  return new Date().getHours();
-}
 
 
