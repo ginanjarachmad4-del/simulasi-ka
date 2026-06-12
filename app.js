@@ -154,7 +154,7 @@ updateClock();
    KPI – JUMLAH KA DATANG
 ================================ */
 
-const DATA_URL = "https://script.google.com/macros/s/AKfycbxYtHtCr3sPKBRwSP72zK38qdndh14A7tPw8YEQRnjmXx58ZKdMkaZ598FHPZIjQ4sbJQ/exec";
+const DATA_URL = "https://script.google.com/macros/s/AKfycbwKMRADQKxmWFzqUlqkt0mYlQiwnMf0MPlgujLpBRnaduuBPSoZf0kG_wrJdN0XUYXiVQ/exec";
 
 async function loadKelkaDatang() {
   try {
