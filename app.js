@@ -220,42 +220,252 @@ async function loadJumlahKA(){
 loadJumlahKA();
 setInterval(loadJumlahKA, 60000);
 
+
+
+
 /* ===============================================
-   STAMFORMASI
+   STAMFORMASI V3
+   ROCC AUTO SCROLL
 ================================================ */
+
 async function loadStamformasi(){
-  try {
-    const j = await fetch(API_STAMFORMASI).then(r=>r.json());
-    renderStam("stamformasiJJ", j.jarakJauh);
-    renderStam("stamformasiLokal", j.lokal);
-    renderStam("stamformasiTambahan", j.tambahan);
-  } catch {
-    ["stamformasiJJ","stamformasiLokal","stamformasiTambahan"]
-      .forEach(id=>{
-        document.getElementById(id).innerHTML =
-          `<tr><td colspan="4" style="color:red;text-align:center">Gagal load</td></tr>`;
-      });
+
+  try{
+
+    const j = await fetch(API_STAMFORMASI)
+      .then(r => r.json());
+
+    renderStam(
+      "stamformasiJJ",
+      j.jarakJauh,
+      "countJJ"
+    );
+
+    renderStam(
+      "stamformasiLokal",
+      j.lokal,
+      "countLokal"
+    );
+
+    renderStam(
+      "stamformasiTambahan",
+      j.tambahan,
+      "countTambahan"
+    );
+
+  }catch(err){
+
+    console.error(err);
+
+    [
+      "stamformasiJJ",
+      "stamformasiLokal",
+      "stamformasiTambahan"
+    ].forEach(id=>{
+
+      document.getElementById(id).innerHTML = `
+        <div class="ka-item">
+          <span class="ka-title">
+            Gagal memuat data
+          </span>
+        </div>
+      `;
+
+    });
+
   }
+
 }
 
-function renderStam(id, data){
-  const tbody = document.getElementById(id);
-  tbody.innerHTML = "";
-  if (!data?.length) {
-    tbody.innerHTML =
-      `<tr><td colspan="4" style="opacity:.6;text-align:center">Tidak ada data</td></tr>`;
+/* ===============================================
+   RENDER LIST KA
+================================================ */
+
+function renderStam(id,data,countId){
+
+  const container =
+    document.getElementById(id);
+
+  const counter =
+    document.getElementById(countId);
+
+  container.innerHTML = "";
+
+  if(!data || data.length === 0){
+
+    container.innerHTML = `
+      <div class="ka-item">
+        <span class="ka-title">
+          Tidak ada data
+        </span>
+      </div>
+    `;
+
+    if(counter){
+      counter.textContent = "0 KA";
+    }
+
     return;
   }
+
+  if(counter){
+    counter.textContent =
+      `${data.length} KA`;
+  }
+
+  let html = "";
+
   data.forEach(x=>{
-    tbody.innerHTML += `
-      <tr>
-        <td>${x.ka ?? "-"}</td>
-        <td>${x.lokomotif ?? "-"}</td>
-        <td>${x.stamformasi ?? "-"}</td>
-        <td>${x.keterangan ?? "-"}</td>
-      </tr>`;
+
+    html += `
+
+      <div
+        class="ka-item"
+        onclick='showKADetail(${JSON.stringify(x)})'
+      >
+
+        <span class="ka-icon">
+          🚆
+        </span>
+
+        <span class="ka-title">
+          ${x.ka ?? "-"}
+        </span>
+
+      </div>
+
+    `;
+
   });
+
+  /* DUPLIKASI AGAR LOOP HALUS */
+
+  container.innerHTML = `
+    <div class="ka-list-inner">
+      ${html}
+      ${html}
+    </div>
+  `;
+
 }
+
+/* ===============================================
+   SEARCH
+================================================ */
+
+function filterKA(input,id){
+
+  const keyword =
+    input.value.toLowerCase();
+
+  document
+    .querySelectorAll(`#${id} .ka-item`)
+    .forEach(item=>{
+
+      const nama =
+        item.querySelector(".ka-title")
+          .textContent
+          .toLowerCase();
+
+      item.style.display =
+        nama.includes(keyword)
+          ? ""
+          : "none";
+
+    });
+
+}
+
+/* ===============================================
+   DETAIL KA MODAL
+================================================ */
+
+function showKADetail(data){
+
+  document.getElementById(
+    "modalNamaKA"
+  ).textContent = `🚆 ${data.ka || "-"}`;
+
+  document.getElementById(
+    "modalContent"
+  ).innerHTML = `
+
+    <div style="margin-bottom:16px">
+
+      <b style="color:#38bdf8">
+        Lokomotif
+      </b>
+
+      <div>
+        ${data.lokomotif || "-"}
+      </div>
+
+    </div>
+
+    <div style="margin-bottom:16px">
+
+      <b style="color:#38bdf8">
+        Stamformasi
+      </b>
+
+      <div>
+        ${data.stamformasi || "-"}
+      </div>
+
+    </div>
+
+    <div>
+
+      <b style="color:#38bdf8">
+        Keterangan
+      </b>
+
+      <div>
+        ${data.keterangan || "-"}
+      </div>
+
+    </div>
+
+  `;
+
+  document
+    .getElementById("kaModal")
+    .classList.add("show");
+
+}
+
+function closeKAModal(){
+
+  document
+    .getElementById("kaModal")
+    .classList.remove("show");
+
+}
+
+/* klik area gelap untuk menutup */
+
+document.addEventListener("click",function(e){
+
+  const modal =
+    document.getElementById("kaModal");
+
+  if(e.target === modal){
+    closeKAModal();
+  }
+
+});
+
+document.addEventListener("click", function(e){
+
+  const modal =
+    document.getElementById("kaModal");
+
+  if(e.target === modal){
+    closeKAModal();
+  }
+
+});
+
 
 /* ===============================================
    SARANA
