@@ -41,22 +41,44 @@ body{
 ===================================================== */
 .header-logo{
   display:grid;
-  grid-template-columns:auto 1fr auto;
+  grid-template-columns: auto 1fr auto;
   align-items:center;
-  gap:12px;
   margin-bottom:10px;
+  position:relative;
 }
 
-.header-spacer{
-  width:100%;
-}
-
+/* LOGO UMUM */
 .logo{
   height:40px;
   width:auto;
   max-width:120px;
   object-fit:contain;
 }
+
+/* KIRI */
+.logo-left{
+  justify-self:start;
+}
+
+/* KANAN */
+.logo-right{
+  justify-self:end;
+}
+
+/* TENGAH – PAKSA CENTER ABSOLUT */
+.logo-center{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+@media (max-width:600px){
+  .logo{
+    height:32px;
+    max-width:90px;
+  }
+}
+
 /* =====================================================
    ROCC HEADER
 ===================================================== */
@@ -90,19 +112,25 @@ body{
 
 .rocc-title .line-1{
  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size:30px;
-  font-weight:800;   
+  font-size:36px;
+  font-weight:650;   
   letter-spacing:3px;
   color:#ffffff;
 }
 
 .rocc-title .line-2{
-  font-size:22px;
+  font-size:24px;
   font-weight:700;   
  color:#e2e8f0;
 }
 
 .rocc-title .line-3{
+  font-size:28px;
+  font-weight:700;   
+ color:#e2e8f0;
+}
+
+.rocc-title .line-4{
   margin-top:6px;
   display:flex;
   align-items:center;
@@ -304,15 +332,20 @@ body{
 /* =====================================================
    LANDING LOGIN
 ===================================================== */
+
 #landing{
   position:fixed;
   inset:0;
-  background:url('https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/wp10514716-kereta-api-indonesia-wallpapers.jpg')
-    center/cover no-repeat;
+  z-index:99999;
+
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:99999;
+
+  background:
+    url('https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/wp10514716-kereta-api-indonesia-wallpapers.jpg')
+    center / cover no-repeat;
+
   transition:opacity .7s;
 }
 
@@ -332,11 +365,14 @@ body{
   );
 }
 
+/* =====================================================
+   OVERLAY CONTENT
+===================================================== */
 .overlay{
   position:relative;
   z-index:2;
   text-align:center;
-  color:white;
+  color:#fff;
 }
 
 .overlay h1{
@@ -348,62 +384,183 @@ body{
   padding:12px 30px;
   border:none;
   border-radius:6px;
-  background:linear-gradient(135deg,var(--primary),var(--accent));
-  color:white;
+
+  background:linear-gradient(
+    135deg,
+    var(--primary),
+    var(--accent)
+  );
+
+  color:#fff;
   font-size:1.2em;
   cursor:pointer;
 }
 
-/* LANDING LOGO */
+/* =====================================================
+   LANDING LOGO (LEFT – CENTER – RIGHT)
+===================================================== */
 .landing-logo{
   position:absolute;
   top:20px;
-  height:45px;
   z-index:3;
+
+  height:45px;
+  width:auto;
+  max-width:140px;
+  object-fit:contain;
 }
 
-.landing-logo.left{ left:20px; }
-.landing-logo.right{ right:20px; }
+/* LEFT */
+.landing-logo.left{
+  left:20px;
+}
+
+/* CENTER (ABSOLUTE CENTER) */
+.landing-logo.center{
+  left:50%;
+  transform:translateX(-50%);
+}
+
+/* RIGHT */
+.landing-logo.right{
+  right:20px;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+@media (max-width:600px){
+  .landing-logo{
+    height:32px;
+    max-width:100px;
+  }
+
+  .overlay h1{
+    font-size:1.5em;
+  }
+
+  #enterBtn{
+    font-size:1em;
+    padding:10px 24px;
+  }
+}
+
 
 /* ============================================================
-   CSS DASHBOARD – R O C C
+   DASHBOARD – R O C C
    Railway Operation Control Center
    Pusdalopka 2 Bandung
-   ============================================================ */
+   FINAL FIX – NO CONFLICT
+============================================================ */
 
-/* ===================== KPI GRID ===================== */
-.kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-bottom: 18px;
+/* ===================== DASHBOARD ROW ===================== */
+.dashboard-row{
+  display:grid;
+  grid-template-columns:1.4fr repeat(4, 1fr); /* 5 kolom */
+  gap:14px;
+  align-items:stretch;
 }
 
-.kpi-card {
-  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 14px;
-  padding: 18px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+/* ================= PERFORMANCE CARD FIX ================= */
+.performance-card{
+  grid-column: span 1 !important; /* 🔥 kunci 1 kolom */
+  width:100%;
+  min-width:0;
 }
 
-.kpi-card.success { border-left: 5px solid #22c55e; }
-.kpi-card.danger  { border-left: 5px solid #ef4444; }
-.kpi-card.warning { border-left: 5px solid #facc15; }
-
-.kpi-title {
-  font-size: 12px;
-  letter-spacing: 1.2px;
-  opacity: .75;
-  text-transform: uppercase;
+/* ===================== KPI CARD BASE ===================== */
+.kpi-card{
+  border-radius:16px;
+  padding:18px 20px;
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  position:relative;
 }
 
-.kpi-value {
-  font-size: 44px;
-  font-weight: 800;
-  margin-top: 6px;
+/* ===================== KPI TEXT ===================== */
+.kpi-title span {
+  display: block;
+  line-height: 1.3;
 }
+
+.kpi-title .sub-title {
+  font-size: 0.75em;
+  opacity: 0.75;
+  font-weight: 500;
+}
+
+.kpi-value{
+  font-size:36px;
+  font-weight:800;
+  margin-top:6px;
+}
+
+/* ================= FREKUENSI KA – UNGU ROCC ================= */
+.kpi-card.warning{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.04)),
+    #9333ea;
+}
+
+/* ================= ANTARKOTA – HIJAU ROCC ================= */
+.kpi-card.info{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.04)),
+    #10b981;
+}
+
+/* ================= PERKOTAAN – ORANGE ROCC ================= */
+.kpi-card.success{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.04)),
+    #f97316;
+}
+
+/* ================= BARANG – BIRU ROCC ================= */
+.kpi-card.new{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.04)),
+    #1e74f9;
+}
+
+
+/* ================= KINERJA OPERASI ================= */
+.performance-card{
+  background:linear-gradient(135deg,#0f172a,#020617);
+  border-radius:16px;
+  padding:16px;
+  color:#fff;
+
+  min-width:0;
+  overflow:hidden; /* 🔥 penting */
+}
+
+.performance-header{
+  text-align:center;
+}
+
+.performance-header .title{
+  font-size:15px;
+  font-weight:700;
+}
+
+.performance-header .subtitle{
+  font-size:12px;
+  opacity:.7;
+}
+
+.performance-body{
+  margin-top:14px;
+}
+
+#dashboard .dashboard-row{
+  display:grid !important;
+  grid-template-columns:1.4fr repeat(4, 1fr) !important;
+  gap:14px !important;
+}
+
 
 /* ===================== PANEL ===================== */
 .panel {
@@ -474,5 +631,380 @@ body{
 
   .panel {
     padding: 14px;
+  }
+}
+
+/* ============================================================
+   CARD – KETERSEDIAAN SARANA
+   ============================================================ */
+
+/* GRID LAYOUT */
+.sarana-cards{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:16px;
+}
+
+/* RESPONSIVE */
+@media (max-width:1200px){
+  .sarana-cards{
+    grid-template-columns:repeat(3, 1fr);
+  }
+}
+
+@media (max-width:768px){
+  .sarana-cards{
+    grid-template-columns:repeat(2, 1fr);
+  }
+}
+
+/* CARD */
+.sarana-card{
+  background:linear-gradient(180deg,#111827,#020617);
+  border-radius:18px;
+  padding:20px;
+  text-align:center;
+  cursor:pointer;
+  position:relative;
+  color:#ffffff;
+
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.sarana-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 28px rgba(0,0,0,.45);
+}
+
+/* JUDUL */
+.card-title{
+  display:block;
+  color:#e2e8f0;
+  font-size:.9rem;
+  font-weight:600;
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+/* ANGKA */
+.card-number{
+  font-size:3rem;
+  font-weight:700;
+  margin:12px 0;
+  color:#38bdf8;
+  transition:.25s ease;
+}
+
+/* CATATAN */
+.card-note{
+  max-height:0;
+  overflow:hidden;
+  margin-top:0;
+
+  font-size:.85rem;
+  line-height:1.6;
+  color:#e5e7eb;
+  text-align:left;
+
+  opacity:0;
+
+  transition:
+    max-height .3s ease,
+    opacity .25s ease,
+    margin-top .25s ease;
+}
+
+/* CARD TERBUKA */
+.sarana-card.active .card-note{
+  max-height:180px;
+  overflow-y:auto;
+  margin-top:10px;
+  opacity:1;
+}
+
+/* ANGKA SAAT TERBUKA */
+.sarana-card.active .card-number{
+  font-size:2.2rem;
+  opacity:.6;
+}
+
+/* SCROLLBAR */
+.card-note::-webkit-scrollbar{
+  width:6px;
+}
+
+.card-note::-webkit-scrollbar-track{
+  background:#0f172a;
+  border-radius:10px;
+}
+
+.card-note::-webkit-scrollbar-thumb{
+  background:#334155;
+  border-radius:10px;
+}
+
+.card-note::-webkit-scrollbar-thumb:hover{
+  background:#475569;
+}
+
+/* TAB */
+.sarana-tabs{
+  display:flex;
+  gap:10px;
+  margin-bottom:16px;
+  flex-wrap:wrap;
+}
+
+.sarana-tab{
+  padding:8px 14px;
+  border-radius:10px;
+  border:1px solid #1f2937;
+  background:#020617;
+  color:#e5e7eb;
+  cursor:pointer;
+  font-size:.85rem;
+  transition:.25s ease;
+}
+
+.sarana-tab:hover{
+  background:#111827;
+}
+
+.sarana-tab.active{
+  background:#2563eb;
+  border-color:#2563eb;
+  color:#fff;
+}
+
+/* ==========================================
+   PERALATAN KHUSUS
+========================================== */
+
+.peralatan-card{
+  display:none;
+  width:100%;
+  background:linear-gradient(180deg,#111827,#020617);
+  border-radius:18px;
+  padding:20px;
+  color:#fff;
+}
+
+#peralatan-note{
+  margin-top:15px;
+  line-height:1.8;
+}
+
+#peralatan-note div{
+  margin:0;
+  padding:0;
+}
+
+.group-title{
+  color:#38bdf8;
+  font-weight:700;
+  margin-top:16px;
+  margin-bottom:6px;
+  border-bottom:1px solid #334155;
+  padding-bottom:5px;
+}
+
+.group-title:first-child{
+  margin-top:0;
+}
+
+/* =================================================
+   CARD KINERJA OPERASI
+================================================= */
+.performance-card{
+  background:#dbe3ea;
+  border-radius:20px;
+  padding:20px;
+}
+
+.performance-header{
+  text-align:center;
+  margin-bottom:16px;
+}
+
+.subtitle{
+  font-size:11px;
+  font-style:italic;
+  color:#94a3b8;
+  margin-top:2px;
+}
+
+/* =================================================
+   GAUGE
+================================================= */
+
+.gauge-container{
+  display:flex;
+  justify-content:center;
+  gap:16px; /* jangan terlalu besar */
+  width:100%;
+}
+
+
+.gauge-item{
+  text-align:center;
+}
+
+.gauge{
+  position:relative;
+  width:140px;
+  height:70px;
+}
+
+.gauge svg{
+  width:100%;
+  height:100%;
+}
+
+/* Background arc */
+.gauge-bg{
+  fill:none;
+  stroke:#d1d5db;
+  stroke-width:12;
+}
+
+/* Progress arc */
+.gauge-blue,
+.gauge-orange {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: butt;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset .6s ease, stroke .3s ease;
+}
+/* Value */
+.gauge-value{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:6px;
+  text-align:center;
+
+  font-size:22px;
+  font-weight:700;
+  color:#0f172a;
+}
+
+/* Label */
+.gauge-label{
+  margin-top:8px;
+  font-size:13px;
+  font-weight:600;
+  color:#334155;
+}
+
+/* =================================================
+   LAYOUT 40 : 60
+================================================= */
+
+.operation-layout{
+  display:grid;
+  grid-template-columns:40% 60%;
+  gap:20px;
+  padding:16px;
+}
+
+/* =================================================
+   OPERATION CIRCLE CARDS
+================================================= */
+
+.operation-cards{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+.op-title{
+  font-size:13px;
+  font-weight:700;
+  color:#cbd5e1;
+  margin-bottom:10px;
+}
+
+.circle-row{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+}
+
+.circle-card{
+  width:120px;
+  height:120px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  background:#111827;
+  border:1px solid #1f2937;
+  border-radius:50%;
+  text-align:center;
+}
+
+.circle-card span{
+  font-size:11px;
+  color:#94a3b8;
+}
+
+.circle-card strong{
+  margin-top:6px;
+  font-size:24px;
+  color:#fff;
+}
+
+/* Warning */
+.warning-card{
+  background:#ff8c00;
+  border:2px solid #ffb347;
+}
+
+.warning-card strong,
+.warning-card span{
+  color:#fff;
+}
+
+/* =================================================
+   CHART
+================================================= */
+
+.operation-chart{
+  background:#0f172a;
+  border:1px solid #1e293b;
+  border-radius:12px;
+  padding:16px;
+  position:relative;
+}
+
+.performance-value{
+  position:absolute;
+  top:15px;
+  right:20px;
+  font-size:34px;
+  font-weight:700;
+  color:#22c55e;
+}
+
+/* =================================================
+   RESPONSIVE
+================================================= */
+
+@media (max-width:1200px){
+  .operation-layout{
+    grid-template-columns:1fr;
+  }
+
+  .operation-chart{
+    min-height:300px;
   }
 }
