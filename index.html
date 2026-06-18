@@ -11,11 +11,29 @@
 
 <body>
 
-<!-- LANDING LOGIN -->
+<!-- =========================
+     LANDING LOGIN
+========================= -->
+
 <div id="landing">
 
-  <img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/logo_danantara_warna.png" class="landing-logo left">
-  <img src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/logo_kai.png" class="landing-logo right">
+  <!-- KIRI -->
+  <img
+    src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/logo_danantara_warna.png"
+    class="landing-logo left"
+    alt="Danantara">
+
+  <!-- TENGAH -->
+  <img
+    src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/logo_citar_2025_warna.png"
+    class="landing-logo center"
+    alt="CITAR">
+
+  <!-- KANAN -->
+  <img
+    src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/logo_kai.png"
+    class="landing-logo right"
+    alt="KAI">
 
   <div class="overlay">
     <h1>SELAMAT DATANG DI PUSDALOPKA 2 BANDUNG</h1>
@@ -24,28 +42,37 @@
 
 </div>
 
-<!-- HEADER -->
+
+<!-- =========================
+     HEADER PAGE UTAMA
+========================= -->
+
 <header class="main-header">
 
   <div class="header-logo">
-    <img 
-      src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/logo_danantara_warna.png"
-      class="logo"
-      alt="Logo Danantara">
+  <img
+    src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/logo_danantara_warna.png"
+    class="logo logo-left"
+    alt="Logo Danantara">
 
-    <div class="header-spacer"></div>
+  <img
+    src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/logo_citar_2025_warna.png"
+    class="logo logo-center"
+    alt="Logo CITAR">
 
-    <img 
-      src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/logo_kai.png"
-      class="logo"
-      alt="Logo KAI">
-  </div>
+  <img
+    src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/logo_kai.png"
+    class="logo logo-right"
+    alt="Logo KAI">
+</div>
+
 
   <div class="rocc-header">
     <div class="rocc-title">
-      <div class="line-1">R O C C – RAILWAY OPERATION CONTROL CENTER</div>
-      <div class="line-2">Pusdalopka 2 Bandung</div>
-      <div class="line-3">
+      <div class="line-1">PUSAT KENDALI OPERASI KERETA API</div>
+      <div class="line-2">Daerah Operasi 2 Bandung</div>
+      <div class="line-3">PT Kereta Api Indonesia (Persero)</div>
+      <div class="line-4">
         <span class="status">REALTIME OPERATION</span>
         <span class="dot"></span>
         <span id="clock">--:--:--</span>
@@ -55,7 +82,10 @@
 
 </header>
 
-<!-- TABS -->
+<!-- =========================
+    TABS PAGE UTAMA
+========================= -->
+
 <div class="tabs">
 
   <div class="tab active" data-tab="dashboard">📊 DASHBOARD</div>
@@ -67,50 +97,178 @@
 </div>
 
 <!-- =========================
-     DASHBOARD ROCC
+     1. 📊 DASHBOARD
 ========================= -->
 <div class="tab-content active" id="dashboard">
 
-  <!-- KPI KELKA -->
-  <div class="kpi-grid">
-    <div class="kpi-card success">
-      <div class="kpi-title">JUMLAH KA DATANG</div>
-      <div class="kpi-value" id="kelkaDatang">0</div>
-    </div>
+  <!-- ================= KINERJA OPERASI ================= -->
+  <div class="dashboard-row">
 
-    <div class="kpi-card info">
-      <div class="kpi-title">JUMLAH KA BERANGKAT</div>
-      <div class="kpi-value" id="kelkaBerangkat">0</div>
+    <div class="performance-card">
+      <div class="performance-header">
+        <div class="title">📈 KINERJA OPERASI</div>
+        <div class="subtitle">Operation Performance</div>
+      </div>
+
+      <div class="performance-body">
+        <div class="gauge-container">
+
+          <!-- BERANGKAT -->
+          <div class="gauge-item">
+            <div class="gauge">
+              <svg viewBox="0 0 120 70">
+                <path
+  d="M10 60 A50 50 0 0 1 110 60"
+  class="gauge-bg"
+  pathLength="100"
+/>
+               <path
+  d="M10 60 A50 50 0 0 1 110 60"
+  class="gauge-blue"
+  pathLength="100"
+/>
+              </svg>
+              <div class="gauge-value" id="kpi-berangkat">--%</div>
+            </div>
+            <div class="gauge-label">BERANGKAT</div>
+          </div>
+
+          <!-- DATANG -->
+          <div class="gauge-item">
+            <div class="gauge">
+              <svg viewBox="0 0 120 70">
+                 <path
+  d="M10 60 A50 50 0 0 1 110 60"
+  class="gauge-bg"
+  pathLength="100"
+/>
+
+                <path
+  d="M10 60 A50 50 0 0 1 110 60"
+  class="gauge-orange"
+  pathLength="100"
+/>
+              </svg>
+               <div class="gauge-value" id="kpi-datang">--%</div>
+            </div>
+            <div class="gauge-label">DATANG</div>
+          </div>
+
+        </div>
+      </div>
     </div>
 
     <div class="kpi-card warning">
-      <div class="kpi-title">SARANA SIAP OPERASI</div>
-      <div class="kpi-value" id="saranaSiap">0</div>
-    </div>
+    <div class="kpi-title">
+    <span>REALISASI PERJALANAN KA</span>
+    <span class="sub-title">BERDASARKAN KEBERANGKATAN KA</span>
+  </div>
+  <div class="kpi-value" id="kpi-realisasi">0</div>
+</div>
+
+    <div class="kpi-card info">
+  <div class="kpi-title">ANTAR KOTA</div>
+  <div class="kpi-value" id="kpi-antarkota">0</div>
+</div>
+
+<div class="kpi-card success">
+  <div class="kpi-title">PERKOTAAN</div>
+  <div class="kpi-value" id="kpi-perkotaan">0</div>
+</div>
+
+<div class="kpi-card new">
+  <div class="kpi-title">BARANG</div>
+  <div class="kpi-value" id="kpi-barang">0</div>
+</div>
+
   </div>
 
-  <!-- PANEL OTP & KINOP -->
-  <div class="panel">
-    <div class="panel-header">
-      <span>OTP & KINOP PERFORMANCE</span>
-      <strong>
-        OTP <span id="otpToday">0%</span> •
-        KINOP <span id="kinopToday">0%</span>
-      </strong>
+  <!-- ================= BARIS ATAS ================= -->
+  <div class="operation-layout">
+
+    <div class="operation-cards">
+      <div class="op-card">
+        <div class="op-title">TOTAL KA PENUMPANG</div>
+        <div class="circle-row">
+          <div class="circle-card">
+            <span>BERANGKAT LAMBAT</span>
+            <strong id="penumpangBerangkat">0</strong>
+          </div>
+          <div class="circle-card">
+            <span>DATANG LAMBAT</span>
+            <strong id="penumpangDatang">0</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="op-card">
+        <div class="op-title">TOTAL KA BARANG</div>
+        <div class="circle-row">
+          <div class="circle-card">
+            <span>BERANGKAT LAMBAT</span>
+            <strong id="barangBerangkat">0</strong>
+          </div>
+          <div class="circle-card">
+            <span>DATANG LAMBAT</span>
+            <strong id="barangDatang">0</strong>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="panel-body">
-      <canvas id="otpKinopChart" height="100"></canvas>
+    <div class="operation-chart">
+      <div class="performance-value">98.6%</div>
+      <canvas id="operationChart1"></canvas>
     </div>
+
   </div>
 
-  <!-- KELKA DATANG -->
+  <!-- ================= BARIS BAWAH ================= -->
+  <div class="operation-layout">
+
+    <div class="operation-cards">
+      <div class="op-card">
+        <div class="op-title">TOTAL MENIT KA PENUMPANG</div>
+        <div class="circle-row">
+          <div class="circle-card warning-card">
+            <span>BERANGKAT LAMBAT</span>
+            <strong id="menitPenumpangBerangkat">0</strong>
+          </div>
+          <div class="circle-card warning-card">
+            <span>DATANG LAMBAT</span>
+            <strong id="menitPenumpangDatang">0</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="op-card">
+        <div class="op-title">TOTAL MENIT KA BARANG</div>
+        <div class="circle-row">
+          <div class="circle-card warning-card">
+            <span>BERANGKAT LAMBAT</span>
+            <strong id="menitBarangBerangkat">0</strong>
+          </div>
+          <div class="circle-card warning-card">
+            <span>DATANG LAMBAT</span>
+            <strong id="menitBarangDatang">0</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="operation-chart">
+      <div class="performance-value">94.6%</div>
+      <canvas id="operationChart2"></canvas>
+    </div>
+
+  </div>
+
+  <!-- ================= PANEL KELKA DATANG ================= -->
   <div class="panel">
     <div class="panel-header">
       <span>KELKA DATANG</span>
       <span class="badge">REALTIME</span>
     </div>
-
     <div class="panel-body table-responsive">
       <table class="rocc-table">
         <thead>
@@ -123,20 +281,17 @@
             <th>Kelambatan KA</th>
           </tr>
         </thead>
-        <tbody id="kelkaDatangTable">
-          <!-- AUTO FROM SPREADSHEET -->
-        </tbody>
+        <tbody id="kelkaDatangTable"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- KELKA BERANGKAT -->
+  <!-- ================= PANEL KELKA BERANGKAT ================= -->
   <div class="panel">
     <div class="panel-header">
       <span>KELKA BERANGKAT</span>
       <span class="badge">REALTIME</span>
     </div>
-
     <div class="panel-body table-responsive">
       <table class="rocc-table">
         <thead>
@@ -149,74 +304,175 @@
             <th>Kelambatan KA</th>
           </tr>
         </thead>
-        <tbody id="kelkaBerangkatTable">
-          <!-- AUTO FROM SPREADSHEET -->
-        </tbody>
+        <tbody id="kelkaBerangkatTable"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- DATA STAMFORMASI -->
-  <div class="panel">
-    <div class="panel-header">
-      <span>DATA STAMFORMASI KA</span>
-    </div>
 
-    <div class="panel-body table-responsive">
-      <table class="rocc-table">
-        <thead>
-          <tr>
-            <th>KA</th>
-            <th>Relasi</th>
-            <th>Stamformasi</th>
-            <th>Jumlah Kereta</th>
-            <th>Keterangan</th>
-          </tr>
-        </thead>
-        <tbody id="stamformasiTable">
-          <!-- AUTO FROM SPREADSHEET -->
-        </tbody>
-      </table>
-    </div>
+<!-- KETERSEDIAAN SARANA -->
+<div class="panel">
+
+  <div class="panel-header">
+    <span>KETERSEDIAAN SARANA</span>
   </div>
 
-  <!-- KETERSEDIAAN SARANA -->
-  <div class="panel">
-    <div class="panel-header">
-      <span>KETERSEDIAAN SARANA</span>
+  <!-- TAB -->
+  <div class="sarana-tabs">
+    <div class="sarana-tab active" data-type="lokomotif">LOKOMOTIF</div>
+    <div class="sarana-tab" data-type="krd">KRD</div>
+    <div class="sarana-tab" data-type="kereta">KERETA</div>
+    <div class="sarana-tab" data-type="gerbong">GERBONG</div>
+    <div class="sarana-tab" data-type="peralatan">PERALATAN KHUSUS</div>
+  </div>
+
+  <!-- CARD NORMAL -->
+  <div class="sarana-cards" id="saranaCards">
+
+    <div class="sarana-card" data-key="sg" onclick="toggleNote(this)">
+      <div class="card-title">SG</div>
+      <div class="card-number">0</div>
+      <div class="card-note"></div>
     </div>
 
-    <div class="panel-body table-responsive">
-      <table class="rocc-table">
-        <thead>
-          <tr>
-            <th>Jenis Sarana</th>
-            <th>Siap Operasi</th>
-            <th>Tidak Siap</th>
-            <th>Keterangan</th>
-          </tr>
-        </thead>
-        <tbody id="saranaTable">
-          <!-- AUTO FROM SPREADSHEET -->
-        </tbody>
-      </table>
+    <div class="sarana-card" data-key="cadangan" onclick="toggleNote(this)">
+      <div class="card-title">CADANGAN</div>
+      <div class="card-number">0</div>
+      <div class="card-note"></div>
     </div>
+
+    <div class="sarana-card" data-key="tso" onclick="toggleNote(this)">
+      <div class="card-title">TSO</div>
+      <div class="card-number">0</div>
+      <div class="card-note"></div>
+    </div>
+
+    <div class="sarana-card" data-key="tsgo" onclick="toggleNote(this)">
+      <div class="card-title">TSGO</div>
+      <div class="card-number">0</div>
+      <div class="card-note"></div>
+    </div>
+
+    <div class="sarana-card" data-key="kirim" onclick="toggleNote(this)">
+      <div class="card-title">KIRIM ASISTENSI</div>
+      <div class="card-number">0</div>
+      <div class="card-note"></div>
+    </div>
+
+    <div class="sarana-card" data-key="terima" onclick="toggleNote(this)">
+      <div class="card-title">TERIMA ASISTENSI</div>
+      <div class="card-number">0</div>
+      <div class="card-note"></div>
+    </div>
+
+    <div class="sarana-card" data-key="lain" onclick="toggleNote(this)">
+      <div class="card-title">LAIN-LAIN</div>
+      <div class="card-number">0</div>
+      <div class="card-note"></div>
+    </div>
+
+  </div>
+
+  <!-- CARD KHUSUS PERALATAN -->
+  <div id="peralatanCard" class="peralatan-card" style="display:none;">
+
+    <div class="card-title">
+      PERALATAN KHUSUS
+    </div>
+
+    <div id="peralatan-note"></div>
+
   </div>
 
 </div>
-<!-- OPERASI KA -->
+
+
+ <!-- DATA STAMFORMASI -->
+<div class="panel">
+  <div class="panel-header">
+    <span>DATA STAMFORMASI KA</span>
+  </div>
+
+  <div class="panel-body">
+
+    <!-- KA PENUMPANG JARAK JAUH -->
+    <div class="sub-panel">
+      <div class="sub-panel-header">KA PENUMPANG JARAK JAUH</div>
+      <div class="table-responsive">
+        <table class="rocc-table">
+          <thead>
+            <tr>
+              <th>KA</th>
+              <th>Lokomotif</th>
+              <th>Stamformasi</th>
+              <th>Keterangan</th>
+            </tr>
+          </thead>
+          <tbody id="stamformasiJJ"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- KA PENUMPANG JARAK DEKAT / LOKAL -->
+    <div class="sub-panel">
+      <div class="sub-panel-header">KA PENUMPANG JARAK DEKAT / LOKAL</div>
+      <div class="table-responsive">
+        <table class="rocc-table">
+          <thead>
+            <tr>
+              <th>KA</th>
+              <th>Lokomotif</th>
+              <th>Stamformasi</th>
+              <th>Keterangan</th>
+            </tr>
+          </thead>
+          <tbody id="stamformasiLokal"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- KA TAMBAHAN -->
+    <div class="sub-panel">
+      <div class="sub-panel-header">KA TAMBAHAN</div>
+      <div class="table-responsive">
+        <table class="rocc-table">
+          <thead>
+            <tr>
+              <th>KA</th>
+              <th>Lokomotif</th>
+              <th>Stamformasi</th>
+              <th>Keterangan</th>
+            </tr>
+          </thead>
+          <tbody id="stamformasiTambahan"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- =========================
+     2. 🚆 OPERASI KA
+========================= -->
 <div class="tab-content" id="operasi">
   <div style="text-align:center; opacity:.6; padding:30px;">
     Data Operasi KA – Coming Soon
   </div>
 </div>
 
-<!-- REGULASI (PDF) -->
+<!-- =========================
+     3. 📄 REGULASI
+========================= -->
 <div class="tab-content" id="regulasi">
   <div class="pdf-list" id="pdfList">Loading PDF...</div>
 </div>
 
-<!-- MEDIA (VIDEO) -->
+<!-- =========================
+    4. 🎬 MEDIA
+========================= -->
 <div class="tab-content" id="video">
 
   <div class="video-layout">
@@ -228,7 +484,10 @@
 
 </div>
 
-<!-- LOG KEJADIAN -->
+
+<!-- =========================
+     5. 📰 LOG KEJADIAN
+========================= -->
 <div class="tab-content" id="log">
   <div style="text-align:center; opacity:.6; padding:30px;">
     Log Kejadian Operasional – Coming Soon
