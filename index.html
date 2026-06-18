@@ -159,7 +159,7 @@
     </div>
 
     <div class="kpi-card warning">
-    <div class="kpi-title">
+  <div class="kpi-title">
     <span>REALISASI PERJALANAN KA</span>
     <span class="sub-title">BERDASARKAN KEBERANGKATAN KA</span>
   </div>
@@ -387,7 +387,10 @@
 </div>
 
 
- <!-- DATA STAMFORMASI -->
+
+
+<!-- DATA STAMFORMASI -->
+
 <div class="panel">
   <div class="panel-header">
     <span>DATA STAMFORMASI KA</span>
@@ -395,61 +398,90 @@
 
   <div class="panel-body">
 
-    <!-- KA PENUMPANG JARAK JAUH -->
-    <div class="sub-panel">
-      <div class="sub-panel-header">KA PENUMPANG JARAK JAUH</div>
-      <div class="table-responsive">
-        <table class="rocc-table">
-          <thead>
-            <tr>
-              <th>KA</th>
-              <th>Lokomotif</th>
-              <th>Stamformasi</th>
-              <th>Keterangan</th>
-            </tr>
-          </thead>
-          <tbody id="stamformasiJJ"></tbody>
-        </table>
-      </div>
-    </div>
+    <div class="stam-grid">
 
-    <!-- KA PENUMPANG JARAK DEKAT / LOKAL -->
-    <div class="sub-panel">
-      <div class="sub-panel-header">KA PENUMPANG JARAK DEKAT / LOKAL</div>
-      <div class="table-responsive">
-        <table class="rocc-table">
-          <thead>
-            <tr>
-              <th>KA</th>
-              <th>Lokomotif</th>
-              <th>Stamformasi</th>
-              <th>Keterangan</th>
-            </tr>
-          </thead>
-          <tbody id="stamformasiLokal"></tbody>
-        </table>
-      </div>
-    </div>
+      <!-- JARAK JAUH -->
+      <div class="stam-category">
+        <div class="category-header jj">
+          <span>KA PENUMPANG JARAK JAUH</span>
+          <span class="badge-ka" id="countJJ">0 KA</span>
+        </div>
 
-    <!-- KA TAMBAHAN -->
-    <div class="sub-panel">
-      <div class="sub-panel-header">KA TAMBAHAN</div>
-      <div class="table-responsive">
-        <table class="rocc-table">
-          <thead>
-            <tr>
-              <th>KA</th>
-              <th>Lokomotif</th>
-              <th>Stamformasi</th>
-              <th>Keterangan</th>
-            </tr>
-          </thead>
-          <tbody id="stamformasiTambahan"></tbody>
-        </table>
+        <input
+          type="text"
+          class="ka-search"
+          placeholder="Cari KA..."
+          onkeyup="filterKA(this,'stamformasiJJ')"
+        >
+
+        <div class="ka-list" id="stamformasiJJ"></div>
       </div>
+
+      <!-- LOKAL -->
+      <div class="stam-category">
+        <div class="category-header lokal">
+          <span>KA PENUMPANG LOKAL</span>
+          <span class="badge-ka" id="countLokal">0 KA</span>
+        </div>
+
+        <input
+          type="text"
+          class="ka-search"
+          placeholder="Cari KA..."
+          onkeyup="filterKA(this,'stamformasiLokal')"
+        >
+
+        <div class="ka-list" id="stamformasiLokal"></div>
+      </div>
+
+      <!-- TAMBAHAN -->
+      <div class="stam-category">
+        <div class="category-header tambahan">
+          <span>KA TAMBAHAN</span>
+          <span class="badge-ka" id="countTambahan">0 KA</span>
+        </div>
+
+        <input
+          type="text"
+          class="ka-search"
+          placeholder="Cari KA..."
+          onkeyup="filterKA(this,'stamformasiTambahan')"
+        >
+
+        <div class="ka-list" id="stamformasiTambahan"></div>
+      </div>
+
     </div>
 
   </div>
+</div>
+
+<!-- ==========================================
+     MODAL DETAIL KA
+========================================== -->
+
+<div id="kaModal" class="ka-modal">
+
+  <div class="ka-modal-content">
+
+    <div class="ka-modal-header">
+
+      <span id="modalNamaKA">
+        DETAIL KA
+      </span>
+
+      <button
+        class="ka-modal-close"
+        onclick="closeKAModal()">
+        ✕
+      </button>
+
+    </div>
+
+    <div id="modalContent"></div>
+
+  </div>
+
 </div>
 
 
