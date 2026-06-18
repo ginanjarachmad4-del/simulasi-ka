@@ -59,14 +59,19 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   });
 
-  loadKinerjaOperasi();
-  loadKelkaDatang();
-  loadKelkaBerangkat();
-  loadKelkaDatangTable();
-  loadKelkaBerangkatTable();
-  loadJumlahKA();
-  loadStamformasi();
-  loadSarana("lokomotif");
+loadKinerjaOperasi();
+
+loadKelkaDatang();
+loadKelkaBerangkat();
+
+loadKelkaDatangList();
+loadKelkaBerangkatList();
+
+loadJumlahKA();
+
+loadStamformasi();
+
+loadSarana("lokomotif");
 });
 
 /* ===============================================
@@ -93,47 +98,6 @@ async function loadKelkaBerangkat(){
 setInterval(loadKelkaDatang, 60000);
 setInterval(loadKelkaBerangkat, 60000);
 
-/* ===============================================
-   TABLE
-================================================ */
-async function renderKelkaTable(type, tableId){
-  const tbody = document.getElementById(tableId);
-
-  try {
-    const j = await fetch(API_KELKA + "?type=" + type).then(r=>r.json());
-    tbody.innerHTML = "";
-
-    if (!j.data?.length) {
-      tbody.innerHTML =
-        `<tr><td colspan="6" style="text-align:center;opacity:.6">Tidak ada data</td></tr>`;
-      return;
-    }
-
-    j.data.forEach(x => {
-      const telat = Number(x.kelambatan) || 0;
-
-      tbody.innerHTML += `
-        <tr>
-          <td>${x.nomorKA ?? "-"}</td>
-          <td>${x.jenisKA ?? "-"}</td>
-          <td>${x.namaKA ?? "-"}</td>
-          <td>${x.lintas ?? "-"}</td>
-          <td>${x.jam ?? "-"}</td>
-          <td>${telat} menit</td>
-        </tr>`;
-    });
-
-  } catch {
-    tbody.innerHTML =
-      `<tr><td colspan="6" style="color:red;text-align:center">Gagal load data</td></tr>`;
-  }
-}
-
-function loadKelkaDatangTable(){ renderKelkaTable("datang","kelkaDatangTable"); }
-function loadKelkaBerangkatTable(){ renderKelkaTable("berangkat","kelkaBerangkatTable"); }
-
-setInterval(loadKelkaDatangTable, 60000);
-setInterval(loadKelkaBerangkatTable, 60000);
 
 /* ===============================================
    GAUGE FIX (INI KUNCI)
@@ -455,16 +419,247 @@ document.addEventListener("click",function(e){
 
 });
 
-document.addEventListener("click", function(e){
 
-  const modal =
-    document.getElementById("kaModal");
+/* ===============================================
+   PANEL KELKA V2
+   ROCC MODERN CARD + MODAL
+================================================ */
 
-  if(e.target === modal){
-    closeKAModal();
+async function loadKelkaDatangList(){
+
+  try{
+
+    const j = await fetch(
+      API_KELKA + "?type=datang"
+    ).then(r=>r.json());
+
+    renderKelka(
+      "kelkaDatangList",
+      j.data,
+      "countKelkaDatang"
+    );
+
+  }catch(err){
+
+    console.error(err);
+
   }
 
-});
+}
+
+async function loadKelkaBerangkatList(){
+
+  try{
+
+    const j = await fetch(
+      API_KELKA + "?type=berangkat"
+    ).then(r=>r.json());
+
+    renderKelka(
+      "kelkaBerangkatList",
+      j.data,
+      "countKelkaBerangkat"
+    );
+
+  }catch(err){
+
+    console.error(err);
+
+  }
+
+}
+
+function renderKelka(
+  id,
+  data,
+  countId
+){
+
+  const container =
+    document.getElementById(id);
+
+  const counter =
+    document.getElementById(countId);
+
+  if(!container) return;
+
+  container.innerHTML = "";
+
+  if(!data || data.length === 0){
+
+    container.innerHTML = `
+
+      <div class="kelka-item">
+
+        <div class="kelka-nama">
+          Tidak ada data
+        </div>
+
+      </div>
+
+    `;
+
+    if(counter){
+      counter.textContent = "0 KA";
+    }
+
+    return;
+  }
+
+  if(counter){
+    counter.textContent =
+      `${data.length} KA`;
+  }
+
+  let html = "";
+
+  data.forEach(x=>{
+
+    html += `
+
+      <div
+        class="kelka-item"
+        onclick='showKelkaDetail(${JSON.stringify(x)})'
+      >
+
+        <div class="kelka-left">
+
+          <div class="kelka-icon">
+            🚆
+          </div>
+
+          <div class="kelka-info">
+
+            <div class="kelka-nama">
+              ${x.namaKA ?? "-"}
+            </div>
+
+            <div class="kelka-nomor">
+              KA ${x.nomorKA ?? "-"}
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="kelka-delay">
+
+          ${x.kelambatan ?? 0}
+          Menit
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+  container.innerHTML = `
+
+    <div class="kelka-list-inner">
+
+      ${html}
+      ${html}
+
+    </div>
+
+  `;
+
+}
+
+function showKelkaDetail(data){
+
+  document.getElementById(
+    "modalNamaKA"
+  ).textContent =
+    `🚆 ${data.namaKA || "-"}`;
+
+  document.getElementById(
+    "modalContent"
+  ).innerHTML = `
+
+    <div style="margin-bottom:14px">
+
+      <b style="color:#38bdf8">
+        Nomor KA
+      </b>
+
+      <div>
+        ${data.nomorKA || "-"}
+      </div>
+
+    </div>
+
+    <div style="margin-bottom:14px">
+
+      <b style="color:#38bdf8">
+        Jenis KA
+      </b>
+
+      <div>
+        ${data.jenisKA || "-"}
+      </div>
+
+    </div>
+
+    <div style="margin-bottom:14px">
+
+      <b style="color:#38bdf8">
+        Lintas
+      </b>
+
+      <div>
+        ${data.lintas || "-"}
+      </div>
+
+    </div>
+
+    <div style="margin-bottom:14px">
+
+      <b style="color:#38bdf8">
+        Jam
+      </b>
+
+      <div>
+        ${data.jam || "-"}
+      </div>
+
+    </div>
+
+    <div>
+
+      <b style="color:#ef4444">
+        Kelambatan
+      </b>
+
+      <div>
+        ${data.kelambatan || 0}
+        Menit
+      </div>
+
+    </div>
+
+  `;
+
+  document
+    .getElementById("kaModal")
+    .classList.add("show");
+
+}
+
+/* AUTO REFRESH */
+
+setInterval(
+  loadKelkaDatangList,
+  60000
+);
+
+setInterval(
+  loadKelkaBerangkatList,
+  60000
+);
+
 
 
 /* ===============================================
