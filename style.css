@@ -1360,7 +1360,7 @@ body{
   flex-direction:column;
   gap:10px;
 
-  animation:kelkaScroll 200s linear infinite;
+  animation:kelkaScroll 180s linear infinite;
 }
 
 .kelka-list:hover .kelka-list-inner{
