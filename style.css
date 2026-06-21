@@ -979,11 +979,21 @@ body{
 ================================================= */
 
 .operation-chart{
-  background:#0f172a;
-  border:1px solid #1e293b;
+  background:#ffffff;
+  border:1px solid #d1d5db;
   border-radius:12px;
-  padding:16px;
-  position:relative;
+  padding:20px;
+  min-height:320px;
+}
+
+.operation-chart2{
+  background:#ffffff;
+  border:1px solid #d1d5db;
+  border-radius:12px;
+  padding:20px;
+  height:320px;          /* 🔥 naikkan sedikit */
+  display:flex;         /* 🔥 penting */
+  flex-direction:column;
 }
 
 .performance-value{
@@ -995,8 +1005,15 @@ body{
   color:#22c55e;
 }
 
+#ketepatanChart{
+  width:100% !important;
+  height:100% !important;
+}
 
-
+#kelambatanChart{
+  width:100% !important;
+  height:100% !important;
+}
 
 /* =====================================================
    DATA STAMFORMASI V3
@@ -1156,7 +1173,7 @@ body{
   display:flex;
   align-items:center;
 }
-
+ 
 /* LED STATUS */
 
 .ka-icon::before{
@@ -1360,7 +1377,7 @@ body{
   flex-direction:column;
   gap:10px;
 
-  animation:kelkaScroll 190s linear infinite;
+  animation:kelkaScroll 400s linear infinite;
 }
 
 .kelka-list:hover .kelka-list-inner{
@@ -1429,20 +1446,25 @@ body{
 .kelka-icon::before{
 
   content:"";
-
+  display:inline-block;
   width:8px;
   height:8px;
 
   border-radius:50%;
 
-  background:#ef4444;
-
-  display:inline-block;
-
   margin-right:8px;
 
   animation:blinkKelka 1.5s infinite;
 }
+
+.kelka-icon.tepat::before{
+  background:#22c55e;
+}
+
+.kelka-icon.lambat::before{
+  background:#ef4444;
+}
+
 
 @keyframes blinkKelka{
 
@@ -1459,23 +1481,20 @@ body{
 }
 
 .kelka-nama{
-
-  color:#fff;
-
-  font-size:13px;
-  font-weight:600;
+  font-size:11px;
+  color:#cbd5e1;
+  text-transform:uppercase;
 }
 
+
 .kelka-nomor{
-
-  color:#94a3b8;
-
-  font-size:11px;
+  font-size:17px;
+  font-weight:800;
+  color:#38bdf8;
+  letter-spacing:.5px;
 }
 
 .kelka-delay{
-
-  background:#ef4444;
 
   color:#fff;
 
@@ -1489,11 +1508,25 @@ body{
   white-space:nowrap;
 }
 
-/* BADGE REALTIME */
+.kelka-delay.tepat{
+  background:#22c55e; /* Hijau */
+}
+
+.kelka-delay.lambat{
+  background:#ef4444; /* Merah */
+}
+
+.kelka-jam{
+  font-size:14px !important;
+  color:#FFA500 !important;
+  letter-spacing:.3px;
+}
+
+/* ==========================================
+   BADGE HEADER KELKA
+========================================== */
 
 .badge{
-
-  background:#ef4444;
 
   color:#fff;
 
@@ -1505,6 +1538,18 @@ body{
   font-weight:700;
 
   animation:pulseRealtime 2s infinite;
+}
+
+/* BERANGKAT = BIRU */
+
+#countKelkaBerangkat{
+  background:#2563eb;
+}
+
+/* DATANG = ORANGE */
+
+#countKelkaDatang{
+  background:#f97316;
 }
 
 @keyframes pulseRealtime{
