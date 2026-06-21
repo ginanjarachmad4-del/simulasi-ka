@@ -160,8 +160,8 @@
 
     <div class="kpi-card warning">
   <div class="kpi-title">
-    <span>REALISASI PERJALANAN KA</span>
-    <span class="sub-title">BERDASARKAN KEBERANGKATAN KA</span>
+    <span>REALISASI KEBERANGKATAN KA</span>
+    
   </div>
   <div class="kpi-value" id="kpi-realisasi">0</div>
 </div>
@@ -183,87 +183,107 @@
 
   </div>
 
-  <!-- ================= BARIS ATAS ================= -->
-  <div class="operation-layout">
+<!-- ================= BARIS ATAS ================= -->
+<div class="operation-layout">
 
-    <div class="operation-cards">
-      <div class="op-card">
-        <div class="op-title">TOTAL KA PENUMPANG</div>
-        <div class="circle-row">
-          <div class="circle-card">
-            <span>BERANGKAT LAMBAT</span>
-            <strong id="penumpangBerangkat">0</strong>
-          </div>
-          <div class="circle-card">
-            <span>DATANG LAMBAT</span>
-            <strong id="penumpangDatang">0</strong>
-          </div>
+  <!-- LEFT SIDE -->
+  <div class="operation-cards">
+
+    <div class="op-card">
+      <div class="op-title">TOTAL KA PENUMPANG</div>
+
+      <div class="circle-row">
+        <div class="circle-card">
+          <span>BERANGKAT LAMBAT</span>
+          <strong id="penumpangBerangkat">0</strong>
         </div>
-      </div>
 
-      <div class="op-card">
-        <div class="op-title">TOTAL KA BARANG</div>
-        <div class="circle-row">
-          <div class="circle-card">
-            <span>BERANGKAT LAMBAT</span>
-            <strong id="barangBerangkat">0</strong>
-          </div>
-          <div class="circle-card">
-            <span>DATANG LAMBAT</span>
-            <strong id="barangDatang">0</strong>
-          </div>
+        <div class="circle-card">
+          <span>DATANG LAMBAT</span>
+          <strong id="penumpangDatang">0</strong>
         </div>
       </div>
     </div>
 
-    <div class="operation-chart">
-      <div class="performance-value">98.6%</div>
-      <canvas id="operationChart1"></canvas>
+    <div class="op-card">
+      <div class="op-title">TOTAL KA BARANG</div>
+
+      <div class="circle-row">
+        <div class="circle-card">
+          <span>BERANGKAT LAMBAT</span>
+          <strong id="barangBerangkat">0</strong>
+        </div>
+
+        <div class="circle-card">
+          <span>DATANG LAMBAT</span>
+          <strong id="barangDatang">0</strong>
+        </div>
+      </div>
     </div>
 
   </div>
 
-  <!-- ================= BARIS BAWAH ================= -->
-  <div class="operation-layout">
+  <!-- RIGHT CHART -->
+<div class="operation-chart">
 
-    <div class="operation-cards">
-      <div class="op-card">
-        <div class="op-title">TOTAL MENIT KA PENUMPANG</div>
-        <div class="circle-row">
-          <div class="circle-card warning-card">
-            <span>BERANGKAT LAMBAT</span>
-            <strong id="menitPenumpangBerangkat">0</strong>
-          </div>
-          <div class="circle-card warning-card">
-            <span>DATANG LAMBAT</span>
-            <strong id="menitPenumpangDatang">0</strong>
-          </div>
+  <!-- 🔥 CHART KETEPATAN KA -->
+  <canvas id="ketepatanChart"></canvas>
+
+</div>
+
+</div>
+
+
+<!-- ================= BARIS BAWAH ================= -->
+<div class="operation-layout">
+
+  <!-- LEFT SIDE -->
+  <div class="operation-cards">
+
+    <div class="op-card">
+      <div class="op-title">TOTAL MENIT KA PENUMPANG</div>
+
+      <div class="circle-row">
+        <div class="circle-card warning-card">
+          <span>BERANGKAT LAMBAT</span>
+          <strong id="menitPenumpangBerangkat">0</strong>
         </div>
-      </div>
 
-      <div class="op-card">
-        <div class="op-title">TOTAL MENIT KA BARANG</div>
-        <div class="circle-row">
-          <div class="circle-card warning-card">
-            <span>BERANGKAT LAMBAT</span>
-            <strong id="menitBarangBerangkat">0</strong>
-          </div>
-          <div class="circle-card warning-card">
-            <span>DATANG LAMBAT</span>
-            <strong id="menitBarangDatang">0</strong>
-          </div>
+        <div class="circle-card warning-card">
+          <span>DATANG LAMBAT</span>
+          <strong id="menitPenumpangDatang">0</strong>
         </div>
       </div>
     </div>
 
-    <div class="operation-chart">
-      <div class="performance-value">94.6%</div>
-      <canvas id="operationChart2"></canvas>
+    <div class="op-card">
+      <div class="op-title">TOTAL MENIT KA BARANG</div>
+
+      <div class="circle-row">
+        <div class="circle-card warning-card">
+          <span>BERANGKAT LAMBAT</span>
+          <strong id="menitBarangBerangkat">0</strong>
+        </div>
+
+        <div class="circle-card warning-card">
+          <span>DATANG LAMBAT</span>
+          <strong id="menitBarangDatang">0</strong>
+        </div>
+      </div>
     </div>
 
   </div>
 
-  
+  <!-- RIGHT CHART -->
+<div class="operation-chart2">
+
+  <!-- 🔥 CHART KELAMBATAN KA -->
+  <canvas id="kelambatanChart"></canvas>
+
+</div>
+
+</div>
+
 <!-- ==========================================
      KELKA V2
      2 CARD SEJAJAR
@@ -293,11 +313,11 @@
         type="text"
         class="ka-search"
         placeholder="🔍 Cari KA..."
-        onkeyup="filterKA(this,'kelkaBerangkatList')"
+        onkeyup="filterKelka(this,'kelkaBerangkatList')"
       >
 
       <div
-        class="ka-list"
+        class="kelka-list"
         id="kelkaBerangkatList">
       </div>
 
@@ -328,11 +348,11 @@
         type="text"
         class="ka-search"
         placeholder="🔍 Cari KA..."
-        onkeyup="filterKA(this,'kelkaDatangList')"
+        onkeyup="filterKelka(this,'kelkaDatangList')"
       >
 
       <div
-        class="ka-list"
+        class="kelka-list"
         id="kelkaDatangList">
       </div>
 
@@ -576,6 +596,11 @@
   </div>
 </div>
 
+<!-- CHART LIBRARY (WAJIB DI ATAS JS KAMU) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<!--MAIN JS -->
 <script src="app.js"></script>
 
 </body>
