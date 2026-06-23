@@ -11,9 +11,9 @@
 
 <body>
 
-<!-- =========================
+<!--==========================================================
      LANDING LOGIN
-========================= -->
+========================================================== -->
 
 <div id="landing">
 
@@ -43,9 +43,9 @@
 </div>
 
 
-<!-- =========================
+<!-- =========================================================
      HEADER PAGE UTAMA
-========================= -->
+===============================================================-->
 
 <header class="main-header">
 
@@ -82,9 +82,9 @@
 
 </header>
 
-<!-- =========================
+<!-- ===========================================================
     TABS PAGE UTAMA
-========================= -->
+============================================================= -->
 
 <div class="tabs">
 
@@ -96,92 +96,197 @@
 
 </div>
 
-<!-- =========================
-     1. 📊 DASHBOARD
-========================= -->
-<div class="tab-content active" id="dashboard">
+<!--=========================================
+KA PENUMPANG
+==========================================-->
 
-  <!-- ================= KINERJA OPERASI ================= -->
-  <div class="dashboard-row">
+<div class="section-title-pnp">KA PENUMPANG</div>
 
-    <div class="performance-card">
-      <div class="performance-header">
-        <div class="title">📈 KINERJA OPERASI</div>
-        <div class="subtitle">Operation Performance</div>
-      </div>
+<div class="dashboard-top-row">
 
-      <div class="performance-body">
-        <div class="gauge-container">
-
-          <!-- BERANGKAT -->
-          <div class="gauge-item">
-            <div class="gauge">
-              <svg viewBox="0 0 120 70">
-                <path
-  d="M10 60 A50 50 0 0 1 110 60"
-  class="gauge-bg"
-  pathLength="100"
-/>
-               <path
-  d="M10 60 A50 50 0 0 1 110 60"
-  class="gauge-blue"
-  pathLength="100"
-/>
-              </svg>
-              <div class="gauge-value" id="kpi-berangkat">--%</div>
-            </div>
-            <div class="gauge-label">BERANGKAT</div>
-          </div>
-
-          <!-- DATANG -->
-          <div class="gauge-item">
-            <div class="gauge">
-              <svg viewBox="0 0 120 70">
-                 <path
-  d="M10 60 A50 50 0 0 1 110 60"
-  class="gauge-bg"
-  pathLength="100"
-/>
-
-                <path
-  d="M10 60 A50 50 0 0 1 110 60"
-  class="gauge-orange"
-  pathLength="100"
-/>
-              </svg>
-               <div class="gauge-value" id="kpi-datang">--%</div>
-            </div>
-            <div class="gauge-label">DATANG</div>
-          </div>
-
-        </div>
-      </div>
+  <!-- PROGRAM -->
+  <div class="performance-card program-card">
+    <div class="performance-header">
+      <div class="title">📊 PROGRAM KINERJA OPERASI</div>
+      <div class="subtitle">Program Performance</div>
     </div>
 
-    <div class="kpi-card warning">
-  <div class="kpi-title">
-    <span>REALISASI KEBERANGKATAN KA</span>
-    
+    <div class="performance-body">
+      <div class="gauge-container">
+
+        <div class="gauge-item prog">
+          <div class="gauge">
+            <svg viewBox="0 0 120 70">
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-blue" pathLength="100"/>
+            </svg>
+            <div class="gauge-value" id="kpi-berangkat-prog">--%</div>
+          </div>
+          <div class="gauge-label">BERANGKAT</div>
+        </div>
+
+        <div class="gauge-item prog">
+          <div class="gauge">
+            <svg viewBox="0 0 120 70">
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-yellow" pathLength="100"/>
+            </svg>
+            <div class="gauge-value" id="kpi-datang-prog">--%</div>
+          </div>
+          <div class="gauge-label">DATANG</div>
+        </div>
+
+      </div>
+    </div>
   </div>
-  <div class="kpi-value" id="kpi-realisasi">0</div>
-</div>
 
-    <div class="kpi-card info">
-  <div class="kpi-title">ANTAR KOTA</div>
-  <div class="kpi-value" id="kpi-antarkota">0</div>
-</div>
+  <!-- KINERJA -->
+  <div class="performance-card kinerja-card">
+    <div class="performance-header">
+      <div class="title">📈 REALISASI KINERJA OPERASI</div>
+      <div class="subtitle">Operation Performance</div>
+    </div>
 
-<div class="kpi-card success">
-  <div class="kpi-title">PERKOTAAN</div>
-  <div class="kpi-value" id="kpi-perkotaan">0</div>
-</div>
+    <div class="performance-body">
+      <div class="gauge-container">
 
-<div class="kpi-card new">
-  <div class="kpi-title">BARANG</div>
-  <div class="kpi-value" id="kpi-barang">0</div>
-</div>
+        <div class="gauge-item">
+          <div class="gauge">
+            <svg viewBox="0 0 120 70">
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-green" pathLength="100"/>
+            </svg>
+            <div class="gauge-value" id="kpi-berangkat">--%</div>
+          </div>
+          <div class="gauge-label">BERANGKAT</div>
+        </div>
 
+        <div class="gauge-item">
+          <div class="gauge">
+            <svg viewBox="0 0 120 70">
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-orange" pathLength="100"/>
+            </svg>
+            <div class="gauge-value" id="kpi-datang">--%</div>
+          </div>
+          <div class="gauge-label">DATANG</div>
+        </div>
+
+      </div>
+    </div>
   </div>
+
+  <!-- REALISASI -->
+  <div class="kpi-card warning">
+    <div class="kpi-title">REALISASI KEBERANGKATAN KA</div>
+    <div class="kpi-value" id="kpi-realisasi">0</div>
+  </div>
+
+  <!-- ANTARKOTA -->
+  <div class="kpi-card info">
+    <div class="kpi-title">ANTAR KOTA</div>
+    <div class="kpi-value" id="kpi-antarkota">0</div>
+  </div>
+
+  <!-- PERKOTAAN -->
+  <div class="kpi-card success">
+    <div class="kpi-title">PERKOTAAN</div>
+    <div class="kpi-value" id="kpi-perkotaan">0</div>
+  </div>
+
+</div>
+
+
+<!--=========================================
+KA BARANG
+==========================================-->
+
+<div class="section-title-brg">KA BARANG</div>
+
+<div class="dashboard-top-row barang-row">
+
+  <!-- PROGRAM -->
+  <div class="performance-card program-card">
+
+    <div class="performance-header">
+      <div class="title">📊 PROGRAM KINERJA OPERASI</div>
+      <div class="subtitle">Program Performance</div>
+    </div>
+
+    <div class="performance-body">
+      <div class="gauge-container">
+
+        <div class="gauge-item prog">
+          <div class="gauge">
+            <svg viewBox="0 0 120 70">
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-blue" pathLength="100"/>
+            </svg>
+            <div class="gauge-value" id="kpi-barang-berangkat-prog">--%</div>
+          </div>
+          <div class="gauge-label">BERANGKAT</div>
+        </div>
+
+        <div class="gauge-item prog">
+          <div class="gauge">
+            <svg viewBox="0 0 120 70">
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-yellow" pathLength="100"/>
+            </svg>
+            <div class="gauge-value" id="kpi-barang-datang-prog">--%</div>
+          </div>
+          <div class="gauge-label">DATANG</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- KINERJA -->
+  <div class="performance-card">
+
+    <div class="performance-header">
+      <div class="title">📈 REALISASI KINERJA OPERASI</div>
+      <div class="subtitle">Operation Performance</div>
+    </div>
+
+    <div class="performance-body">
+      <div class="gauge-container">
+
+        <div class="gauge-item">
+          <div class="gauge">
+            <svg viewBox="0 0 120 70">
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-green" pathLength="100"/>
+            </svg>
+            <div class="gauge-value" id="kpi-barang-berangkat">--%</div>
+          </div>
+          <div class="gauge-label">BERANGKAT</div>
+        </div>
+
+        <div class="gauge-item">
+          <div class="gauge">
+            <svg viewBox="0 0 120 70">
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
+              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-orange" pathLength="100"/>
+            </svg>
+            <div class="gauge-value" id="kpi-barang-datang">--%</div>
+          </div>
+          <div class="gauge-label">DATANG</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- BARANG -->
+  <div class="kpi-card new">
+    <div class="kpi-title">BARANG</div>
+    <div class="kpi-value" id="kpi-barang">0</div>
+  </div>
+
+</div>
+
 
 <!-- ================= BARIS ATAS ================= -->
 <div class="operation-layout">
@@ -285,8 +390,7 @@
 </div>
 
 <!-- ==========================================
-     KELKA V2
-     2 CARD SEJAJAR
+     KELKA V2 - FINAL CLEAN FIX
 ========================================== -->
 
 <div class="kelka-grid">
@@ -295,15 +399,11 @@
 
   <div class="panel">
 
-    <div class="panel-header">
+    <div class="panel-header-berangkat">
       <span>KELKA BERANGKAT</span>
 
-      <span
-        class="badge"
-        id="countKelkaBerangkat">
-
+      <span class="badge" id="countKelkaBerangkat">
         0 KA
-
       </span>
     </div>
 
@@ -316,9 +416,9 @@
         onkeyup="filterKelka(this,'kelkaBerangkatList')"
       >
 
-      <div
-        class="kelka-list"
-        id="kelkaBerangkatList">
+      <!-- WRAPPER FIX -->
+      <div class="kelka-list" id="kelkaBerangkatList">
+        <div class="kelka-list-inner"></div>
       </div>
 
     </div>
@@ -330,15 +430,11 @@
 
   <div class="panel">
 
-    <div class="panel-header">
+    <div class="panel-header-datang">
       <span>KELKA DATANG</span>
 
-      <span
-        class="badge"
-        id="countKelkaDatang">
-
+      <span class="badge" id="countKelkaDatang">
         0 KA
-
       </span>
     </div>
 
@@ -351,9 +447,9 @@
         onkeyup="filterKelka(this,'kelkaDatangList')"
       >
 
-      <div
-        class="kelka-list"
-        id="kelkaDatangList">
+      <!-- WRAPPER FIX -->
+      <div class="kelka-list" id="kelkaDatangList">
+        <div class="kelka-list-inner"></div>
       </div>
 
     </div>
@@ -363,11 +459,14 @@
 </div>
 
 
+<!-- =========================================================
+     PANEL - KETERSEDIAAN SARANA
+============================================================ -->
 
 <!-- KETERSEDIAAN SARANA -->
 <div class="panel">
 
-  <div class="panel-header">
+  <div class="panel-header-sarana">
     <span>KETERSEDIAAN SARANA</span>
   </div>
 
@@ -407,19 +506,19 @@
       <div class="card-note"></div>
     </div>
 
-    <div class="sarana-card" data-key="kirim" onclick="toggleNote(this)">
+    <div class="sarana-card" data-key="kirim_asistensi" onclick="toggleNote(this)">
       <div class="card-title">KIRIM ASISTENSI</div>
       <div class="card-number">0</div>
       <div class="card-note"></div>
     </div>
 
-    <div class="sarana-card" data-key="terima" onclick="toggleNote(this)">
+    <div class="sarana-card" data-key="terima_asistensi" onclick="toggleNote(this)">
       <div class="card-title">TERIMA ASISTENSI</div>
       <div class="card-number">0</div>
       <div class="card-note"></div>
     </div>
 
-    <div class="sarana-card" data-key="lain" onclick="toggleNote(this)">
+    <div class="sarana-card" data-key="lain_lain" onclick="toggleNote(this)">
       <div class="card-title">LAIN-LAIN</div>
       <div class="card-number">0</div>
       <div class="card-note"></div>
@@ -446,7 +545,7 @@
 <!-- DATA STAMFORMASI -->
 
 <div class="panel">
-  <div class="panel-header">
+  <div class="panel-header-stam">
     <span>DATA STAMFORMASI KA</span>
   </div>
 
@@ -509,35 +608,6 @@
 
   </div>
 </div>
-
-<!-- ==========================================
-     MODAL DETAIL KA
-========================================== -->
-
-<div id="kaModal" class="ka-modal">
-
-  <div class="ka-modal-content">
-
-    <div class="ka-modal-header">
-
-      <span id="modalNamaKA">
-        DETAIL KA
-      </span>
-
-      <button
-        class="ka-modal-close"
-        onclick="closeKAModal()">
-        ✕
-      </button>
-
-    </div>
-
-    <div id="modalContent"></div>
-
-  </div>
-
-</div>
-
 
 
 <!-- =========================
