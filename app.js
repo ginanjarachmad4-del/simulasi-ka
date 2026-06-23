@@ -202,9 +202,14 @@ function updateChartTambahan(data){
 /* ===============================================
    API CONFIG
 ================================================ */
-const API_KELKA = "https://script.google.com/macros/s/AKfycbxvF8ZYLWzu1bgbHyCAGXH_0EsD3FUZ6AJbWZXEGv8fIlCRJ19upLgHAcv3Y_79d-g15A/exec";
-const API_OPERASI = "https://script.google.com/macros/s/AKfycbxvF8ZYLWzu1bgbHyCAGXH_0EsD3FUZ6AJbWZXEGv8fIlCRJ19upLgHAcv3Y_79d-g15A/exec";
+const API_KELKA = "https://script.google.com/macros/s/AKfycbxpMWC0T4O90ZEfQvLsqM8k8bLgmNhZmLItf0M0SuJqZAIVVKeY-6TiEb0EougTHXAljg/exec";
+
+const API_OPERASI = "https://script.google.com/macros/s/AKfycbxpMWC0T4O90ZEfQvLsqM8k8bLgmNhZmLItf0M0SuJqZAIVVKeY-6TiEb0EougTHXAljg/exec";
+
+const API_PROGRAM = "https://script.google.com/macros/s/AKfycbxpMWC0T4O90ZEfQvLsqM8k8bLgmNhZmLItf0M0SuJqZAIVVKeY-6TiEb0EougTHXAljg/exec";
+
 const API_STAMFORMASI = "https://script.google.com/macros/s/AKfycbzzWiI1JmawlYXsVjCVs9b9t3LdgvEl3Tw_pwQGSpRcdz99xuRoxhxfXW160DKvCbkd/exec";
+
 const API_SARANA = "https://script.google.com/macros/s/AKfycbz50G5lqeAfklW_sUZiD0IZh1uMTMkQGJAEp6kJMLC2EezdH8DNE_LOIPE35lLuElh35Q/exec";
 
 
@@ -261,6 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadStamformasi();
   loadSarana("lokomotif");
   loadOperasiDashboard();
+  loadProgramOperasi();
 });
 
 
@@ -290,24 +296,71 @@ setInterval(() => {
   loadKelkaBerangkatList();
 }, 60000);
 
-
 /* ===============================================
-   GAUGE
+   HELPER PERCENT
 ================================================ */
-function updateGauge(gaugeEl, percent) {
-  if (!gaugeEl) return;
-
-  const value = Math.max(0, Math.min(percent, 100));
-  const arc = gaugeEl.querySelector(".gauge-blue, .gauge-orange");
-  if (!arc) return;
-
-  arc.style.strokeDasharray = "100";
-  arc.style.strokeDashoffset = 100 - value;
-
-  if (arc.classList.contains("gauge-blue")) arc.style.stroke = "#2563eb";
-  if (arc.classList.contains("gauge-orange")) arc.style.stroke = "#f97316";
+function toPercent(v){
+  return (Number(v) || 0) * 100;
 }
 
+
+/* ===============================================
+   GAUGE SYSTEM (FINAL FIX - ROCC DASHBOARD)
+================================================ */
+
+function setGauge(idValue, percent){
+  const valueEl = document.getElementById(idValue);
+  if(!valueEl) return;
+
+  const gauge = valueEl.closest('.gauge');
+  if(!gauge) return;
+
+  // FIX: jangan ambil .gauge-arc (karena kamu pakai color class)
+  const path = gauge.querySelector('path.gauge-blue, path.gauge-green, path.gauge-orange, path.gauge-yellow');
+  if(!path) return;
+
+  const v = Math.max(0, Math.min(Number(percent) || 0, 100));
+
+  // FIX: cache length (jangan hitung ulang tiap update)
+  let length = path.getTotalLength();
+
+  if(!path.dataset.init){
+    path.style.strokeDasharray = length;
+    path.style.strokeDashoffset = length;
+    path.dataset.init = "true";
+  }
+
+  // animate
+  requestAnimationFrame(() => {
+    path.style.transition = "stroke-dashoffset .6s ease";
+    path.style.strokeDashoffset = length - (length * v / 100);
+  });
+
+  valueEl.textContent = v.toFixed(1) + "%";
+}
+
+/* ===============================================
+   PROGRAM OPERASI
+================================================ */
+async function loadProgramOperasi() {
+  try {
+    const r = await fetch(API_PROGRAM + "?mode=program");
+    const j = await r.json();
+
+    if (!j || j.mode !== "program") return;
+
+    // KA PENUMPANG
+    setGauge("kpi-berangkat-prog", toPercent(j.berangkatpnp));
+    setGauge("kpi-datang-prog", toPercent(j.datangpnp));
+
+    // KA BARANG
+    setGauge("kpi-barang-berangkat-prog", toPercent(j.berangkatbrg));
+    setGauge("kpi-barang-datang-prog", toPercent(j.datangbrg));
+
+  } catch (err) {
+    console.error("loadProgramOperasi error:", err);
+  }
+}
 
 /* ===============================================
    KINERJA OPERASI
@@ -317,25 +370,33 @@ async function loadKinerjaOperasi() {
     const r = await fetch(API_KELKA + "?mode=kinerja");
     const d = await r.json();
 
-    const berangkat = Number(d.berangkat) || 0;
-    const datang = Number(d.datang) || 0;
+    // KA PENUMPANG
+    setGauge("kpi-berangkat", toPercent (d.berangkatpnp));
+    setGauge("kpi-datang", toPercent (d.datangpnp));
 
-    const persenBerangkat = berangkat <= 1 ? berangkat * 100 : berangkat;
-    const persenDatang = datang <= 1 ? datang * 100 : datang;
-
-    document.getElementById("kpi-berangkat").textContent = persenBerangkat.toFixed(1) + "%";
-    document.getElementById("kpi-datang").textContent = persenDatang.toFixed(1) + "%";
-
-    updateGauge(document.querySelector("#kpi-berangkat")?.closest(".gauge"), persenBerangkat);
-    updateGauge(document.querySelector("#kpi-datang")?.closest(".gauge"), persenDatang);
+    // KA BARANG
+    setGauge("kpi-barang-berangkat", toPercent (d.berangkatbrg));
+    setGauge("kpi-barang-datang", toPercent (d.datangbrg));
 
   } catch (e) {
     console.error("Kinerja error:", e);
   }
 }
 
-setInterval(loadKinerjaOperasi, 30000);
 
+/* ===============================================
+   INIT + AUTO REFRESH
+================================================ */
+
+function initDashboard(){
+  loadProgramOperasi();
+  loadKinerjaOperasi();
+
+  setInterval(loadProgramOperasi, 30000);
+  setInterval(loadKinerjaOperasi, 30000);
+}
+
+initDashboard();
 
 /* ===============================================
    JUMLAH KA
@@ -445,25 +506,42 @@ async function loadStamformasi() {
 
     ["stamformasiJJ", "stamformasiLokal", "stamformasiTambahan"]
       .forEach(id => {
-        document.getElementById(id).innerHTML =
-          `<div class="ka-item"><span class="ka-title">Gagal memuat data</span></div>`;
+        document.getElementById(id).innerHTML = `
+          <div class="ka-item">
+            <div class="ka-header">
+              <div class="ka-icon">🚆</div>
+              <div>Gagal memuat data</div>
+            </div>
+          </div>
+        `;
       });
   }
 }
 
 
 /* ===============================================
-   RENDER STAM
+   RENDER STAM (FINAL FIX - NO MODAL)
 ================================================ */
 function renderStam(id, data, countId) {
+
   const container = document.getElementById(id);
   const counter = document.getElementById(countId);
+
   if (!container) return;
 
   container.innerHTML = "";
 
   if (!data || data.length === 0) {
-    container.innerHTML = `<div class="ka-item"><span class="ka-title">Tidak ada data</span></div>`;
+
+    container.innerHTML = `
+      <div class="ka-item">
+        <div class="ka-header">
+          <div class="ka-icon">🚆</div>
+          <div>Tidak ada data</div>
+        </div>
+      </div>
+    `;
+
     if (counter) counter.textContent = "0 KA";
     return;
   }
@@ -471,64 +549,68 @@ function renderStam(id, data, countId) {
   if (counter) counter.textContent = `${data.length} KA`;
 
   let html = "";
+
   data.forEach(x => {
+
     html += `
-      <div class="ka-item" onclick='showKADetail(${JSON.stringify(x)})'>
-        <span class="ka-icon">🚆</span>
-        <span class="ka-title">${x.ka ?? "-"}</span>
+      <div class="ka-item">
+
+        <div class="ka-header">
+          <div class="ka-icon">🚆</div>
+          <div>${x.ka ?? "-"}</div>
+        </div>
+
+        <div class="ka-detail">
+
+          <div class="ka-field">
+            <div class="ka-label">Lokomotif</div>
+            <div class="ka-value">
+              ${x.lokomotif ?? "-"}
+            </div>
+          </div>
+
+          <div class="ka-field">
+            <div class="ka-label">Stamformasi</div>
+            <div class="ka-value">
+              ${x.stamformasi ?? "-"}
+            </div>
+          </div>
+
+          <div class="ka-field">
+            <div class="ka-label">Keterangan</div>
+            <div class="ka-value">
+              ${x.keterangan ?? "-"}
+            </div>
+          </div>
+
+        </div>
+
       </div>
     `;
   });
 
-  container.innerHTML = `<div class="ka-list-inner">${html}${html}</div>`;
-}
-
-
-/* ===============================================
-   FILTER KA
-================================================ */
-function filterKA(input, id) {
-  const keyword = input.value.toLowerCase();
-
-  document.querySelectorAll(`#${id} .ka-item`).forEach(item => {
-    const nama = item.querySelector(".ka-title").textContent.toLowerCase();
-    item.style.display = nama.includes(keyword) ? "" : "none";
-  });
-}
-
-
-/* ===============================================
-   MODAL KA
-================================================ */
-function showKADetail(data) {
-  document.getElementById("modalNamaKA").textContent = `🚆 ${data.ka || "-"}`;
-
-  document.getElementById("modalContent").innerHTML = `
-    <div style="margin-bottom:16px">
-      <b style="color:#38bdf8">Lokomotif</b>
-      <div>${data.lokomotif || "-"}</div>
-    </div>
-    <div style="margin-bottom:16px">
-      <b style="color:#38bdf8">Stamformasi</b>
-      <div>${data.stamformasi || "-"}</div>
-    </div>
-    <div>
-      <b style="color:#38bdf8">Keterangan</b>
-      <div>${data.keterangan || "-"}</div>
+  container.innerHTML = `
+    <div class="ka-list-inner">
+      ${html}
     </div>
   `;
-
-  document.getElementById("kaModal").classList.add("show");
 }
 
-function closeKAModal() {
-  document.getElementById("kaModal").classList.remove("show");
-}
 
-document.addEventListener("click", e => {
-  const modal = document.getElementById("kaModal");
-  if (e.target === modal) closeKAModal();
-});
+/* ===============================================
+   FILTER KA (UPDATED)
+================================================ */
+function filterKelka(input, id) {
+
+  const keyword = input.value.toLowerCase();
+
+  document.querySelectorAll(`#${id} .kelka-item`).forEach(item => {
+
+    const text = item.innerText.toLowerCase();
+
+    item.style.display = text.includes(keyword) ? "" : "none";
+  });
+}
 
 
 /* ===============================================
@@ -557,14 +639,20 @@ async function loadKelkaBerangkatList() {
    RENDER KELKA
 ================================================ */
 function renderKelka(id, data, countId) {
+
   const container = document.getElementById(id);
   const counter = document.getElementById(countId);
+
   if (!container) return;
 
-  container.innerHTML = "";
+  const inner = container.querySelector(".kelka-list-inner");
 
   if (!data || data.length === 0) {
-    container.innerHTML = `<div class="kelka-item"><div class="kelka-nama">Tidak ada data</div></div>`;
+
+    if (inner) {
+      inner.innerHTML = `<div class="kelka-item"><div class="kelka-nama">Tidak ada data</div></div>`;
+    }
+
     if (counter) counter.textContent = "0 KA";
     return;
   }
@@ -572,27 +660,49 @@ function renderKelka(id, data, countId) {
   if (counter) counter.textContent = `${data.length} KA`;
 
   let html = "";
+
   data.forEach(x => {
+
     const payload = encodeURIComponent(JSON.stringify(x));
 
     html += `
       <div class="kelka-item" onclick='showKelkaDetail("${payload}")'>
+
         <div class="kelka-left">
-          <div class="kelka-icon ${Number(x.kelambatan) > 0 ? "lambat" : "tepat"}">🚆</div>
-          <div class="kelka-info">
-            <div class="kelka-nomor">KA ${x.nomorKA ?? "-"}</div>
-       <div class="kelka-nama">${x.namaKA ?? "-"}</div>
-       <div class="kelka-jam">🕒 ${x.jam ?? "-"}</div>
+
+          <div class="kelka-icon ${Number(x.kelambatan) > 0 ? "lambat" : "tepat"}">
+            🚆
           </div>
+
+          <div class="kelka-info">
+
+            <div class="kelka-nomor">
+              KA ${x.nomorKA ?? "-"}
+            </div>
+
+            <div class="kelka-nama">
+              ${x.namaKA ?? "-"}
+            </div>
+
+            <div class="kelka-jam">
+              🕒 ${x.jam ?? "-"}
+            </div>
+
+          </div>
+
         </div>
+
         <div class="kelka-delay ${Number(x.kelambatan) > 0 ? "lambat" : "tepat"}">
           ${x.kelambatan ?? 0} Menit
         </div>
+
       </div>
     `;
   });
 
-  container.innerHTML = `<div class="kelka-list-inner">${html}${html}</div>`;
+  if (inner) {
+    inner.innerHTML = html;
+  }
 }
 
 
@@ -663,7 +773,7 @@ async function loadSarana(kategori) {
         return;
       }
 
-      noteBox.innerHTML = p.catatan.map(v => `<div>• ${v}</div>`).join("");
+      noteBox.innerHTML = p.catatan.map(v => `<div>${v}</div>`).join("");
       return;
     }
 
