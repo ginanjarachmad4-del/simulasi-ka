@@ -343,7 +343,7 @@ body{
   align-items:center;
 
   background:
-    url('https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/main/wp10514716-kereta-api-indonesia-wallpapers.jpg')
+    url('https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/bg_landing_page_pusdal2.jpeg')
     center / cover no-repeat;
 
   transition:opacity .7s;
@@ -453,13 +453,6 @@ body{
    FINAL FIX – NO CONFLICT
 ============================================================ */
 
-/* ===================== DASHBOARD ROW ===================== */
-.dashboard-row{
-  display:grid;
-  grid-template-columns:1.4fr repeat(4, 1fr); /* 5 kolom */
-  gap:14px;
-  align-items:stretch;
-}
 
 /* ================= PERFORMANCE CARD FIX ================= */
 .performance-card{
@@ -555,88 +548,38 @@ body{
   margin-top:14px;
 }
 
-#dashboard .dashboard-row{
-  display:grid !important;
-  grid-template-columns:1.4fr repeat(4, 1fr) !important;
-  gap:14px !important;
-}
 
 
-/* ===================== PANEL ===================== */
-.panel {
-  background: rgba(255,255,255,.045);
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 18px;
-  border: 1px solid rgba(255,255,255,.08);
-}
-
-.panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 600;
-  opacity: .9;
-  margin-bottom: 12px;
-}
-
-/* ===================== TABLE ===================== */
-.rocc-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.rocc-table th {
-  font-size: 12px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  opacity: .6;
-}
-
-.rocc-table th,
-.rocc-table td {
-  padding: 10px 12px;
-  border-bottom: 1px solid rgba(255,255,255,.08);
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.rocc-table tr:hover {
-  background: rgba(255,255,255,.05);
-}
-
-/* ===================== STATUS ===================== */
-.badge {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.status-ok    { color: #22c55e; font-weight: 700; }
-.status-late  { color: #facc15; font-weight: 700; }
-.status-delay { color: #ef4444; font-weight: 700; }
-
-/* ===================== RESPONSIVE ===================== */
-@media (max-width: 900px) {
-  .kpi-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .kpi-value {
-    font-size: 36px;
-  }
-
-  .panel {
-    padding: 14px;
-  }
-}
 
 /* ============================================================
    CARD – KETERSEDIAAN SARANA
    ============================================================ */
+/* =================================================
+   PANEL HEADER SARANA
+   STYLE = KELKA BERANGKAT
+================================================= */
+
+.panel-header-sarana{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:12px 16px;
+  margin-top:12px;
+  margin-bottom:12px;
+
+  font-size:14px;
+  font-weight:700;
+
+  color:#ffffff;
+
+ background: linear-gradient(135deg,#2a1406,#facc15);
+  border-radius:18px;
+
+  box-shadow:0 6px 16px rgba(30,58,138,.35);
+}
+
+
 
 /* GRID LAYOUT */
 .sarana-cards{
@@ -818,46 +761,200 @@ body{
 }
 
 /* =================================================
-   CARD KINERJA OPERASI
+   SECTION TITLE – FINAL CLEAN (PNP & BRG)
+================================================= */
+
+/* ================= PENUMPANG (BIRU) ================= */
+
+.section-title-pnp{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+
+  margin:18px 0 14px;
+  padding:10px 14px;
+
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+
+  color:#e5e7eb;
+
+  /* BIRU TUA */
+  background:linear-gradient(135deg,#0f172a,#111827);
+
+
+  border-left:4px solid #38bdf8;
+  border-radius:10px;
+
+  overflow:hidden;
+
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.section-title-pnp::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(56,189,248,.12),
+    transparent
+  );
+  animation:scanLine 4s linear infinite;
+}
+
+/* ================= BARANG (ORANGE TUA) ================= */
+
+.section-title-brg{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+
+  margin:18px 0 14px;
+  padding:10px 14px;
+
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+
+  color:#e5e7eb;
+
+  /* ORANGE TUA */
+background: linear-gradient(135deg,#7c2d12,#ea580c);
+
+
+  border-left:4px solid #f97316;
+  border-radius:10px;
+
+  overflow:hidden;
+
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.section-title-brg::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(249,115,22,.12),
+    transparent
+  );
+  animation:scanLine 4s linear infinite;
+}
+
+/* ================= SCAN LINE ================= */
+
+@keyframes scanLine{
+  from{ transform:translateX(-100%) }
+  to{ transform:translateX(100%) }
+}
+
+
+
+/* =================================================
+   GRID MASTER (PENUMPANG + BARANG UNIFIED)
+================================================= */
+.dashboard-top-row,
+.dashboard-row.performance-row{
+  display:grid;
+
+  /* 5 kolom seperti dashboard penumpang */
+  grid-template-columns:
+    1.6fr
+    1.6fr
+    1fr
+    1fr
+    1fr;
+
+  gap:14px;
+  align-items:stretch;
+}
+
+.dashboard-top-row > *,
+.dashboard-row.performance-row > *{
+  min-width:0;
+}
+
+
+/* =================================================
+   PERFORMANCE CARD
 ================================================= */
 .performance-card{
   background:#dbe3ea;
   border-radius:20px;
   padding:20px;
+
+  position:relative;
+  min-height:160px;
+
+  display:flex;
+  flex-direction:column;
 }
 
+
+/* HEADER */
 .performance-header{
   text-align:center;
   margin-bottom:16px;
 }
 
-.subtitle{
-  font-size:11px;
-  font-style:italic;
-  color:#94a3b8;
-  margin-top:2px;
+.performance-header .title{
+  font-size:15px;
+  font-weight:700;
+  color:#0f172a;
 }
 
+.performance-header .subtitle{
+  margin-top:2px;
+  font-size:11px;
+  font-style:italic;
+  color:#64748b;
+}
+
+
 /* =================================================
-   GAUGE
+   GAUGE SYSTEM – FINAL FIX (ROCC DASHBOARD)
 ================================================= */
 
 .gauge-container{
   display:flex;
   justify-content:center;
-  gap:16px; /* jangan terlalu besar */
-  width:100%;
+  gap:16px;
+  flex-wrap:wrap;
 }
 
-
+/* ITEM */
 .gauge-item{
   text-align:center;
+  flex:1;
+  min-width:120px;
 }
 
+/* PROGRAM sedikit lebih kecil */
+.gauge-item.prog{
+  transform:scale(.95);
+  opacity:.95;
+}
+
+/* =================================================
+   WRAPPER
+================================================= */
 .gauge{
   position:relative;
-  width:140px;
+  width:100%;
+  max-width:140px;
   height:70px;
+  margin:0 auto;
 }
 
 .gauge svg{
@@ -865,43 +962,168 @@ body{
   height:100%;
 }
 
-/* Background arc */
+/* =================================================
+   BACKGROUND ARC
+================================================= */
 .gauge-bg{
   fill:none;
   stroke:#d1d5db;
   stroke-width:12;
+  stroke-linecap:round;
 }
 
-/* Progress arc */
+/* =================================================
+   IMPORTANT FIX (INI YANG BIKIN GAUGE HARUS NYALA)
+================================================= */
+
+/* semua progress arc */
 .gauge-blue,
-.gauge-orange {
-  fill: none;
-  stroke-width: 12;
-  stroke-linecap: butt;
+.gauge-yellow,
+.gauge-green,
+.gauge-orange{
+  fill:none;
+  stroke-width:12;
+  stroke-linecap:round;
+
+  /* FIX UTAMA: wajib untuk animasi progress */
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
-  transition: stroke-dashoffset .6s ease, stroke .3s ease;
+
+  transition:
+    stroke-dashoffset .6s ease,
+    stroke .3s ease;
 }
-/* Value */
+
+/* =================================================
+   PROGRAM COLORS
+================================================= */
+.gauge-blue{
+  stroke:#2563eb;
+}
+
+.gauge-yellow{
+  stroke:#facc15;
+}
+
+/* =================================================
+   KINERJA COLORS
+================================================= */
+.gauge-green{
+  stroke:#16a34a;
+}
+
+.gauge-orange{
+  stroke:#f97316;
+}
+
+/* =================================================
+   VALUE & LABEL
+================================================= */
 .gauge-value{
   position:absolute;
   left:0;
   right:0;
   bottom:6px;
-  text-align:center;
 
-  font-size:22px;
+  text-align:center;
+  font-size:20px;
   font-weight:700;
   color:#0f172a;
 }
 
-/* Label */
+/* LABEL DEFAULT */
 .gauge-label{
   margin-top:8px;
   font-size:13px;
   font-weight:600;
   color:#334155;
 }
+
+/* PROGRAM LABEL */
+.gauge-item.prog .gauge-label{
+  color:#1d4ed8;
+  font-weight:700;
+}
+
+/* KINERJA LABEL */
+.kinerja-card .gauge-label{
+  color:#166534;
+  font-weight:700;
+}
+
+
+/* =================================================
+   KPI CARD (SEMUA KPI TERMASUK BARANG)
+================================================= */
+.kpi-card{
+  border-radius:20px;
+  padding:22px;
+
+  color:#fff;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+
+  min-height:160px;
+}
+
+.kpi-title{
+  font-size:14px;
+  font-weight:600;
+  line-height:1.4;
+}
+
+.kpi-value{
+  margin-top:12px;
+  font-size:44px;
+  font-weight:800;
+}
+
+
+/* COLORS */
+.kpi-card.warning{
+  background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.04)),#9333ea;
+}
+
+.kpi-card.info{
+  background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.04)),#10b981;
+}
+
+.kpi-card.success{
+  background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.04)),#f97316;
+}
+
+.kpi-card.new{
+  background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.04)),#2563eb;
+}
+
+
+/* =================================================
+   RESPONSIVE FIX
+================================================= */
+@media (max-width:1200px){
+  .dashboard-top-row,
+  .dashboard-row.performance-row{
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media (max-width:768px){
+  .dashboard-top-row,
+  .dashboard-row.performance-row{
+    grid-template-columns:1fr;
+  }
+
+  .kpi-value{
+    font-size:36px;
+  }
+
+  .gauge{
+    height:60px;
+  }
+}
+
 
 /* =================================================
    LAYOUT 40 : 60
@@ -1020,6 +1242,26 @@ body{
    ROCC MODERN AUTO SCROLL
 ===================================================== */
 
+.panel-header-stam{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:12px 16px;
+  margin-top:16px;
+  margin-bottom:12px;
+
+  font-size:14px;
+  font-weight:700;
+
+  color:#ffffff;
+
+ background: linear-gradient(135deg,#2a1406,#facc15);
+  border-radius:18px;
+
+  box-shadow:0 6px 16px rgba(30,58,138,.35);
+}
+
 .stam-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -1028,13 +1270,13 @@ body{
 
 .stam-category{
   background:#0f172a;
-  border:1px solid #1e293b;
-  border-radius:18px;
+  
+  border-radius:20px;
   overflow:hidden;
   box-shadow:0 8px 24px rgba(0,0,0,.35);
 }
 
-/* HEADER */
+/* HEADER KATEGORI STAMFORAMSI */
 
 .category-header{
   display:flex;
@@ -1078,21 +1320,21 @@ body{
 
 .ka-search{
   width:100%;
-  border:none;
+  padding:10px 12px;
+  margin-bottom:10px;
+
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.08);
+
+  background: rgba(15,23,42,.6);
+  color:#e2e8f0;
+
   outline:none;
-
-  padding:12px 14px;
-
-  background:#111827;
-  color:#fff;
-
-  border-bottom:1px solid #1f2937;
 }
 
 .ka-search::placeholder{
-  color:#94a3b8;
+  color: rgba(255,255,255,.4);
 }
-
 /* ==========================================
    AUTO SCROLL LIST - data stamformasi
 ========================================== */
@@ -1109,7 +1351,7 @@ body{
   flex-direction:column;
   gap:10px;
 
-  animation:kaScroll 45s linear infinite;
+  animation:kaScroll 120s linear infinite;
 }
 
 .ka-list:hover .ka-list-inner{
@@ -1134,11 +1376,7 @@ body{
 
 .ka-item{
 
-  display:flex;
-  align-items:center;
-  gap:10px;
-
-  padding:12px 14px;
+  padding:14px;
 
   background:#111827;
 
@@ -1147,32 +1385,40 @@ body{
 
   color:#fff;
 
-  cursor:pointer;
-
-  transition:
-    transform .25s ease,
-    background .25s ease,
-    border-color .25s ease;
+  transition:.25s ease;
 }
+
 
 .ka-item:hover{
 
-  transform:translateX(5px);
-
-  background:#1e293b;
+  background:#172033;
 
   border-color:#2563eb;
+}
+
+.ka-header{
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  font-size:13px;
+  font-weight:700;
+
+  color:#fff;
+
+  margin-bottom:12px;
 }
 
 .ka-icon{
 
   color:#38bdf8;
-
   font-size:16px;
 
   display:flex;
   align-items:center;
 }
+
  
 /* LED STATUS */
 
@@ -1200,11 +1446,43 @@ body{
 
 }
 
-.ka-title{
-  flex:1;
-  font-size:13px;
-  font-weight:600;
+.ka-detail{
+
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
+
+.ka-field{
+  padding:10px 12px;
+  background:#111827;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:10px;
+}
+
+.ka-label{
+
+  font-size:11px;
+  font-weight:700;
+
+  text-transform:uppercase;
+
+  color:#94a3b8;
+
+  margin-bottom:4px;
+}
+
+.ka-value{
+
+  color:#e5e7eb;
+
+  font-size:13px;
+
+  line-height:1.5;
+
+  word-break:break-word;
+}
+
 
 /* ==========================================
    SCROLLBAR - data stamformasi
@@ -1223,97 +1501,6 @@ body{
   border-radius:10px;
 }
 
-/* ==========================================
-   MODAL DETAIL KA - data stamformasi
-========================================== */
-
-.ka-modal{
-
-  position:fixed;
-  inset:0;
-
-  background:rgba(0,0,0,.65);
-
-  display:none;
-
-  justify-content:center;
-  align-items:center;
-
-  z-index:9999;
-
-  backdrop-filter:blur(4px);
-}
-
-.ka-modal.show{
-  display:flex;
-}
-
-.ka-modal-content{
-
-  width:500px;
-  max-width:90vw;
-
-  background:#0f172a;
-
-  border:1px solid #334155;
-
-  border-radius:18px;
-
-  overflow:hidden;
-
-  animation:modalPop .25s ease;
-}
-
-@keyframes modalPop{
-
-  from{
-    opacity:0;
-    transform:scale(.9);
-  }
-
-  to{
-    opacity:1;
-    transform:scale(1);
-  }
-
-}
-
-.ka-modal-header{
-
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  padding:14px 18px;
-
-  background:#1e293b;
-
-  color:#fff;
-
-  font-weight:700;
-}
-
-.ka-modal-close{
-
-  background:none;
-  border:none;
-
-  color:#fff;
-
-  font-size:18px;
-
-  cursor:pointer;
-}
-
-#modalContent{
-
-  padding:18px;
-
-  color:#e5e7eb;
-
-  line-height:1.9;
-}
-
 
 /* ==========================================
    RESPONSIVE - data stamformasi
@@ -1326,14 +1513,83 @@ body{
   }
 
   .ka-list{
-    height:300px;
+    height:650px;
   }
 
 }
 
-/* ==========================================
-   KELKA GRID
-========================================== */
+==================================================================================================================================================
+/* =====================================================
+   KELKA V2 – FULL FINAL CLEAN (PRODUCTION READY)
+===================================================== */
+
+/* ===================== PANEL ===================== */
+
+.panel{
+  background:rgba(255,255,255,.045);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:18px;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+/* ===================== HEADER ===================== */
+
+.panel-header-berangkat,
+.panel-header-datang{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:12px 16px;
+  margin-bottom:12px;
+
+  font-size:14px;
+  font-weight:600;
+
+  color:#fff;
+  border-radius:18px;
+}
+
+/* BERANGKAT */
+.panel-header-berangkat{
+  background:linear-gradient(135deg,#0b1f3a,#1e3a8a);
+  box-shadow:0 6px 16px rgba(30,58,138,.35);
+}
+
+/* DATANG */
+.panel-header-datang{
+  background:linear-gradient(135deg,#3b1f0b,#c2410c);
+  box-shadow:0 6px 16px rgba(194,65,12,.35);
+}
+
+/* ===================== BADGE ===================== */
+
+.badge{
+  padding:4px 12px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+  color:#fff;
+  animation:pulseRealtime 2s infinite;
+}
+
+#countKelkaBerangkat{ background:#2563eb; }
+#countKelkaDatang{ background:#f97316; }
+
+@keyframes pulseRealtime{
+  50%{ opacity:.6; }
+}
+
+/* ===================== BODY ===================== */
+
+.panel-body{
+  padding:12px;
+  background:rgba(255,255,255,.02);
+  border-radius:14px;
+}
+
+/* ===================== GRID ===================== */
 
 .kelka-grid{
   display:grid;
@@ -1342,41 +1598,31 @@ body{
   margin-top:18px;
 }
 
-.kelka-grid .panel{
-  margin:0;
-}
-
-.kelka-grid .ka-list{
-  height:420px;
-}
-
 @media(max-width:1200px){
-
   .kelka-grid{
     grid-template-columns:1fr;
   }
-
 }
 
-
-/* =====================================================
-   PANEL KELKA MODERN
-===================================================== */
-
-/* LIST CONTAINER */
+/* ===================== LIST CONTAINER ===================== */
 
 .kelka-list{
   height:420px;
+  padding:10px;
   overflow:hidden;
   position:relative;
-  padding:12px;
+}
+
+@media(max-width:1200px){
+  .kelka-list{
+    height:300px;
+  }
 }
 
 .kelka-list-inner{
   display:flex;
   flex-direction:column;
   gap:10px;
-
   animation:kelkaScroll 400s linear infinite;
 }
 
@@ -1385,31 +1631,22 @@ body{
 }
 
 @keyframes kelkaScroll{
-
-  0%{
-    transform:translateY(0);
-  }
-
-  100%{
-    transform:translateY(-50%);
-  }
-
+  0%{ transform:translateY(0); }
+  100%{ transform:translateY(-50%); }
 }
 
-/* ITEM */
+/* ===================== ITEM ===================== */
 
 .kelka-item{
-
   display:flex;
   align-items:center;
   justify-content:space-between;
 
   padding:12px 14px;
+  background:#020617;
 
-  background:#111827;
-
-  border:1px solid #1f2937;
   border-radius:12px;
+  border:1px solid #020617;
 
   cursor:pointer;
 
@@ -1420,155 +1657,150 @@ body{
 }
 
 .kelka-item:hover{
-
   transform:translateX(5px);
-
-  background:#1e293b;
-
+  background:#020617cc;
   border-color:#2563eb;
 }
 
-.kelka-left{
+/* ===================== LEFT INFO ===================== */
 
+.kelka-left{
   display:flex;
   align-items:center;
   gap:10px;
-
   min-width:0;
 }
 
 .kelka-icon{
-
-  color:#38bdf8;
-  font-size:16px;
+  position:relative;
 }
 
 .kelka-icon::before{
-
   content:"";
-  display:inline-block;
   width:8px;
   height:8px;
-
   border-radius:50%;
-
-  margin-right:8px;
-
+  display:inline-block;
+  margin-right:6px;
   animation:blinkKelka 1.5s infinite;
 }
 
-.kelka-icon.tepat::before{
-  background:#22c55e;
-}
-
-.kelka-icon.lambat::before{
-  background:#ef4444;
-}
-
+.kelka-icon.tepat::before{ background:#22c55e; }
+.kelka-icon.lambat::before{ background:#ef4444; }
 
 @keyframes blinkKelka{
-
-  50%{
-    opacity:.3;
-  }
-
+  50%{ opacity:.3; }
 }
 
-.kelka-info{
+/* ===================== TEXT HIERARCHY ===================== */
 
+.kelka-info{
   display:flex;
   flex-direction:column;
 }
 
 .kelka-nama{
   font-size:11px;
-  color:#cbd5e1;
+  color:#94a3b8;
+  font-weight:500;
   text-transform:uppercase;
 }
 
-
 .kelka-nomor{
   font-size:17px;
-  font-weight:800;
+  font-weight:900;
   color:#38bdf8;
   letter-spacing:.5px;
 }
 
-.kelka-delay{
-
-  color:#fff;
-
-  padding:4px 10px;
-
-  border-radius:999px;
-
-  font-size:11px;
+.kelka-jam{
+  font-size:14px;
   font-weight:700;
-
+  color:#f59e0b;
   white-space:nowrap;
 }
 
-.kelka-delay.tepat{
-  background:#22c55e; /* Hijau */
-}
+/* ===================== STATUS DELAY ===================== */
 
-.kelka-delay.lambat{
-  background:#ef4444; /* Merah */
-}
-
-.kelka-jam{
-  font-size:14px !important;
-  color:#FFA500 !important;
-  letter-spacing:.3px;
-}
-
-/* ==========================================
-   BADGE HEADER KELKA
-========================================== */
-
-.badge{
-
-  color:#fff;
-
+.kelka-delay{
   padding:4px 10px;
-
   border-radius:999px;
-
   font-size:11px;
   font-weight:700;
-
-  animation:pulseRealtime 2s infinite;
+  color:#fff;
+  white-space:nowrap;
 }
 
-/* BERANGKAT = BIRU */
+.kelka-delay.tepat{ background:#22c55e; }
+.kelka-delay.lambat{ background:#ef4444; }
 
-#countKelkaBerangkat{
-  background:#2563eb;
+
+/* =====================================================
+   KELKA CONTAINER – CARD STYLE (LIKE SCREENSHOT)
+===================================================== */
+
+/* GRID 2 KOLOM */
+.kelka-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:24px;
 }
 
-/* DATANG = ORANGE */
-
-#countKelkaDatang{
-  background:#f97316;
+/* CARD BESAR */
+.kelka-grid .panel{
+  background:linear-gradient(
+    180deg,
+    rgba(15,23,42,.95),
+    rgba(2,6,23,.98)
+  );
+  border-radius:22px;
+  padding:0;                 /* header & body nempel */
+  border:none;
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.04);
+  overflow:hidden;
 }
 
-@keyframes pulseRealtime{
+/* HEADER TETAP DESAIN LAMA, CUMA NEMPEL */
+.kelka-grid .panel-header-berangkat,
+.kelka-grid .panel-header-datang{
+  margin:0;
+  border-radius:0 0 18px 18px;
+  padding:16px 18px;
+}
 
-  50%{
-    opacity:.6;
-  }
+/* BODY DALAM */
+.kelka-grid .panel-body{
+  background:transparent;
+  padding:16px;
+  border:none;
+}
 
+/* SEARCH BAR AREA */
+.kelka-grid .ka-search{
+  background:#020617;
+  border-radius:14px;
+  margin-bottom:14px;
+}
+
+/* LIST AREA */
+.kelka-grid .kelka-list{
+  background:rgba(255,255,255,.02);
+  border-radius:18px;
+  padding:14px;
 }
 
 /* RESPONSIVE */
-
 @media(max-width:1200px){
-
-  .kelka-list{
-    height:300px;
+  .kelka-grid{
+    grid-template-columns:1fr;
   }
-
 }
+
+/* =====================================================
+   END – KELKA FINAL CLEAN
+===================================================== */
 
 
 /* =================================================
