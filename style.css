@@ -1131,12 +1131,10 @@ background: linear-gradient(135deg,#7c2d12,#ea580c);
 .operation-row{
   display:grid;
   grid-template-columns:
-    0.85fr   /* Card Atas */
-    1.65fr   /* Chart Atas */
-    0.85fr   /* Card Bawah */
-    1.65fr;  /* Chart Bawah */
-
-  gap:16px;
+      0.85fr   /* card atas */
+      1.65fr   /* chart atas */
+      0.85fr   /* card bawah */
+      1.65fr;  /* chart bawah */  gap:16px;
   width:100%;
   align-items:stretch;
 }
@@ -1147,9 +1145,9 @@ background: linear-gradient(135deg,#7c2d12,#ea580c);
 .operation-cards{
   display:flex;
   flex-direction:column;
-  gap:16px;
+  justify-content:space-between;
+  height:320px; /* samakan dengan tinggi chart */
 }
-
 /* =================================================
    CARD
 ================================================= */
@@ -1165,20 +1163,24 @@ background: linear-gradient(135deg,#7c2d12,#ea580c);
   backdrop-filter:blur(10px);
 }
 
-/* =================================================
-   JUDUL CARD
-================================================= */
-.op-title{
+.op-title-left{
   text-align:center;
-
-  font-size:13px;
+  font-size:9px;
   font-weight:800;
   letter-spacing:.8px;
-
   margin-bottom:14px;
-
-  color:#1D4ED8;
+  color:#f57c00;
 }
+
+.op-title-right{
+  text-align:center;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.8px;
+  margin-bottom:14px;
+  color:#0f2d52;
+}
+
 
 /* =================================================
    CIRCLE ROW
@@ -1196,51 +1198,42 @@ background: linear-gradient(135deg,#7c2d12,#ea580c);
   width:90px;
   height:90px;
 
+  border-radius:50%;
+
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-
   text-align:center;
-  color:#fff;
 
-  border-radius:50%;
-  background:#1E3A8A;
-
+  background:#0f2d52;   /* Navy KAI Style */
   border:none;
   box-shadow:none;
 }
 
-/* Label */
+
 .circle-card span{
-  font-size:8px;
+  color:#fff;
+  font-size:9px;
   font-weight:700;
   line-height:1.2;
-
-  color:#fff;
 }
 
-/* Angka */
 .circle-card strong{
-  margin-top:4px;
-
-  font-size:26px;
-  font-weight:800;
-  line-height:1;
-
   color:#fff;
+  margin-top:4px;
+  font-size:30px;
+  font-weight:800;
 }
+
 
 /* =================================================
-   WARNING CARD (ORANGE)
+   WARNING CARD
 ================================================= */
 .warning-card{
-  background:#d97706;
-
+  background:#f57c00;
   border:none;
-  box-shadow:none;
 }
-
 
 /* =================================================
    CHART
@@ -1282,7 +1275,6 @@ background: linear-gradient(135deg,#7c2d12,#ea580c);
   }
 
 }
-
 
 /* =====================================================
    DATA STAMFORMASI V3
