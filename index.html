@@ -295,62 +295,26 @@ KA BARANG
 
 </div> <!-- penutup tab-content #dashboard -->
 
+<!==============================END OF KINOP=========================>
+
  
-<!-- ================= BARIS ATAS ================= -->
-<div class="operation-layout">
+<!-- =================================================
+     POIN-POIN KINOP
+================================================= -->
+<div class="operation-row">
+  
 
-  <!-- LEFT SIDE -->
-  <div class="operation-cards">
-
-    <div class="op-card">
-      <div class="op-title">TOTAL KA PENUMPANG</div>
-
-      <div class="circle-row">
-        <div class="circle-card">
-          <span>BERANGKAT LAMBAT</span>
-          <strong id="penumpangBerangkat">0</strong>
-        </div>
-
-        <div class="circle-card">
-          <span>DATANG LAMBAT</span>
-          <strong id="penumpangDatang">0</strong>
-        </div>
-      </div>
-    </div>
-
-    <div class="op-card">
-      <div class="op-title">TOTAL KA BARANG</div>
-
-      <div class="circle-row">
-        <div class="circle-card">
-          <span>BERANGKAT LAMBAT</span>
-          <strong id="barangBerangkat">0</strong>
-        </div>
-
-        <div class="circle-card">
-          <span>DATANG LAMBAT</span>
-          <strong id="barangDatang">0</strong>
-        </div>
-      </div>
-    </div>
-
+  <!-- ==========================================
+       CHART KETEPATAN
+  =========================================== -->
+  <div class="operation-chart">
+    <canvas id="ketepatanChart"></canvas>
   </div>
 
-  <!-- RIGHT CHART -->
-<div class="operation-chart">
 
-  <!-- 🔥 CHART KETEPATAN KA -->
-  <canvas id="ketepatanChart"></canvas>
-
-</div>
-
-</div>
-
-
-<!-- ================= BARIS BAWAH ================= -->
-<div class="operation-layout">
-
-  <!-- LEFT SIDE -->
+  <!-- ==========================================
+       CARD MENIT KELAMBATAN
+  =========================================== -->
   <div class="operation-cards">
 
     <div class="op-card">
@@ -387,15 +351,16 @@ KA BARANG
 
   </div>
 
-  <!-- RIGHT CHART -->
-<div class="operation-chart2">
 
-  <!-- 🔥 CHART KELAMBATAN KA -->
-  <canvas id="kelambatanChart"></canvas>
+  <!-- ==========================================
+       CHART KELAMBATAN
+  =========================================== -->
+  <div class="operation-chart">
+    <canvas id="kelambatanChart"></canvas>
+  </div>
 
 </div>
 
-</div>
 
 <!-- ==========================================
      KELKA V2 - FINAL CLEAN FIX
