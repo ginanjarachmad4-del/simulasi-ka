@@ -47,9 +47,15 @@ function updateChartAtas(data) {
         legend: {
           display: false
         },
-        title: {
+       title: {
           display: true,
-          text: "KETEPATAN KA (%)"
+          align: "start",
+          text: "KETEPATAN KA (%)",
+          color: "#374151",
+          font: {
+            size: 18,
+            weight: "bold"
+          }
         }
       },
 
@@ -202,11 +208,11 @@ function updateChartTambahan(data){
 /* ===============================================
    API CONFIG
 ================================================ */
-const API_KELKA = "https://script.google.com/macros/s/AKfycbxpMWC0T4O90ZEfQvLsqM8k8bLgmNhZmLItf0M0SuJqZAIVVKeY-6TiEb0EougTHXAljg/exec";
+const API_KELKA = "https://script.google.com/macros/s/AKfycbwmcMD95Pmk4VviCiivhlVOPgu_X2jQ4TlZBBxnoTYotob3oCLMNj8hP-D8bHDQX1fYPQ/exec";
 
-const API_OPERASI = "https://script.google.com/macros/s/AKfycbxpMWC0T4O90ZEfQvLsqM8k8bLgmNhZmLItf0M0SuJqZAIVVKeY-6TiEb0EougTHXAljg/exec";
+const API_OPERASI = "https://script.google.com/macros/s/AKfycbwmcMD95Pmk4VviCiivhlVOPgu_X2jQ4TlZBBxnoTYotob3oCLMNj8hP-D8bHDQX1fYPQ/exec";
 
-const API_PROGRAM = "https://script.google.com/macros/s/AKfycbxpMWC0T4O90ZEfQvLsqM8k8bLgmNhZmLItf0M0SuJqZAIVVKeY-6TiEb0EougTHXAljg/exec";
+const API_PROGRAM = "https://script.google.com/macros/s/AKfycbwmcMD95Pmk4VviCiivhlVOPgu_X2jQ4TlZBBxnoTYotob3oCLMNj8hP-D8bHDQX1fYPQ/exec";
 
 const API_STAMFORMASI = "https://script.google.com/macros/s/AKfycbzzWiI1JmawlYXsVjCVs9b9t3LdgvEl3Tw_pwQGSpRcdz99xuRoxhxfXW160DKvCbkd/exec";
 
@@ -336,7 +342,10 @@ function setGauge(idValue, percent){
     path.style.strokeDashoffset = length - (length * v / 100);
   });
 
-  valueEl.textContent = v.toFixed(1) + "%";
+  valueEl.textContent =
+  v === 100
+    ? "100%"
+    : v.toFixed(2).replace(".", ",") + "%";
 }
 
 /* ===============================================
