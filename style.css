@@ -786,12 +786,12 @@ body{
 
 
   border-left:4px solid #38bdf8;
-  border-radius:20px;
+  border-radius:18px;
 
   overflow:hidden;
 
   box-shadow:
-    0 2px 8px rgba(0,0,0,.35),
+    0 2px 6px rgba(0,0,0,.35),
     inset 0 1px 0 rgba(255,255,255,.04);
 }
 
@@ -830,12 +830,12 @@ background: linear-gradient(135deg,#7c2d12,#ea580c);
 
 
   border-left:4px solid #f97316;
-  border-radius:20px;
+  border-radius:18px;
 
   overflow:hidden;
 
   box-shadow:
-    0 2px 8px rgba(0,0,0,.35),
+    0 2px 6px rgba(0,0,0,.35),
     inset 0 1px 0 rgba(255,255,255,.04);
 }
 
@@ -1126,116 +1126,163 @@ background: linear-gradient(135deg,#7c2d12,#ea580c);
 
 
 /* =================================================
-   LAYOUT 40 : 60
+   LAYOUT 4 KOLOM
 ================================================= */
-
-.operation-layout{
+.operation-row{
   display:grid;
-  grid-template-columns:40% 60%;
-  gap:20px;
-  padding:16px;
+  grid-template-columns:
+    0.85fr   /* Card Atas */
+    1.65fr   /* Chart Atas */
+    0.85fr   /* Card Bawah */
+    1.65fr;  /* Chart Bawah */
+
+  gap:16px;
+  width:100%;
+  align-items:stretch;
 }
 
 /* =================================================
-   OPERATION CIRCLE CARDS
+   KOLOM CARD
 ================================================= */
-
 .operation-cards{
   display:flex;
   flex-direction:column;
-  gap:20px;
+  gap:16px;
 }
 
+/* =================================================
+   CARD
+================================================= */
+.op-card{
+  flex:1;
+
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:18px;
+  padding:16px;
+
+  backdrop-filter:blur(10px);
+}
+
+/* =================================================
+   JUDUL CARD
+================================================= */
 .op-title{
+  text-align:center;
+
   font-size:13px;
-  font-weight:700;
-  color:#cbd5e1;
-  margin-bottom:10px;
+  font-weight:800;
+  letter-spacing:.8px;
+
+  margin-bottom:14px;
+
+  color:#1D4ED8;
 }
 
+/* =================================================
+   CIRCLE ROW
+================================================= */
 .circle-row{
   display:flex;
   justify-content:center;
-  gap:20px;
+  gap:8px;
 }
 
+/* =================================================
+   CIRCLE CARD
+================================================= */
 .circle-card{
-  width:120px;
-  height:120px;
+  width:90px;
+  height:90px;
 
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
 
-  background:#111827;
-  border:1px solid #1f2937;
-  border-radius:50%;
   text-align:center;
+  color:#fff;
+
+  border-radius:50%;
+  background:#1E3A8A;
+
+  border:none;
+  box-shadow:none;
 }
 
+/* Label */
 .circle-card span{
-  font-size:11px;
-  color:#94a3b8;
-}
+  font-size:8px;
+  font-weight:700;
+  line-height:1.2;
 
-.circle-card strong{
-  margin-top:6px;
-  font-size:24px;
   color:#fff;
 }
 
-/* Warning */
-.warning-card{
-  background:#ff8c00;
-  border:2px solid #ffb347;
-}
+/* Angka */
+.circle-card strong{
+  margin-top:4px;
 
-.warning-card strong,
-.warning-card span{
+  font-size:26px;
+  font-weight:800;
+  line-height:1;
+
   color:#fff;
 }
 
 /* =================================================
+   WARNING CARD (ORANGE)
+================================================= */
+.warning-card{
+  background:#d97706;
+
+  border:none;
+  box-shadow:none;
+}
+
+
+/* =================================================
    CHART
 ================================================= */
-
 .operation-chart{
-  background:#ffffff;
-  border:1px solid #d1d5db;
-  border-radius:12px;
-  padding:20px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:18px;
+  padding:16px;
+
   min-height:320px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.operation-chart2{
-  background:#ffffff;
-  border:1px solid #d1d5db;
-  border-radius:12px;
-  padding:20px;
-  height:320px;          /* 🔥 naikkan sedikit */
-  display:flex;         /* 🔥 penting */
-  flex-direction:column;
-}
-
-.performance-value{
-  position:absolute;
-  top:15px;
-  right:20px;
-  font-size:34px;
-  font-weight:700;
-  color:#22c55e;
-}
-
-#ketepatanChart{
+.operation-chart canvas{
   width:100% !important;
-  height:100% !important;
+  height:280px !important;
 }
 
-#kelambatanChart{
-  width:100% !important;
-  height:100% !important;
+/* =================================================
+   RESPONSIVE
+================================================= */
+@media(max-width:1200px){
+
+  .operation-row{
+    grid-template-columns:1fr 1fr;
+  }
+
 }
+
+@media(max-width:768px){
+
+  .operation-row{
+    grid-template-columns:1fr;
+  }
+
+}
+
 
 /* =====================================================
    DATA STAMFORMASI V3
