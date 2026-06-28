@@ -836,52 +836,55 @@ document.querySelectorAll(".sarana-tab").forEach(tab => {
 });
 
 /* =================================================
-   REGULASI TAB ENGINE (INJECTED - SAFE)
+   REGULASI TAB ENGINE (FINAL CLEAN)
    ROCC Pusdalopka 2 Bandung
 ================================================= */
 
 /* =========================
    CONFIG
 ========================= */
-const REGULASI_JSON = "data/pdf.json";
+const REGULASI_JSON = "data/pdf.json"; // atau raw github
 
 let regulasiData = [];
 let regulasiLoaded = false;
+let regulasiSearchInit = false;
 
 /* =========================
    DOM CACHE
 ========================= */
-const getRegulasiEl = () => ({
-  tab: document.querySelector('.tab[data-tab="regulasi"]'),
-  list: document.getElementById("pdfList"),
-  search: document.getElementById("pdfSearch"),
-  modal: document.getElementById("pdfModal"),
-  frame: document.getElementById("pdfFrame"),
-  btnClose: document.getElementById("closePdf"),
-  btnDownload: document.getElementById("downloadPdf"),
-  btnPrint: document.getElementById("printPdf")
-});
+function getRegulasiEl(){
+  return {
+    tab: document.querySelector('.tab[data-tab="regulasi"]'),
+    list: document.getElementById("pdfList"),
+    search: document.getElementById("pdfSearch"),
+    modal: document.getElementById("pdfModal"),
+    frame: document.getElementById("pdfFrame"),
+    btnClose: document.getElementById("closePdf"),
+    btnDownload: document.getElementById("downloadPdf"),
+    btnPrint: document.getElementById("printPdf")
+  };
+}
 
 /* =========================
    LOAD REGULASI (ONCE)
 ========================= */
-async function loadRegulasiOnce() {
+async function loadRegulasiOnce(){
   if (regulasiLoaded) return;
 
   const { list } = getRegulasiEl();
   if (!list) return;
 
-  list.innerHTML = "Memuat regulasi...";
+  list.innerHTML = "⏳ Memuat regulasi...";
 
   try {
-    const r = await fetch(REGULASI_JSON);
-    regulasiData = await r.json();
+    const res = await fetch(REGULASI_JSON);
+    regulasiData = await res.json();
 
     renderRegulasi(regulasiData);
     regulasiLoaded = true;
 
-  } catch (e) {
-    console.error("REGULASI LOAD ERROR:", e);
+  } catch (err) {
+    console.error("REGULASI LOAD ERROR:", err);
     list.innerHTML = "❌ Gagal memuat regulasi";
   }
 }
@@ -889,11 +892,11 @@ async function loadRegulasiOnce() {
 /* =========================
    RENDER LIST
 ========================= */
-function renderRegulasi(data) {
+function renderRegulasi(data){
   const { list } = getRegulasiEl();
   if (!list) return;
 
-  if (!data || data.length === 0) {
+  if (!data || data.length === 0){
     list.innerHTML = "Tidak ada regulasi";
     return;
   }
@@ -903,49 +906,57 @@ function renderRegulasi(data) {
   data.forEach((pdf, i) => {
     const div = document.createElement("div");
     div.className = "pdf-item";
-    div.textContent = `${i + 1}. ${pdf.judul || "-"}`;
+    div.textContent = `${i + 1}. ${pdf.nama || "-"}`;
     div.onclick = () => openRegulasiPdf(pdf.file);
     list.appendChild(div);
   });
 }
 
 /* =========================
-   SEARCH
+   SEARCH (INIT ONCE)
 ========================= */
-let regulasiSearchInit = false;
-
-function initRegulasiSearch() {
+function initRegulasiSearch(){
   if (regulasiSearchInit) return;
   regulasiSearchInit = true;
+
   const { search } = getRegulasiEl();
   if (!search) return;
 
-  search.oninput = () => {
+  search.addEventListener("input", () => {
     const q = search.value.toLowerCase();
+
     const filtered = regulasiData.filter(r =>
-      (r.judul || "").toLowerCase().includes(q)
+      (r.nama || "").toLowerCase().includes(q)
     );
+
     renderRegulasi(filtered);
-  };
+  });
 }
 
 /* =========================
    PDF MODAL
 ========================= */
-function openRegulasiPdf(file) {
+function openRegulasiPdf(file){
   const { modal, frame, btnClose, btnDownload, btnPrint } = getRegulasiEl();
   if (!modal || !frame) return;
 
   frame.src = file;
   modal.style.display = "block";
 
-  btnClose.onclick = () => {
-    modal.style.display = "none";
-    frame.src = "";
-  };
+  if (btnClose){
+    btnClose.onclick = () => {
+      modal.style.display = "none";
+      frame.src = "";
+    };
+  }
 
-  btnDownload.onclick = () => window.open(file);
-  btnPrint.onclick = () => frame.contentWindow.print();
+  if (btnDownload){
+    btnDownload.onclick = () => window.open(file, "_blank");
+  }
+
+  if (btnPrint){
+    btnPrint.onclick = () => frame.contentWindow.print();
+  }
 }
 
 /* =========================
