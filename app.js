@@ -834,3 +834,140 @@ document.querySelectorAll(".sarana-tab").forEach(tab => {
       k === "peralatan" ? "block" : "none";
   };
 });
+
+/* =================================================
+   REGULASI TAB ENGINE (INJECTED - SAFE)
+   ROCC Pusdalopka 2 Bandung
+================================================= */
+
+/* =========================
+   CONFIG
+========================= */
+const REGULASI_JSON = "data/pdf.json"; 
+// atau RAW GitHub:
+// https://raw.githubusercontent.com/USERNAME/REPO/main/data/pdf.json
+
+let regulasiData = [];
+let regulasiLoaded = false;
+
+/* =========================
+   DOM CACHE
+========================= */
+const getRegulasiEl = () => ({
+  tab: document.querySelector('.tab[data-tab="regulasi"]'),
+  content: document.getElementById("regulasi"),
+  list: document.getElementById("pdfList"),
+  search: document.getElementById("pdfSearch"),
+  modal: document.getElementById("pdfModal"),
+  frame: document.getElementById("pdfFrame"),
+  btnClose: document.getElementById("closePdf"),
+  btnDownload: document.getElementById("downloadPdf"),
+  btnPrint: document.getElementById("printPdf")
+});
+
+/* =========================
+   LOAD REGULASI (ONCE)
+========================= */
+async function loadRegulasiOnce() {
+  if (regulasiLoaded) return;
+
+  const { list } = getRegulasiEl();
+  if (!list) return;
+
+  list.innerHTML = "Memuat regulasi...";
+
+  try {
+    const r = await fetch(REGULASI_JSON);
+    regulasiData = await r.json();
+
+    renderRegulasi(regulasiData);
+    regulasiLoaded = true;
+
+  } catch (e) {
+    console.error("REGULASI LOAD ERROR:", e);
+    list.innerHTML = "❌ Gagal memuat regulasi";
+  }
+}
+
+/* =========================
+   RENDER REGULASI
+========================= */
+function renderRegulasi(data) {
+  const { list } = getRegulasiEl();
+  if (!list) return;
+
+  if (!data || data.length === 0) {
+    list.innerHTML = `<div class="pdf-item">Tidak ada regulasi</div>`;
+    return;
+  }
+
+  list.innerHTML = "";
+
+  data.forEach((pdf, i) => {
+    const div = document.createElement("div");
+    div.className = "pdf-item";
+    div.textContent = `${i + 1}. ${pdf.judul || "-"}`;
+
+    div.onclick = () => openRegulasiPdf(pdf.file);
+
+    list.appendChild(div);
+  });
+}
+
+/* =========================
+   SEARCH REGULASI
+========================= */
+function initRegulasiSearch() {
+  const { search } = getRegulasiEl();
+  if (!search) return;
+
+  search.oninput = () => {
+    const q = search.value.toLowerCase();
+    const filtered = regulasiData.filter(r =>
+      (r.judul || "").toLowerCase().includes(q)
+    );
+    renderRegulasi(filtered);
+  };
+}
+
+/* =========================
+   PDF MODAL
+========================= */
+function openRegulasiPdf(file) {
+  const { modal, frame, btnClose, btnDownload, btnPrint } = getRegulasiEl();
+  if (!modal || !frame) return;
+
+  frame.src = file;
+  modal.style.display = "block";
+
+  if (btnClose) {
+    btnClose.onclick = () => {
+      modal.style.display = "none";
+      frame.src = "";
+    };
+  }
+
+  if (btnDownload) {
+    btnDownload.onclick = () => window.open(file);
+  }
+
+  if (btnPrint) {
+    btnPrint.onclick = () => frame.contentWindow.print();
+  }
+}
+
+/* =========================
+   TAB HOOK (NON-DESTRUCTIVE)
+========================= */
+document.addEventListener("DOMContentLoaded", () => {
+
+  const { tab } = getRegulasiEl();
+  if (!tab) return;
+
+  // hook klik REGULASI TANPA ganggu tab system utama
+  tab.addEventListener("click", () => {
+    loadRegulasiOnce();
+    initRegulasiSearch();
+  });
+
+});
