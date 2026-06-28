@@ -171,7 +171,7 @@ function updateChartTambahan(data){
   const ctx = document.getElementById("chartTambahan");
   if(!ctx) return;
 
-  if(chartBawah) chartBawah.destroy();
+  if(chartTambahan) chartTambahan.destroy();
 
   chartTambahan = new Chart(ctx, {
     type: "bar",
