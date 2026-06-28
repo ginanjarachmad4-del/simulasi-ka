@@ -912,7 +912,11 @@ function renderRegulasi(data) {
 /* =========================
    SEARCH
 ========================= */
+let regulasiSearchInit = false;
+
 function initRegulasiSearch() {
+  if (regulasiSearchInit) return;
+  regulasiSearchInit = true;
   const { search } = getRegulasiEl();
   if (!search) return;
 
