@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // INIT LOAD
-  loadKinerjaOperasi();
+ 
   loadKelkaDatang();
   loadKelkaBerangkat();
   loadKelkaDatangList();
@@ -272,7 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadStamformasi();
   loadSarana("lokomotif");
   loadOperasiDashboard();
-  loadProgramOperasi();
+
 });
 
 
