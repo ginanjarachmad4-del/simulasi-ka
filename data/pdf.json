@@ -1,1 +1,114 @@
-
+[
+    {
+        "nama":  "PD 10A (Perawatan Jalan Rel Dengan Lebar Jalan 1067 mm)",
+        "file":  "pdf/PD 10A (Perawatan Jalan Rel Dengan Lebar Jalan 1067 mm).pdf"
+    },
+    {
+        "nama":  "PD 10D (Perencanaan Jembatan dan Pilar Baja Jalan Kereta Api)",
+        "file":  "pdf/PD 10D (Perencanaan Jembatan dan Pilar Baja Jalan Kereta Api).pdf"
+    },
+    {
+        "nama":  "PD 11 (PEMERIKSA DAN PERAWATAN PRASARANA PERKERETAAPIAN)",
+        "file":  "pdf/PD 11 (PEMERIKSA DAN PERAWATAN PRASARANA PERKERETAAPIAN).pdf"
+    },
+    {
+        "nama":  "PD 12 JILID II (Perubahan)",
+        "file":  "pdf/PD 12 JILID II (Perubahan).pdf"
+    },
+    {
+        "nama":  "PD 13A JILID I (KETENTUAN UMUM PERSINYALAN)",
+        "file":  "pdf/PD 13A JILID I (KETENTUAN UMUM PERSINYALAN).pdf"
+    },
+    {
+        "nama":  "PD 13C JILID I (KETENTUAN UMUM INSTALASI LISTRIK ALIRAN ATAS ARUS SEARAH DENGAN TEGANGAN 1500 V)",
+        "file":  "pdf/PD 13C JILID I (KETENTUAN UMUM INSTALASI LISTRIK ALIRAN ATAS ARUS SEARAH DENGAN TEGANGAN 1500 V).pdf"
+    },
+    {
+        "nama":  "PD 15 (PETUGAS PEMERIKSA DAN PERAWATAN SARANA KERETA API)",
+        "file":  "pdf/PD 15 (PETUGAS PEMERIKSA DAN PERAWATAN SARANA KERETA API).pdf"
+    },
+    {
+        "nama":  "PD 16A (Dinas Lokomotif Diesel Elektrik dan Diesel Hidrolik)",
+        "file":  "pdf/PD 16A (Dinas Lokomotif Diesel Elektrik dan Diesel Hidrolik).pdf"
+    },
+    {
+        "nama":  "PD 16B (DINAS KERETA REL LISTRIK)",
+        "file":  "pdf/PD 16B (DINAS KERETA REL LISTRIK).pdf"
+    },
+    {
+        "nama":  "PD 18 JILID II (ANGKUTAN BARANG)",
+        "file":  "pdf/PD 18 JILID II (ANGKUTAN BARANG).pdf"
+    },
+    {
+        "nama":  "PD 19 JILID I (Urusan Perka dan Langsir)",
+        "file":  "pdf/PD 19 JILID I (Urusan Perka dan Langsir).pdf"
+    },
+    {
+        "nama":  "PD 19 JILID I New",
+        "file":  "pdf/PD 19 JILID I New.pdf"
+    },
+    {
+        "nama":  "PD 19 JILID II (Kereta Api Kerja, Kereta Api Perawatan Jalan Rel, Kereta Api Inspeksi dan Lori)",
+        "file":  "pdf/PD 19 JILID II (Kereta Api Kerja, Kereta Api Perawatan Jalan Rel, Kereta Api Inspeksi dan Lori).pdf"
+    },
+    {
+        "nama":  "PD 19 JILID III (Pengoperasian Kereta Api Rangkaian Panjang Di Sumatera Bagian Selatan)",
+        "file":  "pdf/PD 19 JILID III (Pengoperasian Kereta Api Rangkaian Panjang Di Sumatera Bagian Selatan).pdf"
+    },
+    {
+        "nama":  "PD 2 JILID 1 (PEDOMAN AKUTANSI)",
+        "file":  "pdf/PD 2 JILID 1 (PEDOMAN AKUTANSI).pdf"
+    },
+    {
+        "nama":  "PD 2 JILID 3 (PEDOMAN PENGESAHAN PEMBAYARAN DAN TATA USAHA KAS BESAR)",
+        "file":  "pdf/PD 2 JILID 3 (PEDOMAN PENGESAHAN PEMBAYARAN DAN TATA USAHA KAS BESAR).pdf"
+    },
+    {
+        "nama":  "PD 21R (Pelayanan Warta Operasi)",
+        "file":  "pdf/PD 21R (Pelayanan Warta Operasi).pdf"
+    },
+    {
+        "nama":  "PD 22 JILID 1 (PENGUASAAN STASIUN)",
+        "file":  "pdf/PD 22 JILID 1 (PENGUASAAN STASIUN).pdf"
+    },
+    {
+        "nama":  "PD 22 JILID 2 (ADMINISTRASI PENJUALAN JASA DI STASIUN)",
+        "file":  "pdf/PD 22 JILID 2 (ADMINISTRASI PENJUALAN JASA DI STASIUN).pdf"
+    },
+    {
+        "nama":  "PD 22 JILID 3 ( ADMINISTRASI KEUANGAN DI STASIUN)",
+        "file":  "pdf/PD 22 JILID 3 ( ADMINISTRASI KEUANGAN DI STASIUN).pdf"
+    },
+    {
+        "nama":  "PD 22 JILID II (Perubahan)",
+        "file":  "pdf/PD 22 JILID II (Perubahan).pdf"
+    },
+    {
+        "nama":  "PD 23 (GANGGUAN OPERASIONAL KERETA API)",
+        "file":  "pdf/PD 23 (GANGGUAN OPERASIONAL KERETA API).pdf"
+    },
+    {
+        "nama":  "PD 26 (KESELAMATAN)",
+        "file":  "pdf/PD 26 (KESELAMATAN).pdf"
+    },
+    {
+        "nama":  "PD 3 2019 (Semboyan)",
+        "file":  "pdf/PD 3 2019 (Semboyan).pdf"
+    },
+    {
+        "nama":  "PD 8A (Penggunaan Sarana Pada Lintas Dengan Lebar Jalan Rel 1067 mm)",
+        "file":  "pdf/PD 8A (Penggunaan Sarana Pada Lintas Dengan Lebar Jalan Rel 1067 mm).pdf"
+    },
+    {
+        "nama":  "PD 8A Revisi",
+        "file":  "pdf/PD 8A Revisi.pdf"
+    },
+    {
+        "nama":  "PD 8C (Penggunaan Kereta Rel Diesel)",
+        "file":  "pdf/PD 8C (Penggunaan Kereta Rel Diesel).pdf"
+    },
+    {
+        "nama":  "PD 9 (LOGISTIK DAN PERSEDIAAN)",
+        "file":  "pdf/PD 9 (LOGISTIK DAN PERSEDIAAN).pdf"
+    }
+]
