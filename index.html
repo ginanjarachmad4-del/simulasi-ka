@@ -89,10 +89,7 @@
 <div class="tabs">
 
   <div class="tab active" data-tab="dashboard">📊 DASHBOARD</div>
-  <div class="tab" data-tab="operasi">🚆 OPERASI KA</div>
   <div class="tab" data-tab="regulasi">📄 REGULASI</div>
-  <div class="tab" data-tab="video">🎬 MEDIA</div>
-  <div class="tab" data-tab="log">📰 LOG KEJADIAN</div>
 
 </div>
 
@@ -622,46 +619,44 @@ KA BARANG
   </div>
 </div>
 
-
 <!-- =========================
-     2. 🚆 OPERASI KA
-========================= -->
-<div class="tab-content" id="operasi">
-  <div style="text-align:center; opacity:.6; padding:30px;">
-    Data Operasi KA – Coming Soon
-  </div>
-</div>
-
-<!-- =========================
-     3. 📄 REGULASI
+     TAB REGULASI
 ========================= -->
 <div class="tab-content" id="regulasi">
-  <div class="pdf-list" id="pdfList">Loading PDF...</div>
+
+  <!-- SEARCH -->
+  <input
+    type="text"
+    id="pdfSearch"
+    placeholder="🔍 Cari regulasi..."
+    style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);margin-bottom:10px;"
+  >
+
+  <!-- LIST PDF -->
+  <div class="pdf-list" id="pdfList">
+    Loading regulasi...
+  </div>
+
 </div>
 
 <!-- =========================
-    4. 🎬 MEDIA
+     PDF MODAL
 ========================= -->
-<div class="tab-content" id="video">
+<div id="pdfModal">
+  <div class="pdf-modal-content">
 
-  <div class="video-layout">
-    <div class="playlist" id="playlist">Loading...</div>
-    <div class="player-wrapper">
-      <iframe id="player"></iframe>
+    <div class="pdf-topbar">
+      <button id="downloadPdf">⬇ Download</button>
+      <button id="printPdf">🖨 Print</button>
+      <button id="closePdf">✖ Tutup</button>
     </div>
-  </div>
 
-</div>
+    <iframe id="pdfFrame"></iframe>
 
-
-<!-- =========================
-     5. 📰 LOG KEJADIAN
-========================= -->
-<div class="tab-content" id="log">
-  <div style="text-align:center; opacity:.6; padding:30px;">
-    Log Kejadian Operasional – Coming Soon
   </div>
 </div>
+
+
 
 <!-- FOOTER -->
 <footer class="footer">
