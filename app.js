@@ -843,9 +843,7 @@ document.querySelectorAll(".sarana-tab").forEach(tab => {
 /* =========================
    CONFIG
 ========================= */
-const REGULASI_JSON = "data/pdf.json"; 
-// atau RAW GitHub:
-// https://raw.githubusercontent.com/USERNAME/REPO/main/data/pdf.json
+const REGULASI_JSON = "data/pdf.json";
 
 let regulasiData = [];
 let regulasiLoaded = false;
@@ -855,7 +853,6 @@ let regulasiLoaded = false;
 ========================= */
 const getRegulasiEl = () => ({
   tab: document.querySelector('.tab[data-tab="regulasi"]'),
-  content: document.getElementById("regulasi"),
   list: document.getElementById("pdfList"),
   search: document.getElementById("pdfSearch"),
   modal: document.getElementById("pdfModal"),
@@ -890,14 +887,14 @@ async function loadRegulasiOnce() {
 }
 
 /* =========================
-   RENDER REGULASI
+   RENDER LIST
 ========================= */
 function renderRegulasi(data) {
   const { list } = getRegulasiEl();
   if (!list) return;
 
   if (!data || data.length === 0) {
-    list.innerHTML = `<div class="pdf-item">Tidak ada regulasi</div>`;
+    list.innerHTML = "Tidak ada regulasi";
     return;
   }
 
@@ -907,15 +904,13 @@ function renderRegulasi(data) {
     const div = document.createElement("div");
     div.className = "pdf-item";
     div.textContent = `${i + 1}. ${pdf.judul || "-"}`;
-
     div.onclick = () => openRegulasiPdf(pdf.file);
-
     list.appendChild(div);
   });
 }
 
 /* =========================
-   SEARCH REGULASI
+   SEARCH
 ========================= */
 function initRegulasiSearch() {
   const { search } = getRegulasiEl();
@@ -940,34 +935,24 @@ function openRegulasiPdf(file) {
   frame.src = file;
   modal.style.display = "block";
 
-  if (btnClose) {
-    btnClose.onclick = () => {
-      modal.style.display = "none";
-      frame.src = "";
-    };
-  }
+  btnClose.onclick = () => {
+    modal.style.display = "none";
+    frame.src = "";
+  };
 
-  if (btnDownload) {
-    btnDownload.onclick = () => window.open(file);
-  }
-
-  if (btnPrint) {
-    btnPrint.onclick = () => frame.contentWindow.print();
-  }
+  btnDownload.onclick = () => window.open(file);
+  btnPrint.onclick = () => frame.contentWindow.print();
 }
 
 /* =========================
-   TAB HOOK (NON-DESTRUCTIVE)
+   TAB HOOK (SAFE)
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
-
   const { tab } = getRegulasiEl();
   if (!tab) return;
 
-  // hook klik REGULASI TANPA ganggu tab system utama
   tab.addEventListener("click", () => {
     loadRegulasiOnce();
     initRegulasiSearch();
   });
-
 });
