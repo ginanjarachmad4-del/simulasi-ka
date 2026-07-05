@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pusat Media Operasional KA</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="style.css">
 
 </head>
@@ -89,7 +93,11 @@
 <div class="tabs">
 
   <div class="tab active" data-tab="dashboard">📊 DASHBOARD</div>
-  
+  <div class="tab" data-tab="operasi">🚆 OPERASI KA</div>
+  <div class="tab" data-tab="regulasi">📄 REGULASI</div>
+  <div class="tab" data-tab="video">🎬 MEDIA</div>
+  <div class="tab" data-tab="log">📰 LOG KEJADIAN</div>
+
 </div>
 
 
@@ -100,196 +108,275 @@
 
  
 <!--=========================================
-KA PENUMPANG
+PROGRAM VS REALISASI (KA PENUMPANG + KA BARANG SEJAJAR)
 ==========================================-->
 
-<div class="section-title-pnp">KA PENUMPANG</div>
+<div class="kospr-master">
 
-<div class="dashboard-top-row">
+  <!-- ===== ROW 1: SEMUA CARD PROGRAM vs REALISASI SEJAJAR ===== -->
+  <div class="kospr-gauge-row">
 
-  <!-- PROGRAM -->
-  <div class="performance-card program-card">
-    <div class="performance-header">
-      <div class="title">📊 PROGRAM KINERJA OPERASI</div>
-      <div class="subtitle">Program Performance</div>
+    <!-- PNP - BERANGKAT -->
+    <div class="performance-card direction-card card-pnp">
+      <div class="category-badge badge-pnp">PENUMPANG</div>
+      <div class="performance-header">
+        <div class="title">🚄 BERANGKAT</div>
+        <div class="subtitle">Program vs Realisasi</div>
+      </div>
+
+      <div class="performance-body">
+        <div class="gauge-container">
+
+          <div class="gauge-item">
+            <div class="gauge-dial gauge-dial-blue">
+              <svg viewBox="0 0 120 70">
+                <path class="gauge-track" d="M10 60 A50 50 0 0 1 110 60"/>
+                <path class="gauge-progress" d="M10 60 A50 50 0 0 1 110 60"/>
+              </svg>
+              <div class="gauge-value" id="kpi-berangkat-prog">--%</div>
+            </div>
+            <div class="gauge-label">PROGRAM</div>
+          </div>
+
+          <div class="gauge-item">
+            <div class="gauge-dial gauge-dial-green">
+              <svg viewBox="0 0 120 70">
+                <path class="gauge-track" d="M10 60 A50 50 0 0 1 110 60"/>
+                <path class="gauge-progress" d="M10 60 A50 50 0 0 1 110 60"/>
+              </svg>
+              <div class="gauge-value" id="kpi-berangkat">--%</div>
+            </div>
+            <div class="gauge-label">REALISASI</div>
+          </div>
+
+        </div>
+      </div>
     </div>
 
-    <div class="performance-body">
-      <div class="gauge-container">
+    <!-- PNP - DATANG -->
+    <div class="performance-card direction-card card-pnp">
+      <div class="category-badge badge-pnp">PENUMPANG</div>
+      <div class="performance-header">
+        <div class="title">🚉 DATANG</div>
+        <div class="subtitle">Program vs Realisasi</div>
+      </div>
 
-        <div class="gauge-item prog">
-          <div class="gauge">
-            <svg viewBox="0 0 120 70">
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-blue" pathLength="100"/>
-            </svg>
-            <div class="gauge-value" id="kpi-berangkat-prog">--%</div>
+      <div class="performance-body">
+        <div class="gauge-container">
+
+          <div class="gauge-item">
+            <div class="gauge-dial gauge-dial-blue">
+              <svg viewBox="0 0 120 70">
+                <path class="gauge-track" d="M10 60 A50 50 0 0 1 110 60"/>
+                <path class="gauge-progress" d="M10 60 A50 50 0 0 1 110 60"/>
+              </svg>
+              <div class="gauge-value" id="kpi-datang-prog">--%</div>
+            </div>
+            <div class="gauge-label">PROGRAM</div>
           </div>
-          <div class="gauge-label">BERANGKAT</div>
+
+          <div class="gauge-item">
+            <div class="gauge-dial gauge-dial-orange">
+              <svg viewBox="0 0 120 70">
+                <path class="gauge-track" d="M10 60 A50 50 0 0 1 110 60"/>
+                <path class="gauge-progress" d="M10 60 A50 50 0 0 1 110 60"/>
+              </svg>
+              <div class="gauge-value" id="kpi-datang">--%</div>
+            </div>
+            <div class="gauge-label">REALISASI</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- BARANG - BERANGKAT -->
+    <div class="performance-card direction-card card-barang">
+      <div class="category-badge badge-barang">BARANG</div>
+
+      <div class="performance-header">
+        <div class="title">🚄 BERANGKAT</div>
+        <div class="subtitle">Program vs Realisasi</div>
+      </div>
+
+      <div class="performance-body">
+        <div class="gauge-container">
+
+          <div class="gauge-item">
+            <div class="gauge-dial gauge-dial-blue">
+              <svg viewBox="0 0 120 70">
+                <path class="gauge-track" d="M10 60 A50 50 0 0 1 110 60"/>
+                <path class="gauge-progress" d="M10 60 A50 50 0 0 1 110 60"/>
+              </svg>
+              <div class="gauge-value" id="kpi-barang-berangkat-prog">--%</div>
+            </div>
+            <div class="gauge-label">PROGRAM</div>
+          </div>
+
+          <div class="gauge-item">
+            <div class="gauge-dial gauge-dial-green">
+              <svg viewBox="0 0 120 70">
+                <path class="gauge-track" d="M10 60 A50 50 0 0 1 110 60"/>
+                <path class="gauge-progress" d="M10 60 A50 50 0 0 1 110 60"/>
+              </svg>
+              <div class="gauge-value" id="kpi-barang-berangkat">--%</div>
+            </div>
+            <div class="gauge-label">REALISASI</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- BARANG - DATANG -->
+    <div class="performance-card direction-card card-barang">
+      <div class="category-badge badge-barang">BARANG</div>
+
+      <div class="performance-header">
+        <div class="title">🚉 DATANG</div>
+        <div class="subtitle">Program vs Realisasi</div>
+      </div>
+
+      <div class="performance-body">
+        <div class="gauge-container">
+
+          <div class="gauge-item">
+            <div class="gauge-dial gauge-dial-blue">
+              <svg viewBox="0 0 120 70">
+                <path class="gauge-track" d="M10 60 A50 50 0 0 1 110 60"/>
+                <path class="gauge-progress" d="M10 60 A50 50 0 0 1 110 60"/>
+              </svg>
+              <div class="gauge-value" id="kpi-barang-datang-prog">--%</div>
+            </div>
+            <div class="gauge-label">PROGRAM</div>
+          </div>
+
+          <div class="gauge-item">
+            <div class="gauge-dial gauge-dial-orange">
+              <svg viewBox="0 0 120 70">
+                <path class="gauge-track" d="M10 60 A50 50 0 0 1 110 60"/>
+                <path class="gauge-progress" d="M10 60 A50 50 0 0 1 110 60"/>
+              </svg>
+              <div class="gauge-value" id="kpi-barang-datang">--%</div>
+            </div>
+            <div class="gauge-label">REALISASI</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== ROW 2: DETAIL PER KATEGORI (PENUMPANG | BARANG) ===== -->
+  <div class="kospr-detail-row">
+
+    <!-- ZONA KA PENUMPANG -->
+    <div class="kospr-zone kospr-zone-pnp">
+
+      <div class="section-title-pnp">KA PENUMPANG</div>
+
+      <div class="zone-cards-pnp">
+
+        <!-- REALISASI -->
+        <div class="kpi-card warning">
+          <div class="kpi-title">REALISASI KEBERANGKATAN KA PENUMPANG (ANTAR KOTA & PERKOTAAN)</div>
+          <div class="kpi-value" id="kpi-realisasi">0</div>
+          <svg class="kpi-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="3" width="16" height="13" rx="5"/>
+            <path d="M4 10.5h16"/>
+            <circle cx="8" cy="16.5" r="1.3" fill="#fff" stroke="none"/>
+            <circle cx="16" cy="16.5" r="1.3" fill="#fff" stroke="none"/>
+            <path d="M7.5 20l-2 -2.3"/>
+            <path d="M16.5 20l2 -2.3"/>
+          </svg>
         </div>
 
-        <div class="gauge-item prog">
-          <div class="gauge">
-            <svg viewBox="0 0 120 70">
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-yellow" pathLength="100"/>
-            </svg>
-            <div class="gauge-value" id="kpi-datang-prog">--%</div>
-          </div>
-          <div class="gauge-label">DATANG</div>
+        <!-- ANTARKOTA -->
+        <div class="kpi-card info">
+          <div class="kpi-title">ANTAR KOTA</div>
+          <div class="kpi-value" id="kpi-antarkota">0</div>
+          <svg class="kpi-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="5.5" cy="18.5" r="2"/>
+            <circle cx="18.5" cy="5.5" r="2"/>
+            <path d="M7 17c0-5 4-4 6-8s4-3 4.5-2"/>
+          </svg>
+        </div>
+
+        <!-- PERKOTAAN -->
+        <div class="kpi-card success">
+          <div class="kpi-title">PERKOTAAN</div>
+          <div class="kpi-value" id="kpi-perkotaan">0</div>
+          <svg class="kpi-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="10" width="6" height="11"/>
+            <rect x="10.5" y="4" width="6" height="17"/>
+            <rect x="18" y="13" width="3.5" height="8"/>
+            <path d="M12.5 7.5h3M12.5 10.5h3M12.5 13.5h3M12.5 16.5h3M4.5 13.5h3M4.5 16.5h3"/>
+          </svg>
         </div>
 
       </div>
     </div>
-  </div>
 
-  <!-- KINERJA -->
-  <div class="performance-card kinerja-card">
-    <div class="performance-header">
-      <div class="title">📈 REALISASI KINERJA OPERASI</div>
-      <div class="subtitle">Operation Performance</div>
-    </div>
+    <!-- ZONA KA BARANG -->
+    <div class="kospr-zone kospr-zone-brg">
 
-    <div class="performance-body">
-      <div class="gauge-container">
+      <div class="brg-title-row">
+        <div class="section-title-brg">KA BARANG</div>
+        <div class="section-title-norma">NORMA KENDALI / BULAN</div>
+      </div>
 
-        <div class="gauge-item">
-          <div class="gauge">
-            <svg viewBox="0 0 120 70">
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-green" pathLength="100"/>
-            </svg>
-            <div class="gauge-value" id="kpi-berangkat">--%</div>
-          </div>
-          <div class="gauge-label">BERANGKAT</div>
+      <div class="zone-cards-brg">
+
+        <!-- BARANG -->
+        <div class="kpi-card new">
+          <div class="kpi-title">REALISASI KEBERANGKATAN KA BARANG</div>
+          <div class="kpi-value" id="kpi-barang">0</div>
+          <svg class="kpi-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3.5l8 4.3v8.4l-8 4.3-8-4.3V7.8z"/>
+            <path d="M4 7.8l8 4.3 8-4.3"/>
+            <path d="M12 12.1v8.4"/>
+          </svg>
         </div>
 
-        <div class="gauge-item">
-          <div class="gauge">
-            <svg viewBox="0 0 120 70">
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-orange" pathLength="100"/>
-            </svg>
-            <div class="gauge-value" id="kpi-datang">--%</div>
+        <!-- NORMA KENDALI -->
+        <div class="kpi-card norma">
+
+          <div class="norma-table-wrap">
+            <table class="norma-table">
+              <thead>
+                <tr>
+                  <th colspan="2" class="grp-pnp">🧑‍🤝‍🧑 PENUMPANG</th>
+                  <th colspan="2" class="grp-brg">📦 BARANG</th>
+                </tr>
+                <tr>
+                  <th class="grp-pnp">BER</th>
+                  <th class="grp-pnp">DAT</th>
+                  <th class="grp-brg">BER</th>
+                  <th class="grp-brg">DAT</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="norma-pnp-ber" class="grp-pnp">-</td>
+                  <td id="norma-pnp-dat" class="grp-pnp">-</td>
+                  <td id="norma-brg-ber" class="grp-brg">-</td>
+                  <td id="norma-brg-dat" class="grp-brg">-</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="gauge-label">DATANG</div>
+
         </div>
 
       </div>
     </div>
+
   </div>
 
-  <!-- REALISASI -->
-  <div class="kpi-card warning">
-    <div class="kpi-title">REALISASI KEBERANGKATAN KA</div>
-    <div class="kpi-value" id="kpi-realisasi">0</div>
-  </div>
-
-  <!-- ANTARKOTA -->
-  <div class="kpi-card info">
-    <div class="kpi-title">ANTAR KOTA</div>
-    <div class="kpi-value" id="kpi-antarkota">0</div>
-  </div>
-
-  <!-- PERKOTAAN -->
-  <div class="kpi-card success">
-    <div class="kpi-title">PERKOTAAN</div>
-    <div class="kpi-value" id="kpi-perkotaan">0</div>
-  </div>
 
 </div>
-
-
-<!--=========================================
-KA BARANG
-==========================================-->
-
-<div class="section-title-brg">KA BARANG</div>
-
-<div class="dashboard-top-row barang-row">
-
-  <!-- PROGRAM -->
-  <div class="performance-card program-card">
-
-    <div class="performance-header">
-      <div class="title">📊 PROGRAM KINERJA OPERASI</div>
-      <div class="subtitle">Program Performance</div>
-    </div>
-
-    <div class="performance-body">
-      <div class="gauge-container">
-
-        <div class="gauge-item prog">
-          <div class="gauge">
-            <svg viewBox="0 0 120 70">
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-blue" pathLength="100"/>
-            </svg>
-            <div class="gauge-value" id="kpi-barang-berangkat-prog">--%</div>
-          </div>
-          <div class="gauge-label">BERANGKAT</div>
-        </div>
-
-        <div class="gauge-item prog">
-          <div class="gauge">
-            <svg viewBox="0 0 120 70">
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-yellow" pathLength="100"/>
-            </svg>
-            <div class="gauge-value" id="kpi-barang-datang-prog">--%</div>
-          </div>
-          <div class="gauge-label">DATANG</div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- KINERJA -->
-  <div class="performance-card">
-
-    <div class="performance-header">
-      <div class="title">📈 REALISASI KINERJA OPERASI</div>
-      <div class="subtitle">Operation Performance</div>
-    </div>
-
-    <div class="performance-body">
-      <div class="gauge-container">
-
-        <div class="gauge-item">
-          <div class="gauge">
-            <svg viewBox="0 0 120 70">
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-green" pathLength="100"/>
-            </svg>
-            <div class="gauge-value" id="kpi-barang-berangkat">--%</div>
-          </div>
-          <div class="gauge-label">BERANGKAT</div>
-        </div>
-
-        <div class="gauge-item">
-          <div class="gauge">
-            <svg viewBox="0 0 120 70">
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-bg" pathLength="100"/>
-              <path d="M10 60 A50 50 0 0 1 110 60" class="gauge-orange" pathLength="100"/>
-            </svg>
-            <div class="gauge-value" id="kpi-barang-datang">--%</div>
-          </div>
-          <div class="gauge-label">DATANG</div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- BARANG -->
-<div class="kpi-card new">
-  <div class="kpi-title">BARANG</div>
-  <div class="kpi-value" id="kpi-barang">0</div>
-</div>
-
-
-</div> <!-- penutup tab-content #dashboard -->
+<!-- kospr-master tetap di dalam tab-content #dashboard; konten lain (operation-row, kelka-grid, panel sarana, dsb) menyusul setelah ini -->
 
 <!==============================END OF KINOP=========================>
 
@@ -343,8 +430,30 @@ KA BARANG
   <!-- ==========================================
        CHART KETEPATAN
   =========================================== -->
-  <div class="operation-chart">
+  <div class="operation-chart has-legend">
+
+    <div class="chart-title-pro">
+      <div class="chart-title-icon icon-blue">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 19V13M10 19V9M16 19V5M22 19H2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="chart-title-text">
+        <div class="chart-title-main">Ketepatan KA <span class="chart-title-unit">(%)</span></div>
+        <div class="chart-title-sub">Perbandingan Program vs Realisasi</div>
+      </div>
+    </div>
+
     <canvas id="ketepatanChart"></canvas>
+
+    <div class="chart-legend">
+      <span class="legend-item">
+        <span class="legend-dot legend-dot-program"></span> Program
+      </span>
+      <span class="legend-item">
+        <span class="legend-dot legend-dot-realisasi"></span> Realisasi
+      </span>
+    </div>
   </div>
 
 
@@ -391,7 +500,22 @@ KA BARANG
   <!-- ==========================================
        CHART KELAMBATAN
   =========================================== -->
-  <div class="operation-chart">
+  <div class="operation-chart chart-solo">
+
+    <div class="chart-title-pro">
+      <div class="chart-title-icon icon-orange">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12.5" r="8.5" stroke="currentColor" stroke-width="2.2"/>
+          <path d="M12 8V12.5L15 14.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 1H15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="chart-title-text">
+        <div class="chart-title-main">Kelambatan KA <span class="chart-title-unit">(Menit)</span></div>
+        <div class="chart-title-sub">Total Waktu Keterlambatan per Kategori</div>
+      </div>
+    </div>
+
     <canvas id="kelambatanChart"></canvas>
   </div>
 
@@ -399,66 +523,94 @@ KA BARANG
 
 
 <!-- ==========================================
-     KELKA V2 - FINAL CLEAN FIX
+     KELKA V2 - SPLIT LAYOUT (KIRI: KELKA, KANAN: GANGGUAN OPERASIONAL)
 ========================================== -->
 
-<div class="kelka-grid">
+<div class="ops-split-grid">
 
-  <!-- ================= KELKA BERANGKAT ================= -->
+  <!-- ============ FRAME KIRI: KELKA BERANGKAT + DATANG ============ -->
+  <div class="kelka-frame-left">
 
-  <div class="panel">
+    <!-- ================= KELKA BERANGKAT ================= -->
+    <div class="panel">
 
-    <div class="panel-header-berangkat">
-      <span>KELKA BERANGKAT</span>
+      <div class="panel-header-berangkat">
+        <span>KELKA BERANGKAT</span>
 
-      <span class="badge" id="countKelkaBerangkat">
-        0 KA
-      </span>
+        <span class="badge" id="countKelkaBerangkat">
+          0 KA
+        </span>
+      </div>
+
+      <div class="panel-body">
+
+        <input
+          type="text"
+          class="ka-search"
+          placeholder="🔍 Cari KA..."
+          onkeyup="filterKelka(this,'kelkaBerangkatList')"
+        >
+
+        <!-- WRAPPER FIX -->
+        <div class="kelka-list" id="kelkaBerangkatList">
+          <div class="kelka-list-inner"></div>
+        </div>
+
+      </div>
+
     </div>
 
-    <div class="panel-body">
 
-      <input
-        type="text"
-        class="ka-search"
-        placeholder="🔍 Cari KA..."
-        onkeyup="filterKelka(this,'kelkaBerangkatList')"
-      >
+    <!-- ================= KELKA DATANG ================= -->
+    <div class="panel">
 
-      <!-- WRAPPER FIX -->
-      <div class="kelka-list" id="kelkaBerangkatList">
-        <div class="kelka-list-inner"></div>
+      <div class="panel-header-datang">
+        <span>KELKA DATANG</span>
+
+        <span class="badge" id="countKelkaDatang">
+          0 KA
+        </span>
+      </div>
+
+      <div class="panel-body">
+
+        <input
+          type="text"
+          class="ka-search"
+          placeholder="🔍 Cari KA..."
+          onkeyup="filterKelka(this,'kelkaDatangList')"
+        >
+
+        <!-- WRAPPER FIX -->
+        <div class="kelka-list" id="kelkaDatangList">
+          <div class="kelka-list-inner"></div>
+        </div>
+
       </div>
 
     </div>
 
   </div>
 
+  <!-- ============ FRAME KANAN: GANGGUAN OPERASIONAL ============ -->
+  <div class="kelka-frame-right">
 
-  <!-- ================= KELKA DATANG ================= -->
+    <div class="panel gangguan-panel">
 
-  <div class="panel">
+      <div class="panel-header-gangguan">
+        <span>GANGGUAN OPERASIONAL</span>
+      </div>
 
-    <div class="panel-header-datang">
-      <span>KELKA DATANG</span>
+      <div class="panel-body gangguan-body">
 
-      <span class="badge" id="countKelkaDatang">
-        0 KA
-      </span>
-    </div>
+        <div class="gangguan-chart-wrap">
+          <canvas id="gangguanChart"></canvas>
+        </div>
 
-    <div class="panel-body">
+        <div class="chart-legend chart-legend-vertical" id="gangguanLegend">
+          <!-- diisi via JS: updateGangguanChart(data) -->
+        </div>
 
-      <input
-        type="text"
-        class="ka-search"
-        placeholder="🔍 Cari KA..."
-        onkeyup="filterKelka(this,'kelkaDatangList')"
-      >
-
-      <!-- WRAPPER FIX -->
-      <div class="kelka-list" id="kelkaDatangList">
-        <div class="kelka-list-inner"></div>
       </div>
 
     </div>
@@ -480,56 +632,66 @@ KA BARANG
   </div>
 
   <!-- TAB -->
-  <div class="sarana-tabs">
-    <div class="sarana-tab active" data-type="lokomotif">LOKOMOTIF</div>
-    <div class="sarana-tab" data-type="krd">KRD</div>
-    <div class="sarana-tab" data-type="kereta">KERETA</div>
-    <div class="sarana-tab" data-type="gerbong">GERBONG</div>
-    <div class="sarana-tab" data-type="peralatan">PERALATAN KHUSUS</div>
+  <div class="sarana-tabs" role="tablist">
+    <div class="sarana-tab active" data-type="lokomotif" role="tab" tabindex="0" aria-selected="true">LOKOMOTIF</div>
+    <div class="sarana-tab" data-type="krd" role="tab" tabindex="0" aria-selected="false">KRD</div>
+    <div class="sarana-tab" data-type="kereta" role="tab" tabindex="0" aria-selected="false">KERETA</div>
+    <div class="sarana-tab" data-type="gerbong" role="tab" tabindex="0" aria-selected="false">GERBONG</div>
+    <div class="sarana-tab" data-type="peralatan" role="tab" tabindex="0" aria-selected="false">PERALATAN KHUSUS</div>
   </div>
+
+  <!-- STATUS: loading / error + tombol coba lagi -->
+  <div class="sarana-status" id="saranaStatus" style="display:none;"></div>
 
   <!-- CARD NORMAL -->
   <div class="sarana-cards" id="saranaCards">
 
-    <div class="sarana-card" data-key="sg" onclick="toggleNote(this)">
+    <div class="sarana-card" data-key="sg" role="button" tabindex="0" aria-expanded="false" onclick="toggleNote(this)">
       <div class="card-title">SG</div>
       <div class="card-number">0</div>
+      <div class="card-chevron">▾</div>
       <div class="card-note"></div>
     </div>
 
-    <div class="sarana-card" data-key="cadangan" onclick="toggleNote(this)">
+    <div class="sarana-card" data-key="cadangan" role="button" tabindex="0" aria-expanded="false" onclick="toggleNote(this)">
       <div class="card-title">CADANGAN</div>
       <div class="card-number">0</div>
+      <div class="card-chevron">▾</div>
       <div class="card-note"></div>
     </div>
 
-    <div class="sarana-card" data-key="tso" onclick="toggleNote(this)">
+    <div class="sarana-card" data-key="tso" role="button" tabindex="0" aria-expanded="false" onclick="toggleNote(this)">
       <div class="card-title">TSO</div>
       <div class="card-number">0</div>
+      <div class="card-chevron">▾</div>
       <div class="card-note"></div>
     </div>
 
-    <div class="sarana-card" data-key="tsgo" onclick="toggleNote(this)">
+    <div class="sarana-card" data-key="tsgo" role="button" tabindex="0" aria-expanded="false" onclick="toggleNote(this)">
       <div class="card-title">TSGO</div>
       <div class="card-number">0</div>
+      <div class="card-chevron">▾</div>
       <div class="card-note"></div>
     </div>
 
-    <div class="sarana-card" data-key="kirim_asistensi" onclick="toggleNote(this)">
+    <div class="sarana-card" data-key="kirim_asistensi" role="button" tabindex="0" aria-expanded="false" onclick="toggleNote(this)">
       <div class="card-title">KIRIM ASISTENSI</div>
       <div class="card-number">0</div>
+      <div class="card-chevron">▾</div>
       <div class="card-note"></div>
     </div>
 
-    <div class="sarana-card" data-key="terima_asistensi" onclick="toggleNote(this)">
+    <div class="sarana-card" data-key="terima_asistensi" role="button" tabindex="0" aria-expanded="false" onclick="toggleNote(this)">
       <div class="card-title">TERIMA ASISTENSI</div>
       <div class="card-number">0</div>
+      <div class="card-chevron">▾</div>
       <div class="card-note"></div>
     </div>
 
-    <div class="sarana-card" data-key="lain_lain" onclick="toggleNote(this)">
+    <div class="sarana-card" data-key="lain_lain" role="button" tabindex="0" aria-expanded="false" onclick="toggleNote(this)">
       <div class="card-title">LAIN-LAIN</div>
       <div class="card-number">0</div>
+      <div class="card-chevron">▾</div>
       <div class="card-note"></div>
     </div>
 
@@ -573,6 +735,7 @@ KA BARANG
           type="text"
           class="ka-search"
           placeholder="Cari KA..."
+          aria-label="Cari KA Penumpang Jarak Jauh"
           onkeyup="filterKA(this,'stamformasiJJ')"
         >
 
@@ -590,6 +753,7 @@ KA BARANG
           type="text"
           class="ka-search"
           placeholder="Cari KA..."
+          aria-label="Cari KA Penumpang Lokal"
           onkeyup="filterKA(this,'stamformasiLokal')"
         >
 
@@ -607,6 +771,7 @@ KA BARANG
           type="text"
           class="ka-search"
           placeholder="Cari KA..."
+          aria-label="Cari KA Tambahan"
           onkeyup="filterKA(this,'stamformasiTambahan')"
         >
 
@@ -617,27 +782,145 @@ KA BARANG
 
   </div>
 </div>
+</div>
 
-==============================================================================================================
+
+<!-- =========================
+     2. 🚆 OPERASI KA
+========================= -->
+<div class="tab-content" id="operasi">
+  <div style="text-align:center; opacity:.6; padding:30px;">
+    Data Operasi KA – Coming Soon
+  </div>
+</div>
+
+<!-- =========================
+     3. 📄 REGULASI
+========================= -->
+<div class="tab-content" id="regulasi">
+
+  <!-- SEARCH -->
+  <div class="reg-search-box">
+    <input
+      type="text"
+      id="regSearch"
+      placeholder="Cari regulasi berdasarkan judul..."
+    >
+  </div>
+
+  <!-- META -->
+  <div class="reg-list-meta">
+    <span><b id="regListCount">0</b> dokumen ditemukan</span>
+    <span>Diurutkan berdasarkan nomor</span>
+  </div>
+
+  <!-- LIST REGULASI -->
+  <div class="reg-list" id="regList"></div>
+
+  <!-- VIEWER PDF -->
+  <div class="reg-viewer" id="regViewer" style="display:none">
+    <div class="reg-viewer-header">
+      <h3 id="regViewerTitle"></h3>
+
+      <div class="reg-viewer-actions">
+        <a id="regBtnDownload" class="reg-btn-download" target="_blank">⬇ Download</a>
+        <button class="reg-btn-print" onclick="printRegulasi()">🖨 Print</button>
+        <button class="reg-btn-close" onclick="closeRegViewer()">✕ Tutup</button>
+      </div>
+    </div>
+
+    <!-- TOOLBAR: SEARCH ISI PDF -->
+    <div class="reg-viewer-toolbar">
+      <div class="reg-search-pdf">
+        <span class="reg-search-pdf-icon">🔍</span>
+        <input type="text" id="regPdfSearch" placeholder="Cari isi dokumen...">
+        <span id="regSearchCount" class="reg-search-count"></span>
+        <button id="regBtnSearchPrev" class="reg-btn-search-nav" title="Sebelumnya">‹</button>
+        <button id="regBtnSearchNext" class="reg-btn-search-nav" title="Berikutnya">›</button>
+      </div>
+    </div>
+
+    <!-- HALAMAN PDF -->
+    <div class="reg-pdf-pages" id="regPdfPages">
+      <div class="reg-state-box">
+        <div class="reg-state-icon">🚆</div>
+        <div class="reg-state-title">Memuat dokumen…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================
+    4. 🎬 MEDIA
+========================= -->
+<div class="tab-content" id="video">
+
+  <div class="video-layout">
+    <div class="playlist" id="playlist">Loading...</div>
+    <div class="player-wrapper">
+      <iframe id="player"></iframe>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- =========================
+     5. 📰 LOG KEJADIAN
+========================= -->
+<div class="tab-content" id="log">
+  <div style="text-align:center; opacity:.6; padding:30px;">
+    Log Kejadian Operasional – Coming Soon
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer class="footer">
-© 2026 • Achmad Teguh Ginanjar
+  <div class="footer-inner">
+
+    <div class="footer-brand">
+      <img
+        src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/logo_danantara_warna.png"
+        class="footer-logo" alt="Danantara">
+      <img
+        src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/logo_citar_2025_warna.png"
+        class="footer-logo" alt="CITAR">
+      <img
+        src="https://raw.githubusercontent.com/ginanjarachmad4-del/asset-logo/refs/heads/main/logo_kai.png"
+        class="footer-logo" alt="KAI">
+    </div>
+
+    <div class="footer-status">
+      <span class="footer-dot"></span>
+      <span>SISTEM AKTIF — REALTIME OPERATION</span>
+    </div>
+
+    <div class="footer-meta">
+      <div class="footer-org">PUSDALOPKA 2 BANDUNG</div>
+      <div class="footer-copy">© 2026 PT Kereta Api Indonesia (Persero) • Dikembangkan oleh Achmad Teguh Ginanjar</div>
+    </div>
+
+  </div>
 </footer>
 
-<!-- PDF VIEWER -->
-<div id="pdfModal">
-  <div class="pdf-modal-content">
-    <div class="pdf-topbar">
-      <button id="closePdf" onclick="closePDF()">✕ Tutup</button>
-      <button onclick="downloadPdf()">⬇ Download</button>
+<!-- KA DETAIL MODAL -->
+<div id="kaModal">
+  <div class="ka-modal-box">
+    <div class="ka-modal-header">
+      <span id="modalNamaKA">🚆 -</span>
+      <button class="ka-modal-close" onclick="document.getElementById('kaModal').classList.remove('show')">✕</button>
     </div>
-    <iframe id="pdfFrame"></iframe>
+    <div id="modalContent"></div>
   </div>
 </div>
 
 <!-- CHART LIBRARY (WAJIB DI ATAS JS KAMU) -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
 
+<!-- PDF.JS (UNTUK TAB REGULASI) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <!--MAIN JS -->
 <script src="app.js"></script>
