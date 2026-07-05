@@ -11,16 +11,67 @@
 let chartAtas = null;
 let chartBawah = null;
 let chartTambahan = null;
+let chartGangguan = null;
+
+// data chart terakhir (dipakai kalau perlu redraw manual)
+let lastChartAtasData = null;
+
+// nilai PROGRAM (statis, sama persis dengan angka di card gauge PROGRAM)
+// diisi otomatis oleh loadProgramOperasi()
+let programData = {
+  pnpBerangkat: 0,
+  pnpDatang: 0,
+  brgBerangkat: 0,
+  brgDatang: 0
+};
+
+// register plugin (aman dipanggil walau plugin belum sempat attach otomatis)
+if (window.ChartDataLabels) Chart.register(ChartDataLabels);
+
+// cocokin label baris chart (misal "KA PNP Dat", "KA BRG Ber") ke salah satu dari 4 nilai programData
+function getProgramForLabel(label) {
+  const l = (label || "").toUpperCase();
+
+  const isBarang = l.includes("BARANG") || l.includes("BRG");
+  const isDatang = l.includes("DATANG") || l.includes("DAT"); // nangkep singkatan "Dat"
+
+  if (isBarang && isDatang) return programData.brgDatang;
+  if (isBarang && !isDatang) return programData.brgBerangkat;
+  if (!isBarang && isDatang) return programData.pnpDatang;
+  return programData.pnpBerangkat; // default: penumpang berangkat
+}
+
+/* ===============================================
+   WARNA TRAFFIC LIGHT
+================================================ */
+// KETEPATAN (%) — makin tinggi makin bagus
+function getColorKetepatan(value, target) {
+  if (value >= target) return "#22c55e";       // hijau = capai target
+  if (value >= target - 10) return "#f59e0b";  // kuning = mendekati target
+  return "#ef4444";                             // merah = jauh di bawah target
+}
+
+// KELAMBATAN (menit) — makin tinggi makin jelek
+function getColorKelambatan(menit) {
+  if (menit <= 5) return "#22c55e";   // hijau = nyaris tepat waktu
+  if (menit <= 15) return "#f59e0b";  // kuning = waspada
+  return "#ef4444";                    // merah = lambat parah
+}
 
 /* ===============================================
    CHART RENDER
 ================================================ */
 function updateChartAtas(data) {
 
+  lastChartAtasData = data;
+
   const ctx = document.getElementById("ketepatanChart");
   if (!ctx) return;
 
   if (chartAtas) chartAtas.destroy();
+
+  const realisasi = data.map(x => Number(x.persen) || 0);
+  const program = data.map(x => getProgramForLabel(x.label));
 
   chartAtas = new Chart(ctx, {
     type: "bar",
@@ -28,13 +79,25 @@ function updateChartAtas(data) {
     data: {
       labels: data.map(x => x.label),
 
-      datasets: [{
-        data: data.map(x => Number(x.persen) || 0),
+      datasets: [
+        {
+          label: "Program",
+          data: program,
 
-        backgroundColor: "#f59e0b",
-        borderRadius: 4,
-        barThickness: 20
-      }]
+          backgroundColor: "#2563eb",
+          borderRadius: 4,
+          barThickness: 16
+        },
+        {
+          label: "Realisasi",
+          data: realisasi,
+
+          // hijau kalau realisasi >= program baris itu sendiri, merah kalau di bawah
+          backgroundColor: realisasi.map((v, i) => getColorKetepatan(v, program[i])),
+          borderRadius: 4,
+          barThickness: 16
+        }
+      ]
     },
 
     options: {
@@ -45,17 +108,19 @@ function updateChartAtas(data) {
 
       plugins: {
         legend: {
-          display: false
+          display: false // legend custom di bawah chart (HTML)
         },
        title: {
-          display: true,
-          align: "start",
-          text: "KETEPATAN KA (%)",
+          display: false // judul sudah pakai header HTML modern di atas canvas
+        },
+
+        // label angka di ujung tiap bar (program & realisasi)
+        datalabels: {
+          anchor: "end",
+          align: "end",
           color: "#374151",
-          font: {
-            size: 18,
-            weight: "bold"
-          }
+          font: { weight: "bold", size: 10 },
+          formatter: value => value.toFixed(2).replace(".", ",") + "%"
         }
       },
 
@@ -87,6 +152,9 @@ function updateChartBawah(data) {
 
   if (chartBawah) chartBawah.destroy();
 
+  // NOTE: field data dibiarin sesuai existing (x.persen), belum diganti ke x.menit/x.kelambatan
+  const values = data.map(x => Number(x.persen) || 0);
+
   chartBawah = new Chart(ctx, {
     type: "bar",
 
@@ -94,9 +162,9 @@ function updateChartBawah(data) {
       labels: data.map(x => x.label),
 
       datasets: [{
-        data: data.map(x => Number(x.persen) || 0),
+        data: values,
 
-        backgroundColor: "#f59e0b",
+        backgroundColor: values.map(v => getColorKelambatan(v)),
         borderRadius: 4,
         barThickness: 20
       }]
@@ -117,14 +185,16 @@ function updateChartBawah(data) {
         },
 
         title: {
-          display: true,
-          align: "start",
-          text: "KELAMBATAN KA (Menit)",
+          display: false // judul sudah pakai header HTML modern di atas canvas
+        },
+
+        // label angka di ujung bar
+        datalabels: {
+          anchor: "end",
+          align: "end",
           color: "#374151",
-          font: {
-            size: 18,
-            weight: "bold"
-          }
+          font: { weight: "bold", size: 11 },
+          formatter: value => value + " mnt"
         }
 
       },
@@ -171,7 +241,7 @@ function updateChartTambahan(data){
   const ctx = document.getElementById("chartTambahan");
   if(!ctx) return;
 
-  if(chartTambahan) chartTambahan.destroy();
+  if(chartBawah) chartBawah.destroy();
 
   chartTambahan = new Chart(ctx, {
     type: "bar",
@@ -206,17 +276,229 @@ function updateChartTambahan(data){
 }
 
 /* ===============================================
-   API CONFIG
+   GANGGUAN OPERASIONAL (DOUGHNUT CHART)
 ================================================ */
+
+// Urutan sumbu X tetap, sesuai urutan baris B6:B17 di sheet
+const GANGGUAN_CATEGORIES = [
+  "Angkutan Penumpang",
+  "Angkutan Barang",
+  "Fasilitas Penumpang",
+  "Operasi",
+  "Jalan & Jembatan",
+  "Sintelis",
+  "Sarana",
+  "Kamtib",
+  "SDM dan Umum",
+  "IT",
+  "Anak Perusahaan & Eksternal",
+  "Alam"
+];
+
+function normalizeLabel_(s) {
+  return String(s || "").trim().toLowerCase();
+}
+
+// Susun ulang data dari API supaya urutannya selalu ikut GANGGUAN_CATEGORIES,
+// walau urutan baris di sheet berubah / ada yang kosong.
+function orderGangguanData_(data) {
+
+  const map = {};
+  data.forEach(x => {
+    map[normalizeLabel_(x.label)] = x;
+  });
+
+  const ordered = GANGGUAN_CATEGORIES.map(cat => {
+    const found = map[normalizeLabel_(cat)];
+    return {
+      label: cat,
+      value: found ? (Number(found.value) || 0) : 0,
+      andil: found ? (Number(found.andil) || 0) : 0
+    };
+  });
+
+  return ordered;
+}
+
+function updateGangguanChart(rawData) {
+
+  const ctx = document.getElementById("gangguanChart");
+  if (!ctx) return;
+
+  if (chartGangguan) chartGangguan.destroy();
+
+  const data = orderGangguanData_(rawData);
+
+  const labels = data.map(x => x.label);
+  const values = data.map(x => x.value);
+  const andil  = data.map(x => x.andil);
+
+  chartGangguan = new Chart(ctx, {
+    type: "bar",
+
+    data: {
+      labels,
+      datasets: [{
+        label: "Jumlah Gangguan",
+        data: values,
+
+        backgroundColor: "#2563eb",
+        hoverBackgroundColor: "#1d4ed8",
+        borderRadius: 5,
+        maxBarThickness: 34
+      }]
+    },
+
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+
+      plugins: {
+        legend: { display: false },
+
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const i = ctx.dataIndex;
+              return [
+                ` Jumlah: ${values[i]} kejadian`,
+                ` Andil: ${andil[i]} menit`
+              ];
+            }
+          }
+        },
+
+        // keterangan di atas bar = andil (menit), bukan jumlah gangguannya
+        datalabels: {
+          anchor: "end",
+          align: "end",
+          color: "#f97316",
+          font: { weight: "800", size: 10 },
+          formatter: (_, ctx) => `${andil[ctx.dataIndex]}m`
+        }
+      },
+
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: {
+            autoSkip: false,
+            maxRotation: 45,
+            minRotation: 45,
+            font: { size: 10.5, weight: "600" },
+            color: "#4b5563"
+          }
+        },
+
+        y: {
+          beginAtZero: true,
+          grid: { color: "#f1f5f9" },
+          title: {
+            display: true,
+            text: "Jumlah Gangguan",
+            font: { size: 11, weight: "700" },
+            color: "#6b7280"
+          },
+          ticks: {
+            precision: 0
+          }
+        }
+      }
+    }
+  });
+}
+
+function renderGangguanLegend(rawData) {
+
+  const wrap = document.getElementById("gangguanLegend");
+  if (!wrap) return;
+
+  const data = orderGangguanData_(rawData);
+
+  const totalKejadian = data.reduce((a, x) => a + x.value, 0);
+  const totalAndil    = data.reduce((a, x) => a + x.andil, 0);
+
+  // legend HTML disederhanakan jadi ringkasan total,
+  // karena rincian per kategori sudah tampil langsung di sumbu X bar chart
+  wrap.innerHTML = `
+    <div class="legend-item">
+      <span class="legend-label">
+        <span class="legend-dot" style="background:#2563eb"></span>
+        Total Kejadian
+      </span>
+      <span class="legend-value">${totalKejadian}</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-label">
+        <span class="legend-dot" style="background:#f97316"></span>
+        Total Andil
+      </span>
+      <span class="legend-value">${totalAndil} <small>menit</small></span>
+    </div>
+  `;
+
+  const totalBadge = document.getElementById("gangguanTotal");
+  if (totalBadge) totalBadge.textContent = `${totalKejadian} Kejadian`;
+}
+
+// Endpoint gangguan pakai project Apps Script terpisah (API_GANGGUAN)
+async function loadGangguanOperasional() {
+  try {
+    const j = await fetch(API_GANGGUAN + "?mode=gangguan").then(r => r.json());
+    const list = j.data; // endpoint bungkus hasil di { serverTime, mode, data: [...] }
+
+    if (!Array.isArray(list) || list.length === 0) {
+      throw new Error("Data gangguan kosong / format tidak sesuai");
+    }
+
+    updateGangguanChart(list);
+    renderGangguanLegend(list);
+    syncGangguanPanelHeight();
+
+  } catch (err) {
+    console.error("Gagal load data gangguan operasional:", err);
+
+    // fallback dummy biar chart tidak kosong kalau API belum siap / error
+    const dummyData = [
+      { label: "Angkutan Penumpang",           value: 6,  andil: 22 },
+      { label: "Angkutan Barang",              value: 3,  andil: 15 },
+      { label: "Fasilitas Penumpang",          value: 2,  andil: 8  },
+      { label: "Operasi",                      value: 5,  andil: 30 },
+      { label: "Jalan & Jembatan",             value: 4,  andil: 40 },
+      { label: "Sintelis",                     value: 3,  andil: 25 },
+      { label: "Sarana",                       value: 8,  andil: 55 },
+      { label: "Kamtib",                       value: 1,  andil: 5  },
+      { label: "SDM dan Umum",                 value: 2,  andil: 10 },
+      { label: "IT",                           value: 1,  andil: 6  },
+      { label: "Anak Perusahaan & Eksternal",  value: 2,  andil: 12 },
+      { label: "Alam",                         value: 3,  andil: 20 }
+    ];
+
+    updateGangguanChart(dummyData);
+    renderGangguanLegend(dummyData);
+    syncGangguanPanelHeight();
+  }
+}
+
+
+
 const API_KELKA = "https://script.google.com/macros/s/AKfycbwmcMD95Pmk4VviCiivhlVOPgu_X2jQ4TlZBBxnoTYotob3oCLMNj8hP-D8bHDQX1fYPQ/exec";
 
 const API_OPERASI = "https://script.google.com/macros/s/AKfycbwmcMD95Pmk4VviCiivhlVOPgu_X2jQ4TlZBBxnoTYotob3oCLMNj8hP-D8bHDQX1fYPQ/exec";
 
+const API_GANGGUAN = "https://script.google.com/macros/s/AKfycbwmbWtaYiSgt2fLeHTgPp1qyOMUbzrzlj7kCKG_CJ0LHmI-6yAPj1q9Av0LbxiLIyWPMw/exec";
+
 const API_PROGRAM = "https://script.google.com/macros/s/AKfycbwmcMD95Pmk4VviCiivhlVOPgu_X2jQ4TlZBBxnoTYotob3oCLMNj8hP-D8bHDQX1fYPQ/exec";
+
+const API_NORMA =
+"https://script.google.com/macros/s/AKfycbxNlvWIltPVHOo5mjg9bwyt76uChTjafGl8zAwvqTOWgrMlNWUhXqJBvpeA0jnwFywy-Q/exec";
 
 const API_STAMFORMASI = "https://script.google.com/macros/s/AKfycbzzWiI1JmawlYXsVjCVs9b9t3LdgvEl3Tw_pwQGSpRcdz99xuRoxhxfXW160DKvCbkd/exec";
 
 const API_SARANA = "https://script.google.com/macros/s/AKfycbz50G5lqeAfklW_sUZiD0IZh1uMTMkQGJAEp6kJMLC2EezdH8DNE_LOIPE35lLuElh35Q/exec";
+
+const API_REGULASI =
+  "https://raw.githubusercontent.com/ginanjarachmad4-del/simulasi-ka/main/data/pdf.json";
 
 
 /* ===============================================
@@ -263,7 +545,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // INIT LOAD
- 
+  loadKinerjaOperasi();
   loadKelkaDatang();
   loadKelkaBerangkat();
   loadKelkaDatangList();
@@ -272,8 +554,54 @@ document.addEventListener("DOMContentLoaded", () => {
   loadStamformasi();
   loadSarana("lokomotif");
   loadOperasiDashboard();
+  loadProgramOperasi();
+  loadNormakendali();
+  loadRegulasi();
+  loadGangguanOperasional();
 
+  // samain tinggi card GANGGUAN OPERASIONAL dengan card KELKA (kiri)
+  syncGangguanPanelHeight();
+  window.addEventListener("resize", debounce(syncGangguanPanelHeight, 200));
 });
+
+/* ===============================================
+   SYNC TINGGI CARD GANGGUAN OPERASIONAL
+   (samain persis dengan tinggi frame KELKA berangkat+datang)
+================================================ */
+function debounce(fn, delay) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), delay);
+  };
+}
+
+function syncGangguanPanelHeight() {
+
+  const leftFrame  = document.querySelector(".kelka-frame-left");
+  const rightPanel = document.querySelector(".kelka-frame-right .panel");
+
+  if (!leftFrame || !rightPanel) return;
+
+  // di layar sempit, layout jadi 1 kolom (lihat @media ops-split-grid) —
+  // biar card gak dipaksa ketinggian gede sisa dari layout desktop, reset dulu
+  if (window.innerWidth <= 1200) {
+    rightPanel.style.height = "";
+    if (chartGangguan) requestAnimationFrame(() => chartGangguan.resize());
+    return;
+  }
+
+  const targetHeight = leftFrame.getBoundingClientRect().height;
+  if (targetHeight > 0) {
+    rightPanel.style.height = targetHeight + "px";
+  }
+
+  // kasih waktu browser reflow dulu sebelum resize chart,
+  // biar canvas ke-render dengan ukuran container yang sudah final
+  requestAnimationFrame(() => {
+    if (chartGangguan) chartGangguan.resize();
+  });
+}
 
 
 /* ===============================================
@@ -318,28 +646,20 @@ function setGauge(idValue, percent){
   const valueEl = document.getElementById(idValue);
   if(!valueEl) return;
 
-  const gauge = valueEl.closest('.gauge');
-  if(!gauge) return;
+  const dial = valueEl.closest('.gauge-dial');
+  if(!dial) return;
 
-  // FIX: jangan ambil .gauge-arc (karena kamu pakai color class)
-  const path = gauge.querySelector('path.gauge-blue, path.gauge-green, path.gauge-orange, path.gauge-yellow');
-  if(!path) return;
+  const progress = dial.querySelector('.gauge-progress');
+  if(!progress) return;
 
   const v = Math.max(0, Math.min(Number(percent) || 0, 100));
 
-  // FIX: cache length (jangan hitung ulang tiap update)
-  let length = path.getTotalLength();
+  // panjang total arc setengah lingkaran (radius 50)
+  const total = progress.getTotalLength();
 
-  if(!path.dataset.init){
-    path.style.strokeDasharray = length;
-    path.style.strokeDashoffset = length;
-    path.dataset.init = "true";
-  }
-
-  // animate
   requestAnimationFrame(() => {
-    path.style.transition = "stroke-dashoffset .6s ease";
-    path.style.strokeDashoffset = length - (length * v / 100);
+    progress.style.strokeDasharray = total;
+    progress.style.strokeDashoffset = total * (1 - v / 100);
   });
 
   valueEl.textContent =
@@ -365,6 +685,16 @@ async function loadProgramOperasi() {
     // KA BARANG
     setGauge("kpi-barang-berangkat-prog", toPercent(j.berangkatbrg));
     setGauge("kpi-barang-datang-prog", toPercent(j.datangbrg));
+
+    // simpan nilai program yang sama persis dgn angka di card gauge di atas,
+    // dipakai buat bar "Program" di chart KETEPATAN KA (%)
+    programData.pnpBerangkat = toPercent(j.berangkatpnp);
+    programData.pnpDatang = toPercent(j.datangpnp);
+    programData.brgBerangkat = toPercent(j.berangkatbrg);
+    programData.brgDatang = toPercent(j.datangbrg);
+
+    // kalau chart ketepatan udah pernah digambar, redraw biar bar program-nya ke-update
+    if (lastChartAtasData) updateChartAtas(lastChartAtasData);
 
   } catch (err) {
     console.error("loadProgramOperasi error:", err);
@@ -516,16 +846,20 @@ async function loadStamformasi() {
     ["stamformasiJJ", "stamformasiLokal", "stamformasiTambahan"]
       .forEach(id => {
         document.getElementById(id).innerHTML = `
-          <div class="ka-item">
+          <div class="ka-item ka-placeholder">
             <div class="ka-header">
-              <div class="ka-icon">🚆</div>
+              <div class="ka-icon">⚠️</div>
               <div>Gagal memuat data</div>
             </div>
+            <button type="button" class="sarana-retry ka-retry" onclick="loadStamformasi()">Coba lagi</button>
           </div>
         `;
       });
   }
 }
+
+// refresh otomatis tiap 60 detik, konsisten dengan panel realtime lain
+setInterval(loadStamformasi, 60000);
 
 
 /* ===============================================
@@ -543,7 +877,7 @@ function renderStam(id, data, countId) {
   if (!data || data.length === 0) {
 
     container.innerHTML = `
-      <div class="ka-item">
+      <div class="ka-item ka-placeholder">
         <div class="ka-header">
           <div class="ka-icon">🚆</div>
           <div>Tidak ada data</div>
@@ -603,12 +937,94 @@ function renderStam(id, data, countId) {
       ${html}
     </div>
   `;
+
+  // kalau user lagi ngetik pencarian pas data ini di-refresh otomatis,
+  // filter langsung diterapkan ulang biar hasil pencarian nggak ilang
+  const searchInput = container.closest(".stam-category")?.querySelector(".ka-search");
+  if (searchInput && searchInput.value.trim()) {
+    filterKA(searchInput, id);
+  }
 }
 
 
 /* ===============================================
-   FILTER KA (UPDATED)
+   AUTO-SCROLL LIST KA (JJ / Lokal / Tambahan)
+   — geser scrollTop pelan-pelan, bukan CSS transform,
+     jadi otomatis pas sama tinggi konten asli (nggak nyentak)
+     dan berhenti pas di-hover / lagi dipakai nyari
 ================================================ */
+function initKaAutoScroll() {
+  document.querySelectorAll(".stam-category").forEach(category => {
+    const list = category.querySelector(".ka-list");
+    const input = category.querySelector(".ka-search");
+    if (!list) return;
+
+    let hovering = false;
+    list.addEventListener("mouseenter", () => hovering = true);
+    list.addEventListener("mouseleave", () => hovering = false);
+
+    setInterval(() => {
+      const isSearching = input && input.value.trim() !== "";
+      if (hovering || isSearching) return;
+
+      // konten belum lebih tinggi dari kotaknya, nggak perlu discroll
+      if (list.scrollHeight <= list.clientHeight) return;
+
+      if (list.scrollTop + list.clientHeight >= list.scrollHeight - 1) {
+        list.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        list.scrollTop += 1;
+      }
+    }, 60);
+  });
+}
+initKaAutoScroll();
+
+
+/* ===============================================
+   FILTER KA — DATA STAMFORMASI (JJ / Lokal / Tambahan)
+================================================ */
+function filterKA(input, id) {
+  const container = document.getElementById(id);
+  if (!container) return;
+
+  // kalau lagi nggak ada data beneran (placeholder "tidak ada"/"gagal memuat"),
+  // nggak usah difilter
+  if (container.querySelector(".ka-placeholder")) return;
+
+  const keyword = input.value.trim().toLowerCase();
+  const items = container.querySelectorAll(".ka-item:not(.ka-empty-search)");
+
+  let visibleCount = 0;
+  items.forEach(item => {
+    const match = item.innerText.toLowerCase().includes(keyword);
+    item.style.display = match ? "" : "none";
+    if (match) visibleCount++;
+  });
+
+  let emptyMsg = container.querySelector(".ka-empty-search");
+
+  if (visibleCount === 0 && keyword) {
+    if (!emptyMsg) {
+      emptyMsg = document.createElement("div");
+      emptyMsg.className = "ka-item ka-empty-search";
+      emptyMsg.innerHTML = `
+        <div class="ka-header">
+          <div class="ka-icon">🔍</div>
+          <div>Tidak ditemukan untuk "${input.value.trim()}"</div>
+        </div>`;
+      container.querySelector(".ka-list-inner")?.appendChild(emptyMsg);
+    } else {
+      emptyMsg.querySelector(".ka-header div:last-child").textContent =
+        `Tidak ditemukan untuk "${input.value.trim()}"`;
+      emptyMsg.style.display = "";
+    }
+  } else if (emptyMsg) {
+    emptyMsg.style.display = "none";
+  }
+}
+
+// filter list KELKA (Datang/Berangkat) — beda struktur dari filterKA di atas
 function filterKelka(input, id) {
 
   const keyword = input.value.toLowerCase();
@@ -677,32 +1093,24 @@ function renderKelka(id, data, countId) {
     html += `
       <div class="kelka-item" onclick='showKelkaDetail("${payload}")'>
 
-        <div class="kelka-left">
-
-          <div class="kelka-icon ${Number(x.kelambatan) > 0 ? "lambat" : "tepat"}">
-            🚆
-          </div>
-
-          <div class="kelka-info">
-
-            <div class="kelka-nomor">
-              KA ${x.nomorKA ?? "-"}
-            </div>
-
-            <div class="kelka-nama">
-              ${x.namaKA ?? "-"}
-            </div>
-
-            <div class="kelka-jam">
-              🕒 ${x.jam ?? "-"}
-            </div>
-
-          </div>
-
+        <div class="kelka-icon ${Number(x.kelambatan) > 0 ? "lambat" : "tepat"}">
+          🚆
         </div>
 
-        <div class="kelka-delay ${Number(x.kelambatan) > 0 ? "lambat" : "tepat"}">
-          ${x.kelambatan ?? 0} Menit
+        <div class="kelka-body">
+
+          <div class="kelka-row1">
+            <span class="kelka-nomor">KA ${x.nomorKA ?? "-"}</span>
+            <span class="kelka-nama">${x.namaKA ?? "-"}</span>
+          </div>
+
+          <div class="kelka-row2">
+            <span class="kelka-jam">🕒 ${x.jam ?? "-"}</span>
+            <span class="kelka-delay ${Number(x.kelambatan) > 0 ? "lambat" : "tepat"}">
+              ${x.kelambatan ?? 0} Menit
+            </span>
+          </div>
+
         </div>
 
       </div>
@@ -760,29 +1168,87 @@ setInterval(loadKelkaBerangkatList, 60000);
 /* ===============================================
    SARANA
 ================================================ */
+
+// state global buat cegah race condition & tau tab mana yang lagi aktif
+let saranaCurrentKategori = "lokomotif";
+let saranaAbortController = null;
+
+// parse baris mentah dari API (">> BANDUNG : 25", "1. K1 PRIO ... (F)", "- K1 PNC : 11")
+// jadi HTML yang lebih rapi & konsisten, tanpa dot/dash mentah dari sheet
+function renderCatatanList(lines) {
+  if (!lines || !lines.length) {
+    return `<div class="catatan-empty">Tidak ada catatan</div>`;
+  }
+
+  return lines.map(raw => {
+    const v = String(raw).trim();
+
+    // baris ringkasan lokasi, misal ">> BANDUNG : 25"
+    const header = v.match(/^>>\s*(.+)$/);
+    if (header) {
+      return `<div class="catatan-header">📍 ${header[1]}</div>`;
+    }
+
+    // baris bernomor, misal "1. K1 PRIO 0 82 12 (F) - (JAKK) PRIORITY"
+    const numbered = v.match(/^(\d+)\.\s*(.+)$/);
+    if (numbered) {
+      return `
+        <div class="catatan-item">
+          <span class="catatan-num">${numbered[1]}</span>
+          <span class="catatan-text">${numbered[2]}</span>
+        </div>`;
+    }
+
+    // baris dash, misal "- K1 PNC : 11" — disamakan gayanya dengan baris bernomor
+    const dashed = v.match(/^-+\s*(.+)$/);
+    if (dashed) {
+      return `
+        <div class="catatan-item">
+          <span class="catatan-dash">•</span>
+          <span class="catatan-text">${dashed[1]}</span>
+        </div>`;
+    }
+
+    // fallback: baris biasa
+    return `<div class="catatan-line">${v}</div>`;
+  }).join("");
+}
+
 async function loadSarana(kategori) {
+  saranaCurrentKategori = kategori;
+
+  // request sebelumnya (misal dari tab yang buru-buru ditinggalkan) dibatalkan
+  // supaya response yang telat tidak menimpa data tab yang sedang aktif sekarang
+  if (saranaAbortController) saranaAbortController.abort();
+  const controller = new AbortController();
+  saranaAbortController = controller;
+
+  setSaranaLoading(true);
+  showSaranaStatus("Memuat data sarana…", "info");
+
   try {
-    if (kategori === "peralatan") kategori = "peralatan khusus";
+    let apiKategori = kategori;
+    if (apiKategori === "peralatan") apiKategori = "peralatan khusus";
 
-    const j = await fetch(
-      API_SARANA + "?type=sarana&kategori=" + encodeURIComponent(kategori)
-    ).then(r => r.json());
+    const res = await fetch(
+      API_SARANA + "?type=sarana&kategori=" + encodeURIComponent(apiKategori),
+      { signal: controller.signal }
+    );
+    const j = await res.json();
 
-    if (!j?.status) return showPeralatanError("Gagal ambil data");
+    if (!j?.status) {
+      showSaranaStatus("Gagal mengambil data sarana", "error");
+      return;
+    }
 
-    if (kategori === "peralatan khusus") {
+    if (apiKategori === "peralatan khusus") {
       const noteBox = document.getElementById("peralatan-note");
       const card = document.getElementById("peralatanCard");
       card.style.display = "block";
 
       const p = j.data?.PERALATAN_KHUSUS || j.data?.PERALATAN || j.data?.peralatan;
-
-      if (!p?.catatan?.length) {
-        noteBox.innerHTML = `<div style="opacity:.6;text-align:center">Tidak ada data</div>`;
-        return;
-      }
-
-      noteBox.innerHTML = p.catatan.map(v => `<div>${v}</div>`).join("");
+      noteBox.innerHTML = renderCatatanList(p?.catatan);
+      hideSaranaStatus();
       return;
     }
 
@@ -791,27 +1257,92 @@ async function loadSarana(kategori) {
       const item = j.data?.[key];
       if (!item) return;
 
-      card.querySelector(".card-number").innerText = item.jumlah ?? 0;
+      // ambil angka dari jumlah; kalau kosong/"-"/bukan angka,
+      // fallback hitung total dari baris catatan (misal "- K1 PNC : 11")
+      const rawJumlah = item.jumlah;
+      const parsedJumlah = Number(rawJumlah);
+      const isValidNumber =
+        rawJumlah !== null &&
+        rawJumlah !== undefined &&
+        rawJumlah !== "" &&
+        !isNaN(parsedJumlah);
+
+      let total;
+      if (isValidNumber) {
+        total = parsedJumlah;
+      } else {
+        total = (item.catatan || []).reduce((sum, line) => {
+          const m = String(line).match(/:\s*(-?\d+)\s*$/);
+          return sum + (m ? parseInt(m[1], 10) : 0);
+        }, 0);
+      }
+
+      card.querySelector(".card-number").innerText = total;
       card.querySelector(".card-note").innerHTML =
-        (item.catatan || []).map(v => `<div>${v}</div>`).join("");
+        renderCatatanList(item.catatan);
     });
 
-  } catch {
-    showPeralatanError("Kesalahan koneksi");
+    hideSaranaStatus();
+
+  } catch (err) {
+    if (err.name === "AbortError") return; // dibatalkan karena ganti tab, bukan error beneran
+    showSaranaStatus("Kesalahan koneksi ke server sarana", "error");
+  } finally {
+    setSaranaLoading(false);
   }
 }
 
-function showPeralatanError(msg) {
-  const box = document.getElementById("peralatan-note");
-  if (box) box.innerHTML = `<div style="color:#ffb4b4;text-align:center">${msg}</div>`;
+// dim + nonaktifkan interaksi sesaat selama fetch, biar ada sinyal visual "lagi update"
+function setSaranaLoading(isLoading) {
+  [document.getElementById("saranaCards"), document.getElementById("peralatanCard")]
+    .forEach(el => el && el.classList.toggle("sarana-loading", isLoading));
+}
+
+// banner status di atas grid card: info (memuat) / error (gagal + tombol coba lagi)
+function showSaranaStatus(msg, type = "info") {
+  const box = document.getElementById("saranaStatus");
+  if (!box) return;
+
+  if (type === "info") {
+    box.innerHTML = `⏳ ${msg}`;
+  } else {
+    box.innerHTML = `⚠️ ${msg}
+      <button type="button" class="sarana-retry" onclick="loadSarana('${saranaCurrentKategori}')">Coba lagi</button>`;
+  }
+
+  box.className = "sarana-status " + type;
+  box.style.display = "flex";
+}
+
+function hideSaranaStatus() {
+  const box = document.getElementById("saranaStatus");
+  if (box) box.style.display = "none";
 }
 
 function toggleNote(card) {
-  document.querySelectorAll(".sarana-card")
-    .forEach(c => c !== card && c.classList.remove("active"));
+  document.querySelectorAll(".sarana-card").forEach(c => {
+    if (c !== card) {
+      c.classList.remove("active");
+      c.setAttribute("aria-expanded", "false");
+    }
+  });
 
-  card.classList.toggle("active");
+  const isActive = card.classList.toggle("active");
+  card.setAttribute("aria-expanded", isActive ? "true" : "false");
 }
+
+// dukungan keyboard (Enter/Space) buat card yang bisa expand, biar accessible
+document.querySelectorAll(".sarana-card").forEach(card => {
+  card.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleNote(card);
+    }
+  });
+});
+
+// auto-refresh data sarana tiap 60 detik, konsisten dengan panel realtime lain
+setInterval(() => loadSarana(saranaCurrentKategori), 60000);
 
 
 /* ===============================================
@@ -819,10 +1350,19 @@ function toggleNote(card) {
 ================================================ */
 document.querySelectorAll(".sarana-tab").forEach(tab => {
   tab.onclick = () => {
-    document.querySelectorAll(".sarana-tab")
-      .forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".sarana-tab").forEach(t => {
+      t.classList.remove("active");
+      t.setAttribute("aria-selected", "false");
+    });
 
     tab.classList.add("active");
+    tab.setAttribute("aria-selected", "true");
+
+    // tutup card yang lagi expand, soalnya angka & catatannya bakal ganti kategori
+    document.querySelectorAll(".sarana-card.active").forEach(c => {
+      c.classList.remove("active");
+      c.setAttribute("aria-expanded", "false");
+    });
 
     const k = tab.dataset.type;
     loadSarana(k);
@@ -833,141 +1373,341 @@ document.querySelectorAll(".sarana-tab").forEach(tab => {
     document.getElementById("peralatanCard").style.display =
       k === "peralatan" ? "block" : "none";
   };
+
+  tab.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      tab.click();
+    }
+  });
 });
 
-/* =================================================
-   REGULASI TAB ENGINE (FINAL CLEAN)
-   ROCC Pusdalopka 2 Bandung
-================================================= */
+/* ===============================================
+  NORMA KENDALI
+================================================ */
 
-/* =========================
-   CONFIG
-========================= */
-const REGULASI_JSON = "data/pdf.json"; // atau raw github
+function loadNormakendali(){
+  fetch(API_NORMA + '?mode=normakendali')
+    .then(res => res.json())
+    .then(d => {
 
-let regulasiData = [];
-let regulasiLoaded = false;
-let regulasiSearchInit = false;
+      console.log('NORMA:', d);
 
-/* =========================
-   DOM CACHE
-========================= */
-function getRegulasiEl(){
-  return {
-    tab: document.querySelector('.tab[data-tab="regulasi"]'),
-    list: document.getElementById("pdfList"),
-    search: document.getElementById("pdfSearch"),
-    modal: document.getElementById("pdfModal"),
-    frame: document.getElementById("pdfFrame"),
-    btnClose: document.getElementById("closePdf"),
-    btnDownload: document.getElementById("downloadPdf"),
-    btnPrint: document.getElementById("printPdf")
-  };
+      const map = {
+        'norma-pnp-ber': d.pnpber,
+        'norma-pnp-dat': d.pnpdat,
+        'norma-brg-ber': d.brgber,
+        'norma-brg-dat': d.brgdat
+      };
+
+      Object.keys(map).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = map[id] || '-';
+      });
+
+    })
+    .catch(err => console.error('Norma Kendali:', err));
 }
 
-/* =========================
-   LOAD REGULASI (ONCE)
-========================= */
-async function loadRegulasiOnce(){
-  if (regulasiLoaded) return;
 
-  const { list } = getRegulasiEl();
+/* ===============================================
+   REGULASI (TAB PDF) — versi inline sama seperti standalone
+================================================ */
+let regulasiData = [];
+let regCurrentPdfDoc = null;
+let regSearchMatches = [];
+let regCurrentMatchIndex = -1;
+
+async function loadRegulasi() {
+  const list = document.getElementById("regList");
   if (!list) return;
 
-  list.innerHTML = "⏳ Memuat regulasi...";
+  list.innerHTML = `
+    <div class="reg-state-box">
+      <div class="reg-state-icon">🚆</div>
+      <div class="reg-state-title">Memuat regulasi…</div>
+      <div class="reg-state-sub">Mohon tunggu sebentar.</div>
+    </div>`;
 
   try {
-    const res = await fetch(REGULASI_JSON);
-    regulasiData = await res.json();
+    const res = await fetch(API_REGULASI);
+    const data = await res.json();
 
+    regulasiData = Array.isArray(data) ? data : [];
     renderRegulasi(regulasiData);
-    regulasiLoaded = true;
+
+    const searchInput = document.getElementById("regSearch");
+    if (searchInput) {
+      searchInput.oninput = e => {
+        const q = e.target.value.toLowerCase();
+        renderRegulasi(
+          regulasiData.filter(p => (p.nama || "").toLowerCase().includes(q))
+        );
+      };
+    }
 
   } catch (err) {
-    console.error("REGULASI LOAD ERROR:", err);
-    list.innerHTML = "❌ Gagal memuat regulasi";
+    console.error("Regulasi:", err);
+    list.innerHTML = `
+      <div class="reg-state-box">
+        <div class="reg-state-icon">⚠️</div>
+        <div class="reg-state-title">Gagal memuat data</div>
+        <div class="reg-state-sub">Periksa koneksi internet lalu muat ulang halaman.</div>
+      </div>`;
   }
 }
 
-/* =========================
-   RENDER LIST
-========================= */
-function renderRegulasi(data){
-  const { list } = getRegulasiEl();
+function renderRegulasi(data) {
+  const list = document.getElementById("regList");
+  const count = document.getElementById("regListCount");
   if (!list) return;
 
-  if (!data || data.length === 0){
-    list.innerHTML = "Tidak ada regulasi";
+  if (count) count.textContent = data.length;
+
+  if (!data.length) {
+    list.innerHTML = `
+      <div class="reg-state-box">
+        <div class="reg-state-icon">🔍</div>
+        <div class="reg-state-title">Tidak ditemukan</div>
+        <div class="reg-state-sub">Coba kata kunci lain untuk mencari regulasi.</div>
+      </div>`;
     return;
   }
 
   list.innerHTML = "";
 
-  data.forEach((pdf, i) => {
+  data.forEach((p, i) => {
     const div = document.createElement("div");
-    div.className = "pdf-item";
-    div.textContent = `${i + 1}. ${pdf.nama || "-"}`;
-    div.onclick = () => openRegulasiPdf(pdf.file);
+    div.className = "reg-item";
+    div.innerHTML = `
+      <div class="reg-item-icon">📄</div>
+      <div class="reg-item-body">
+        <div class="reg-item-code">REG · ${String(i + 1).padStart(3, "0")}</div>
+        <div class="reg-item-title">${p.nama}</div>
+      </div>
+      <div class="reg-item-arrow">›</div>
+    `;
+    div.onclick = () => openRegViewer(p);
     list.appendChild(div);
   });
 }
 
 /* =========================
-   SEARCH (INIT ONCE)
+   VIEWER
 ========================= */
-function initRegulasiSearch(){
-  if (regulasiSearchInit) return;
-  regulasiSearchInit = true;
+async function openRegViewer(p) {
+  const viewer = document.getElementById("regViewer");
+  const title = document.getElementById("regViewerTitle");
+  const btnDownload = document.getElementById("regBtnDownload");
+  const pagesEl = document.getElementById("regPdfPages");
+  const searchInput = document.getElementById("regPdfSearch");
 
-  const { search } = getRegulasiEl();
-  if (!search) return;
+  viewer.style.display = "block";
+  title.innerText = p.nama;
+  btnDownload.href = p.file;
 
-  search.addEventListener("input", () => {
-    const q = search.value.toLowerCase();
+  searchInput.value = "";
+  resetRegSearch();
 
-    const filtered = regulasiData.filter(r =>
-      (r.nama || "").toLowerCase().includes(q)
-    );
+  pagesEl.innerHTML = `
+    <div class="reg-state-box">
+      <div class="reg-state-icon">🚆</div>
+      <div class="reg-state-title">Memuat dokumen…</div>
+    </div>`;
 
-    renderRegulasi(filtered);
-  });
-}
+  viewer.scrollIntoView({ behavior: "smooth", block: "start" });
 
-/* =========================
-   PDF MODAL
-========================= */
-function openRegulasiPdf(file){
-  const { modal, frame, btnClose, btnDownload, btnPrint } = getRegulasiEl();
-  if (!modal || !frame) return;
-
-  frame.src = file;
-  modal.style.display = "block";
-
-  if (btnClose){
-    btnClose.onclick = () => {
-      modal.style.display = "none";
-      frame.src = "";
-    };
-  }
-
-  if (btnDownload){
-    btnDownload.onclick = () => window.open(file, "_blank");
-  }
-
-  if (btnPrint){
-    btnPrint.onclick = () => frame.contentWindow.print();
+  try {
+    regCurrentPdfDoc = await pdfjsLib.getDocument(p.file).promise;
+    await renderAllRegPages(regCurrentPdfDoc, pagesEl);
+  } catch (err) {
+    pagesEl.innerHTML = `
+      <div class="reg-state-box">
+        <div class="reg-state-icon">⚠️</div>
+        <div class="reg-state-title">Gagal memuat dokumen</div>
+        <div class="reg-state-sub">File PDF tidak bisa dibuka dari sumbernya.</div>
+      </div>`;
   }
 }
 
-/* =========================
-   TAB HOOK (SAFE)
-========================= */
-document.addEventListener("DOMContentLoaded", () => {
-  const { tab } = getRegulasiEl();
-  if (!tab) return;
+async function renderAllRegPages(pdfDoc, container) {
+  container.innerHTML = "";
 
-  tab.addEventListener("click", () => {
-    loadRegulasiOnce();
-    initRegulasiSearch();
+  const targetWidth = Math.min(container.clientWidth - 4, 860);
+
+  for (let n = 1; n <= pdfDoc.numPages; n++) {
+    const page = await pdfDoc.getPage(n);
+    const baseViewport = page.getViewport({ scale: 1 });
+    const scale = targetWidth / baseViewport.width;
+    const viewport = page.getViewport({ scale });
+
+    const wrap = document.createElement("div");
+    wrap.className = "reg-pdf-page-wrap";
+    wrap.style.width = viewport.width + "px";
+    wrap.style.height = viewport.height + "px";
+
+    const canvas = document.createElement("canvas");
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    const ctx = canvas.getContext("2d");
+
+    await page.render({ canvasContext: ctx, viewport }).promise;
+
+    const textLayerDiv = document.createElement("div");
+    textLayerDiv.className = "reg-textLayer";
+    textLayerDiv.style.width = viewport.width + "px";
+    textLayerDiv.style.height = viewport.height + "px";
+
+    const textContent = await page.getTextContent();
+    pdfjsLib.renderTextLayer({
+      textContent,
+      container: textLayerDiv,
+      viewport,
+      textDivs: [],
+    });
+
+    wrap.appendChild(canvas);
+    wrap.appendChild(textLayerDiv);
+    container.appendChild(wrap);
+  }
+}
+
+function closeRegViewer() {
+  document.getElementById("regViewer").style.display = "none";
+  document.getElementById("regPdfPages").innerHTML = "";
+  regCurrentPdfDoc = null;
+  resetRegSearch();
+}
+
+function printRegulasi() {
+  window.print();
+}
+
+/* =========================
+   SEARCH DALAM ISI PDF
+========================= */
+function resetRegSearch() {
+  clearRegHighlights();
+  regSearchMatches = [];
+  regCurrentMatchIndex = -1;
+  updateRegSearchCount();
+}
+
+function clearRegHighlights() {
+  document.querySelectorAll("#regPdfPages mark.reg-search-hit").forEach(mark => {
+    const parent = mark.parentNode;
+    if (!parent) return;
+    parent.replaceChild(document.createTextNode(mark.textContent), mark);
+    parent.normalize();
   });
-});
+}
+
+function runRegPdfSearch(query) {
+  clearRegHighlights();
+  regSearchMatches = [];
+  regCurrentMatchIndex = -1;
+
+  const q = query.trim().toLowerCase();
+  if (!q) { updateRegSearchCount(); return; }
+
+  const spans = document.querySelectorAll("#regPdfPages .reg-textLayer > span");
+
+  spans.forEach(span => {
+    const original = span.textContent;
+    const lower = original.toLowerCase();
+    if (!lower.includes(q)) return;
+
+    const frag = document.createDocumentFragment();
+    let cursor = 0;
+    let idx;
+
+    while ((idx = lower.indexOf(q, cursor)) !== -1) {
+      if (idx > cursor) frag.appendChild(document.createTextNode(original.slice(cursor, idx)));
+      const mark = document.createElement("mark");
+      mark.className = "reg-search-hit";
+      mark.textContent = original.slice(idx, idx + q.length);
+      frag.appendChild(mark);
+      regSearchMatches.push(mark);
+      cursor = idx + q.length;
+    }
+    if (cursor < original.length) frag.appendChild(document.createTextNode(original.slice(cursor)));
+
+    span.innerHTML = "";
+    span.appendChild(frag);
+  });
+
+  if (regSearchMatches.length) {
+    regCurrentMatchIndex = 0;
+    focusRegMatch();
+  }
+  updateRegSearchCount();
+}
+
+function focusRegMatch() {
+  regSearchMatches.forEach(m => m.classList.remove("active"));
+  const active = regSearchMatches[regCurrentMatchIndex];
+  if (!active) return;
+  active.classList.add("active");
+  active.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function goToNextRegMatch() {
+  if (!regSearchMatches.length) return;
+  regCurrentMatchIndex = (regCurrentMatchIndex + 1) % regSearchMatches.length;
+  focusRegMatch();
+}
+
+function goToPrevRegMatch() {
+  if (!regSearchMatches.length) return;
+  regCurrentMatchIndex = (regCurrentMatchIndex - 1 + regSearchMatches.length) % regSearchMatches.length;
+  focusRegMatch();
+}
+
+function updateRegSearchCount() {
+  const countEl = document.getElementById("regSearchCount");
+  const prevBtn = document.getElementById("regBtnSearchPrev");
+  const nextBtn = document.getElementById("regBtnSearchNext");
+  if (!countEl) return;
+
+  if (!regSearchMatches.length) {
+    countEl.textContent = "";
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    return;
+  }
+  countEl.textContent = `${regCurrentMatchIndex + 1}/${regSearchMatches.length}`;
+  prevBtn.disabled = false;
+  nextBtn.disabled = false;
+}
+
+/* wiring toolbar pencarian isi PDF (debounce ringan) */
+(() => {
+  const input = document.getElementById("regPdfSearch");
+  const prevBtn = document.getElementById("regBtnSearchPrev");
+  const nextBtn = document.getElementById("regBtnSearchNext");
+  if (!input || !prevBtn || !nextBtn) return;
+
+  let debounceTimer;
+
+  input.addEventListener("input", e => {
+    clearTimeout(debounceTimer);
+    const value = e.target.value;
+    debounceTimer = setTimeout(() => runRegPdfSearch(value), 250);
+  });
+
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      e.shiftKey ? goToPrevRegMatch() : goToNextRegMatch();
+    }
+  });
+
+  prevBtn.addEventListener("click", goToPrevRegMatch);
+  nextBtn.addEventListener("click", goToNextRegMatch);
+})();
+
+/* pdf.js worker setup */
+if (typeof pdfjsLib !== "undefined") {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+}
